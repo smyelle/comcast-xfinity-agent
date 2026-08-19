@@ -1,0 +1,15 @@
+{
+  "name": "xbo_lookup_ViaAuthProxy",
+  "displayName": "xbo_lookup_ViaAuthProxy",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/xbo_lookup_ViaAuthProxy/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Resolves the Titan XBO id for a customer billing account through the Apigee auth-proxy. Uses GECX dynamic variable \"titan_server\" as the backing service domain (resolved through the Apigee gateway domain in variable \"apigee_server\"). The x-url is dynamically constructed with the billing account number; the XBO id is the top-level \"id\" of the first returned record."
+}

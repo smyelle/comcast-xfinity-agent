@@ -1,0 +1,211 @@
+openapi: 3.0.3
+info:
+  title: Comcast Repair Agent SSE API
+  version: 1.0.0
+  description: Apigee Auth-Proxy routing schema for the Xa_user_message_notification Uses GECX dynamic variable \"post_user_notification_server\" as its backing server domain, resolving all session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    interface.
+servers:
+- url: '$env_var'
+security:
+- ApiKeyAuth: []
+paths:
+  /api/sse/{session_id}:
+    post:
+      tags:
+      - SSE
+      summary: Post User Message via Apigee Proxy
+      description: Receives a message notification for a customer and dynamically
+        forwards it to the client via the x-url header.
+      operationId: postNotification
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The active XA session identifier.
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Dynamic target Cloud Run or SSE endpoint (must contain the active
+          session ID).
+      - name: x-convoy-channel
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: x-convoy-content-version
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: x-convoy-customer-guid
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: x-convoy-partner-id
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: x-convoy-platform
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: x-convoy-session-id
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: x-convoy-tracking-id
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/XaUserMessageNotification'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+        '422':
+          description: Validation Error
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: apikey
+  schemas:
+    XaUserMessageNotification:
+      type: object
+      required:
+      - response
+      properties:
+        response:
+          $ref: '#/components/schemas/ResponseModel'
+    ResponseModel:
+      type: object
+      required:
+      - jsonrpc
+      - sessionId
+      - accountId
+      - platform
+      - channel
+      - result
+      properties:
+        jsonrpc:
+          type: string
+          default: '2.0'
+        taskId:
+          type: string
+          nullable: true
+        updateId:
+          type: string
+          nullable: true
+        sessionId:
+          type: string
+        fulfillmentAgentId:
+          type: string
+          nullable: true
+        accountId:
+          type: string
+        cust_guid:
+          type: string
+          nullable: true
+        platform:
+          type: string
+          default: web
+        channel:
+          type: string
+          default: xfinity
+        result:
+          $ref: '#/components/schemas/ResultModel'
+    ResultModel:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusModel'
+        message:
+          $ref: '#/components/schemas/MessageModel'
+    StatusModel:
+      type: object
+      required:
+      - state
+      - final
+      properties:
+        state:
+          type: string
+          default: completed
+        final:
+          type: boolean
+          default: false
+    MessageModel:
+      type: object
+      required:
+      - parts
+      properties:
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartModel'
+    PartModel:
+      type: object
+      required:
+      - kind
+      - text
+      - status
+      - tool
+      properties:
+        kind:
+          type: string
+          default: text
+        text:
+          type: string
+          default: text
+        status:
+          type: string
+          default: text
+        tool:
+          type: string
+          default: text

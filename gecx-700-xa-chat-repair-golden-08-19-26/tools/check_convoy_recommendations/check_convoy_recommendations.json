@@ -1,0 +1,16 @@
+{
+  "name": "check_convoy_recommendations",
+  "pythonFunction": {
+    "name": "check_convoy_recommendations",
+    "pythonCode": "tools/check_convoy_recommendations/python_function/python_code.py",
+    "description": "Fetches Convoy recommendations and extracts repair-relevant intents.\n\nArgs:\n    account_number: The customer billing account number.\n\nReturns:\n    dict with:\n        - status: success/error\n        - repair_recommendations: list of relevant recs with name,\n        activityCode, jobType, description\n        - routing_action: suggested action (technician, swap, reboot, or none)"
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "check_convoy_recommendations",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/check_convoy_recommendations/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

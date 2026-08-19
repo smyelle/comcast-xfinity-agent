@@ -1,0 +1,7 @@
+{
+  "name": "c2ea9285-b38e-58f3-8b51-c113f263b5df",
+  "displayName": "eval_exp_a321516e",
+  "llmCriteria": {
+    "prompt": "When a refresh was made too recently, the agent must say another won\u0027t help yet and offer an alternative (coax check) or a human."
+  }
+}

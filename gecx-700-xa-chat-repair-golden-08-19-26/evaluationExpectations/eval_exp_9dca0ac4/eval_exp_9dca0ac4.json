@@ -1,0 +1,7 @@
+{
+  "name": "9f488527-e710-51bc-9645-b2a6f0980cea",
+  "displayName": "eval_exp_9dca0ac4",
+  "llmCriteria": {
+    "prompt": "When the customer switches to an Internet/connectivity complaint, the agent must hand the conversation back to the Internet flow."
+  }
+}

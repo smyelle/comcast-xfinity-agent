@@ -1,0 +1,15 @@
+{
+  "name": "xfi_async_speed_result_auth_proxy",
+  "displayName": "xfi_async_speed_result_auth_proxy",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/xfi_async_speed_result_auth_proxy/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Fetches asynchronous Xfinity gateway speed-test results via the xFi Speed Platform through the Apigee auth-proxy. Uses the executionId returned by start_async_speed_test and the account XBO id as the account-id header."
+}

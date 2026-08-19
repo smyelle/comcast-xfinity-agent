@@ -1,0 +1,7 @@
+{
+  "name": "e2e71643-ac1d-4fdc-914f-47bcb00ef6b9",
+  "displayName": "eval_exp_7cd42dc1",
+  "llmCriteria": {
+    "prompt": "The predictive-offline recommendation must result in a reboot offer."
+  }
+}

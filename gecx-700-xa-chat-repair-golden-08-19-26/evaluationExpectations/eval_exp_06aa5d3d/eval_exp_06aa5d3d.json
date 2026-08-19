@@ -1,0 +1,7 @@
+{
+  "name": "5306b8b4-9a5e-4bff-9b01-7fb2fd3c2493",
+  "displayName": "eval_exp_06aa5d3d",
+  "llmCriteria": {
+    "prompt": "The agent must tell the customer there is an active outage in their area."
+  }
+}

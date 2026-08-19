@@ -1,0 +1,7 @@
+{
+  "name": "d3193af3-da09-5769-9c6e-7be803c70f4d",
+  "displayName": "eval_exp_1e901b67",
+  "llmCriteria": {
+    "prompt": "The agent must identify which TV box is affected before restarting (device selection)."
+  }
+}

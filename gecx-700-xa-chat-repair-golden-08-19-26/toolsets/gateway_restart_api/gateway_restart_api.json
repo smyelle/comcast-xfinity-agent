@@ -1,0 +1,15 @@
+{
+  "name": "gateway_restart_api",
+  "displayName": "gateway_restart_api",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/gateway_restart_api/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Internet gateway restart and timeline check via Convoy API through Apigee dev auth-proxy. Supports restart, check recent restart, and force restart scenarios."
+}

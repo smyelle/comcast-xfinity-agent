@@ -1,0 +1,29 @@
+{
+  "name": "wifi_troubleshooting_agent",
+  "displayName": "wifi_troubleshooting_agent",
+  "description": "Owns the multi-turn in-home WiFi troubleshooting experience after account, outage, network, and gateway/device diagnostics find no major issue.",
+  "instruction": "agents/wifi_troubleshooting_agent/instruction.txt",
+  "tools": ["end_session", "get_gateway_device_connections", "get_wifi_blaster_plan", "get_wifi_blaster_result", "transfer_potato_to_agent_v2"],
+  "beforeAgentCallbacks": [{
+    "pythonCode": "agents/wifi_troubleshooting_agent/before_agent_callbacks/before_agent_callbacks_01/python_code.py"
+  }],
+  "afterAgentCallbacks": [{
+    "pythonCode": "agents/wifi_troubleshooting_agent/after_agent_callbacks/after_agent_callbacks_01/python_code.py"
+  }],
+  "afterModelCallbacks": [{
+    "pythonCode": "agents/wifi_troubleshooting_agent/after_model_callbacks/after_model_callbacks_01/python_code.py"
+  }],
+  "toolsets": [{
+    "toolset": "xbo_lookup_ViaAuthProxy",
+    "toolIds": ["getXboByAccount"]
+  }, {
+    "toolset": "xfi_blaster_plan_auth_proxy",
+    "toolIds": ["getWifiBlasterPlan"]
+  }, {
+    "toolset": "xfi_blaster_result_auth_proxy",
+    "toolIds": ["getWifiBlasterResult"]
+  }, {
+    "toolset": "xfi_gateway_conn_auth_proxy",
+    "toolIds": ["getGatewayDeviceConnections"]
+  }]
+}

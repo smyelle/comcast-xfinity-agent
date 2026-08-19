@@ -1,0 +1,27 @@
+{
+  "name": "33af9312-bc86-557d-bbde-ebcb751653eb",
+  "displayName": "Cov_Video_XRE_Lookup_Explain",
+  "tags": ["P0", "HIGH", "video", "xre", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8499100028142809",
+            "account_id": "8499100028142809",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none"
+            },
+            "video_flow_enabled": "true"
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my tv shows error XRE-09012"
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_cdf0b449", "eval_exp_94399bd2", "eval_exp_5e2c149b"]
+  }
+}

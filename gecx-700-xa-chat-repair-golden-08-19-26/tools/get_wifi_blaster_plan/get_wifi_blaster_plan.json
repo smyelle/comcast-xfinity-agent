@@ -1,0 +1,16 @@
+{
+  "name": "get_wifi_blaster_plan",
+  "pythonFunction": {
+    "name": "get_wifi_blaster_plan",
+    "pythonCode": "tools/get_wifi_blaster_plan/python_function/python_code.py",
+    "description": "Gets and stores the WiFi blaster plan ID.\n\nArgs:\n    xbo_id: Customer XBO ID. Optional -- defaults to session context/state\n      xbo_id.\n    gateway_mac: Gateway MAC address. Optional -- defaults to session\n      cable_modem_mac.\n    device_default_nickname: Optional customer-selected device nickname from\n      gateway_device_connection_details. When provided, the wrapper resolves\n      it to the stored MAC address and requests a targeted blaster plan.\n\nReturns:\n    dict: Small status result. The plan ID is stored in context.state."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "get_wifi_blaster_plan",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/get_wifi_blaster_plan/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

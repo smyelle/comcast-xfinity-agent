@@ -1,0 +1,7 @@
+{
+  "name": "a9362413-82b4-5f6c-ac8f-219fc2b09ffb",
+  "displayName": "eval_exp_c5f957c0",
+  "llmCriteria": {
+    "prompt": "The agent must give simple remote steps one at a time (one thing per turn)."
+  }
+}

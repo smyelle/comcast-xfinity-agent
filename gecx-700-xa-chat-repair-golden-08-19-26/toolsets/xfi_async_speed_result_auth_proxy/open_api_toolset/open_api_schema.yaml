@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: Xfinity Async Gateway Speed Test Result API
+  version: 1.0.0
+  description: >-
+    Uses GECX dynamic variable "speed_test_server" as its backing service domain,
+    resolving session transactions through the Apigee auth-proxy gateway domain
+    specified in variable "apigee_server". Gets asynchronous gateway speed-test
+    results for a previously returned executionId.
+    URL format: https://gw.api.dh.comcast.com/xfispeedtest/api/gateway/result/{execution_id}
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    get:
+      summary: Get asynchronous gateway speed-test result
+      operationId: getAsyncSpeedTestResult
+      description: >-
+        Fetches the asynchronous speed-test result for the executionId returned
+        by start_async_speed_test and stored in session state as
+        async_speed_test_execution_id. The account-id header must be the
+        account's XBO id from xbo_id, not the billing account number.
+      parameters:
+      - name: accept
+        in: header
+        required: true
+        schema:
+          type: string
+          default: application/json
+          example: application/json
+      - name: account-id
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Customer XBO id (Titan account id). NOT the billing account number.
+      - name: content-type
+        in: header
+        required: true
+        schema:
+          type: string
+          default: application/json
+          example: application/json
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: ST-SAT-XAXLR
+          example: ST-SAT-XAXLR
+        description: Authentication identifier for the xFi Speed Platform SAT.
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "x1:xfi-speed-platform:gateway"
+          example: "x1:xfi-speed-platform:gateway"
+        description: Authorization scope for gateway speed-test operations.
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uri
+        description: >-
+          Target xFi Speed Platform async result URL. Must be dynamically
+          constructed with the stored executionId.
+          Format: https://gw.api.dh.comcast.com/xfispeedtest/api/gateway/result/{execution_id}
+        example: "https://gw.api.dh.comcast.com/xfispeedtest/api/gateway/result/abc123"
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      responses:
+        "200":
+          description: Async speed-test result response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncSpeedTestResult'
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    AsyncSpeedTestResult:
+      type: object
+      additionalProperties: true

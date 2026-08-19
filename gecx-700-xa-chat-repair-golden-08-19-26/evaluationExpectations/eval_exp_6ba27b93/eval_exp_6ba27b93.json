@@ -1,0 +1,7 @@
+{
+  "name": "db34831c-c693-4d4b-b8d7-7f3955832f46",
+  "displayName": "eval_exp_6ba27b93",
+  "llmCriteria": {
+    "prompt": "The agent must NOT invent a different fee amount."
+  }
+}

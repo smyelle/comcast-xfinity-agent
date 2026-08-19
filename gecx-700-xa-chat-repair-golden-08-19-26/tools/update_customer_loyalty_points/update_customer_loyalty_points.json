@@ -1,0 +1,10 @@
+{
+  "name": "d898173c-5d40-4edf-981e-a32506b5a245",
+  "pythonFunction": {
+    "name": "update_customer_loyalty_points",
+    "pythonCode": "tools/update_customer_loyalty_points/python_function/python_code.py",
+    "description": "Adds loyalty points to the customer\u0027s profile and returns the updated profile.\n\nArgs:\n  points_to_add: The number of loyalty points to add to the existing total.\n\nReturns:\n  A dictionary containing the customer\u0027s updated profile information."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "update_customer_loyalty_points"
+}

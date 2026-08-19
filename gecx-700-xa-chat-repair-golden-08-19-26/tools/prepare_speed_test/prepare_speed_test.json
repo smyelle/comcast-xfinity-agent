@@ -1,0 +1,16 @@
+{
+  "name": "prepare_speed_test",
+  "pythonFunction": {
+    "name": "prepare_speed_test",
+    "pythonCode": "tools/prepare_speed_test/python_function/python_code.py",
+    "description": "Resolve + cache the account\u0027s XBO id and report speed-test eligibility.\n\nReturns:\n    {\"status\": \"available\"} when an XBO id was found (cached in state[\u0027xbo_id\u0027]),\n    or {\"status\": \"unavailable\", \"agent_action\": ...} when the account has none."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "prepare_speed_test",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/prepare_speed_test/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

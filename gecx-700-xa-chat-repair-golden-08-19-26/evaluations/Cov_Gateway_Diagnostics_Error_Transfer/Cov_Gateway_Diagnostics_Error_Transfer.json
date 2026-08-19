@@ -1,0 +1,53 @@
+{
+  "name": "11e96643-8392-4a83-bcd6-7e0b53751e0a",
+  "displayName": "Cov_Gateway_Diagnostics_Error_Transfer",
+  "tags": ["P0", "HIGH", "gateway", "error_handling", "escalation", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361003",
+            "account_id": "8069100230361003",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "clear",
+              "gateway_status": "error",
+              "network_status": "healthy",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my wifi is broken"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I just ran a few checks but wasn\u0027t able to get all the info I need. Let me get you to someone who can help."
+            }]
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-f872542f-649c-4afa-a2af-501b283fb779",
+            "tool": "transfer_potato_to_agent_v2",
+            "args": {
+              "skill": {
+                "$matchType": "ignore",
+                "$matchValue": "",
+                "$originalValue": ""
+              }
+            },
+            "displayName": "transfer_potato_to_agent_v2"
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_2dcfbd3f"]
+  }
+}

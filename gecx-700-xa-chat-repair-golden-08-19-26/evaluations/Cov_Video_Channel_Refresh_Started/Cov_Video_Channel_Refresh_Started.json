@@ -1,0 +1,34 @@
+{
+  "name": "2ea5fb78-f670-5c3a-b153-45b8d98908a9",
+  "displayName": "Cov_Video_Channel_Refresh_Started",
+  "tags": ["P0", "HIGH", "video", "channel", "refresh", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8499100028142809",
+            "account_id": "8499100028142809",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none",
+              "whole_home_refresh": "started"
+            },
+            "video_flow_enabled": "true"
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "a bunch of my channels aren\u0027t working"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "yes"
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_cfc2dee6", "eval_exp_0e08f21c"]
+  }
+}

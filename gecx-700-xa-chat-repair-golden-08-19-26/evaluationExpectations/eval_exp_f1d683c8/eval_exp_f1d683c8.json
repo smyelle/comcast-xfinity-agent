@@ -1,0 +1,7 @@
+{
+  "name": "81ea5f78-00f8-47cf-85a4-0950b997caee",
+  "displayName": "eval_exp_f1d683c8",
+  "llmCriteria": {
+    "prompt": "The agent must focus on diagnosis and resolution, not compensation."
+  }
+}

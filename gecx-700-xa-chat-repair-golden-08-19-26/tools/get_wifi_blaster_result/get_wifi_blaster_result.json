@@ -1,0 +1,16 @@
+{
+  "name": "get_wifi_blaster_result",
+  "pythonFunction": {
+    "name": "get_wifi_blaster_result",
+    "pythonCode": "tools/get_wifi_blaster_result/python_function/python_code.py",
+    "description": "Gets and stores WiFi blaster test results.\n\nArgs:\n    wifi_blaster_plan_id: Plan ID from get_wifi_blaster_plan. Optional --\n      defaults to session wifi_blaster_plan_id.\n    xbo_id: Customer XBO ID. Optional -- defaults to session context/state\n      xbo_id.\n\nReturns:\n    dict: Small result summary. The parsed result is stored in context.state."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "get_wifi_blaster_result",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/get_wifi_blaster_result/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

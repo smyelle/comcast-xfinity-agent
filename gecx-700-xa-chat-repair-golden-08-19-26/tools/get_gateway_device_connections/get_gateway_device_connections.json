@@ -1,0 +1,16 @@
+{
+  "name": "get_gateway_device_connections",
+  "pythonFunction": {
+    "name": "get_gateway_device_connections",
+    "pythonCode": "tools/get_gateway_device_connections/python_function/python_code.py",
+    "description": "Gets gateway device connection and coverage details.\n\nArgs:\n    xbo_id: Customer XBO ID. Optional -- defaults to session context/state\n      xbo_id.\n    gateway_mac: Gateway MAC address. Optional -- defaults to session\n      cable_modem_mac.\n\nReturns:\n    dict: Normalized gateway device-connections result or an error dict."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "get_gateway_device_connections",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/get_gateway_device_connections/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

@@ -1,0 +1,135 @@
+openapi: 3.0.3
+info:
+  title: EDE Outage Check API
+  version: 1.0.0
+  description: Fetch EDE (Experience Decision Engine) recommendations to check Uses GECX dynamic variable \"ede_outage_server\" as its backing server domain, resolving all session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    for active internet outages via Apigee dev auth-proxy.
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    post:
+      summary: Check for active internet outages via EDE
+      operationId: checkOutageEde
+      description: >-
+        Calls the EDE (Experience Decision Engine) to determine if there is an active
+        internet outage affecting the customer's account. Returns outage status,
+        customer messages, and impacted services.
+      parameters:
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: CECMT-SAT-XAXLR
+        description: Authentication identifier for EDE service
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "ceconvoy:acre:execution"
+        description: Authorization scope for EDE execution
+      - name: x-cache-refresh
+        in: header
+        required: true
+        schema:
+          type: string
+          default: FORCE-REFRESH
+        description: Cache refresh policy
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "https://edegw-uat.codebig2.net/resicustomer/api/ede/execute"
+        description: Target EDE service URL
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EdeRequest"
+            example:
+              context:
+                accountNumber: "8495753800127069"
+                cacheRefresh: FORCE_REFRESH
+                customerGuid: ""
+                placementInfo:
+                - property: Xfinity Assistant
+                  section: Repair
+                  placement: Troubleshooting
+                  group: 1
+                  sequence: 1
+      responses:
+        "200":
+          description: Successful EDE response with outage recommendations
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    EdeRequest:
+      type: object
+      required: [context]
+      properties:
+        context:
+          type: object
+          required: [accountNumber]
+          properties:
+            accountNumber:
+              type: string
+              description: The customer's billing account number
+            cacheRefresh:
+              type: string
+              default: FORCE_REFRESH
+              description: Cache refresh strategy
+            customerGuid:
+              type: string
+              default: ""
+              description: Optional customer GUID
+            placementInfo:
+              type: array
+              items:
+                type: object
+                properties:
+                  property:
+                    type: string
+                    default: Xfinity Assistant
+                  section:
+                    type: string
+                    default: Repair
+                  placement:
+                    type: string
+                    default: Troubleshooting
+                  group:
+                    type: integer
+                    default: 1
+                  sequence:
+                    type: integer
+                    default: 1

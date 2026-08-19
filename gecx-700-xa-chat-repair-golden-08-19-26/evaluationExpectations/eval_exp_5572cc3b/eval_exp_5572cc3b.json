@@ -1,0 +1,7 @@
+{
+  "name": "aef41a15-d1a2-4f93-94fe-773b153a2d60",
+  "displayName": "eval_exp_5572cc3b",
+  "llmCriteria": {
+    "prompt": "When the outage check errors, the agent must offer to connect the customer with a human."
+  }
+}

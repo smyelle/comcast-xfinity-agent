@@ -1,0 +1,7 @@
+{
+  "name": "1c9486b1-f127-4f5a-9174-481ec08da4eb",
+  "displayName": "eval_exp_8b0ce360",
+  "llmCriteria": {
+    "prompt": "When all diagnostics are healthy, the agent must report everything looks healthy and ask if issues persist."
+  }
+}

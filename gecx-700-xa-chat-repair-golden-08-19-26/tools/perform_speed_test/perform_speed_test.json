@@ -1,0 +1,16 @@
+{
+  "name": "perform_speed_test",
+  "pythonFunction": {
+    "name": "perform_speed_test",
+    "pythonCode": "tools/perform_speed_test/python_function/python_code.py",
+    "description": "Starts an asynchronous gateway speed test and stores its execution id.\n\nArgs:\n    device_id: The gateway\u0027s MAC address. Optional -- defaults to the session\u0027s\n      cable_modem_mac.\n\nReturns:\n    dict: A compact async start status, or an error dict."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "perform_speed_test",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/perform_speed_test/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

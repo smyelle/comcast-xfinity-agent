@@ -1,0 +1,13 @@
+{
+  "name": "a80310a6-9ce0-4001-a7b1-56913fa898c7",
+  "displayName": "Default Prompt Guardrail",
+  "action": {
+    "generativeAnswer": {
+      "prompt": "I\u0027m sorry, but I can\u0027t assist with that request."
+    }
+  },
+  "llmPromptSecurity": {
+    "defaultSettings": {
+    }
+  }
+}

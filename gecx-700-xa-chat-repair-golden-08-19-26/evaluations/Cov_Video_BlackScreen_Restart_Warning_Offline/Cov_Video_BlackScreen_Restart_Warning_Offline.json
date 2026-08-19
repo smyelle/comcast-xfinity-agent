@@ -1,0 +1,41 @@
+{
+  "name": "f7acc07d-e2f6-5c64-a8a2-34c8bf1cda67",
+  "displayName": "Cov_Video_BlackScreen_Restart_Warning_Offline",
+  "tags": ["P1", "HIGH", "video", "black_screen", "restart_warning", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8499100028142809",
+            "account_id": "8499100028142809",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none",
+              "stb_restart": "warning",
+              "video_devices": "single"
+            },
+            "video_flow_enabled": "true"
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "no picture on my tv"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "just the one in the living room"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "go ahead"
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_75ec40eb", "eval_exp_467b8049"]
+  }
+}

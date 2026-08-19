@@ -1,0 +1,13 @@
+{
+  "name": "198c810a-a02b-4665-9e5b-d96f1eaa86ce",
+  "displayName": "CONNECT_DIRECT_CALL",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/CONNECT_DIRECT_CALL/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "bearerTokenConfig": {
+        "token": "$context.variables.account_id"
+      }
+    }
+  },
+  "description": "Call connect directly"
+}

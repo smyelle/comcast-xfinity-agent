@@ -1,0 +1,7 @@
+{
+  "name": "819c82b2-3002-5085-a77e-03336ab11eee",
+  "displayName": "eval_exp_94399bd2",
+  "llmCriteria": {
+    "prompt": "The agent must NOT read out raw internal fields, database ids, or provider codes."
+  }
+}

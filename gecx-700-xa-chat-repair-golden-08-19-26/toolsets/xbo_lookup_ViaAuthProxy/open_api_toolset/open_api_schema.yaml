@@ -1,0 +1,114 @@
+openapi: 3.0.3
+info:
+  title: XBO Account Lookup API
+  version: 1.0.0
+  description: >-
+    Resolves the Titan XBO id for a customer billing account. Uses GECX dynamic variable
+    \"titan_server\" as its backing service domain, resolving all session transactions
+    dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    The x-url header must be dynamically constructed with the customer's billing account number.
+    URL format: https://titan-prod.codebig2.net/accounts?billingAccountId={accountNumber}
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    get:
+      summary: Look up the XBO id for a billing account
+      operationId: getXboByAccount
+      description: >-
+        Returns the Titan account record(s) for the given billingAccountId. The XBO id is the
+        top-level "id" field of the first record in the returned array.
+      parameters:
+      - name: accept
+        in: header
+        required: true
+        schema:
+          type: string
+          default: application/json
+          example: application/json
+      - name: content-type
+        in: header
+        required: false
+        schema:
+          type: string
+          default: application/json
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: session-id
+        in: header
+        required: false
+        schema:
+          type: string
+        description: Session identifier for request tracing.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: TITAN-SAT-XAXLR
+          example: TITAN-SAT-XAXLR
+        description: Authentication identifier for the Titan XBO SAT.
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "x1:xbo:titan:read"
+          example: "x1:xbo:titan:read"
+        description: Authorization scope for Titan XBO read operations.
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uri
+        description: >-
+          The target Titan accounts URL. Must be dynamically constructed with the billing account number.
+          Format: https://titan-prod.codebig2.net/accounts?billingAccountId={accountNumber}
+        example: "https://titan-prod.codebig2.net/accounts?billingAccountId=8069100230356833"
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      responses:
+        "200":
+          description: Successful account lookup (array of account records).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/XboAccount'
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    XboAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The XBO id for the account.
+        version:
+          type: number
+        data:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+

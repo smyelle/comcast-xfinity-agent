@@ -1,0 +1,7 @@
+{
+  "name": "9ebf14df-deb1-449b-b42d-4f230457a55a",
+  "displayName": "eval_exp_b9125e53",
+  "llmCriteria": {
+    "prompt": "The agent must NOT transfer to a live agent during an outage."
+  }
+}

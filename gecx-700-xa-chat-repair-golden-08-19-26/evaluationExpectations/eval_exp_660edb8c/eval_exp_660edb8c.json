@@ -1,0 +1,7 @@
+{
+  "name": "41705f9f-024c-4474-8c3c-5655cd3441b6",
+  "displayName": "eval_exp_660edb8c",
+  "llmCriteria": {
+    "prompt": "The agent must recognize there is no gateway/modem on the account and offer to connect the customer with a human."
+  }
+}

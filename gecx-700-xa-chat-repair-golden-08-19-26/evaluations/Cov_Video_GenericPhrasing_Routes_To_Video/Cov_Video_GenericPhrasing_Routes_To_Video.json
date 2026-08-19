@@ -1,0 +1,28 @@
+{
+  "name": "40f25af2-3da5-5792-954a-bc046026c1e5",
+  "displayName": "Cov_Video_GenericPhrasing_Routes_To_Video",
+  "tags": ["P0", "HIGH", "video", "routing", "disambiguation", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8499100028142809",
+            "account_id": "8499100028142809",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none",
+              "video_devices": "single"
+            },
+            "video_flow_enabled": "true"
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "My TV is not working"
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_d5498217", "eval_exp_d4d4dfcf", "eval_exp_4553a062"]
+  }
+}

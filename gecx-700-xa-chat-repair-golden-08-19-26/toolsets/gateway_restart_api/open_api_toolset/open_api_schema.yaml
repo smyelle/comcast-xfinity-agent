@@ -1,0 +1,108 @@
+openapi: 3.0.3
+info:
+  title: Gateway Restart API
+  version: 1.0.0
+  description: >-
+    Uses GECX dynamic variable \"convoy_api_server\" as its backing server domain, resolving all session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    Internet gateway restart and timeline check via the Convoy API through Apigee
+    dev auth-proxy.
+    Supports multiple scenarios by dynamically constructing the x-url with query parameters:
+    - Check recent restart: restart=false, overrideTimelineCheck=false
+    - Restart device: restart=true, overrideTimelineCheck=false
+    - Force restart (override timeline): restart=true, overrideTimelineCheck=true
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    get:
+      summary: Restart or check restart status of a gateway device
+      operationId: restartDevice
+      description: >-
+        Triggers a remote gateway restart or checks recent restart status via the
+        Convoy
+        timeline-check API. The x-url header must be dynamically constructed with
+        the
+        account number, MAC address, and query parameters.
+
+        URL format: https://ce-convoy-uat.codebig2.net/device/{accountNumber}/timeline-check/restart?mac={mac_address}&restart={true|false}&overrideTimelineCheck={true|false}
+
+        Scenarios:
+        - To CHECK if device was recently restarted: set restart=false, overrideTimelineCheck=false
+        - To RESTART the device: set restart=true, overrideTimelineCheck=false
+        - To FORCE RESTART (ignore recent restart): set restart=true, overrideTimelineCheck=true
+
+        The MAC address should be extracted from the context hub response at:
+        data.deviceContext.equipment[].macaddress (where deviceStatus is ACTIVE and
+        itemTypeCode is not STB)
+      parameters:
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: GECXCONVOY-SAT-XAXLR
+        description: Authentication identifier for Convoy SAT
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "ceconvoy:device:status"
+        description: Authorization scope for device operations
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+        description: >-
+          The target Convoy restart URL. Must be dynamically constructed.
+          Format: https://ce-convoy-uat.codebig2.net/device/{accountNumber}/timeline-check/restart?mac={mac_address}&restart={true|false}&overrideTimelineCheck={true|false}
+        example: "https://ce-convoy-uat.codebig2.net/device/8499051710276399/timeline-check/restart?mac=10:36:AA:5B:B9:14&restart=true&overrideTimelineCheck=false"
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      responses:
+        "200":
+          description: Successful response - device restarted or recent restart
+            info returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: >-
+                      Status of the operation. Common values:
+                      "reboot" - restart initiated successfully,
+                      "Found Recent Restart" - device was recently restarted
+                additionalProperties: true
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: >-
+            May indicate the device was recently restarted (timeline check blocked).
+            Check response body for "restricted" or "recent restart" status.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                additionalProperties: true

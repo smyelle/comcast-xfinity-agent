@@ -1,0 +1,10 @@
+{
+  "name": "transfer_potato_to_agent_v2",
+  "pythonFunction": {
+    "name": "transfer_potato_to_agent_v2",
+    "pythonCode": "tools/transfer_potato_to_agent_v2/python_function/python_code.py",
+    "description": "Signals the steering orchestrator to transfer the conversation to a specialized agent.\n\nAfter calling this tool, do NOT send any further messages or take any actions.\n\nArgs:\n    task: Concise description of what the user needs RIGHT NOW that this agent\n      cannot handle.\n    key_events: Brief summary of what this agent has accomplished so far.\n    skill: REQUIRED. One of: nlu, human, appointment, billing,\n      troubleshooting, payment_and_credit, ecm.\n    data: OPTIONAL. JSON string of additional key-value pairs for the target\n      agent.\n\nReturns:\n    A JSON string confirming the transfer signal."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "transfer_potato_to_agent_v2"
+}

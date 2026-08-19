@@ -1,0 +1,7 @@
+{
+  "name": "25f17f83-81fb-56b0-91b7-bcfd0932ac53",
+  "displayName": "eval_exp_d5498217",
+  "llmCriteria": {
+    "prompt": "A generic \u0027my TV is not working\u0027 (TV noun + generic fault verb, no internet/Wi-Fi words) MUST be handled by the Video flow, NOT the internet diagnostic ladder."
+  }
+}

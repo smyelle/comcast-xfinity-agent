@@ -1,0 +1,36 @@
+{
+  "name": "f6d98af3-52ea-4771-94b5-de9a34496a4c",
+  "displayName": "Cov_Account_NoModem_MacLess_Transfer",
+  "tags": ["P0", "HIGH", "hardware", "mac_less", "escalation", "stubbed", "account_billing"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361049",
+            "account_id": "8069100230361049",
+            "mock_config_dict": {
+              "account_status": "no_mac",
+              "convoy_status": "clear",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my internet is down"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I\u0027m not seeing an Xfinity Gateway on your account, so I can\u0027t run any more checks. Let me connect you with someone who can help."
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_660edb8c"]
+  }
+}

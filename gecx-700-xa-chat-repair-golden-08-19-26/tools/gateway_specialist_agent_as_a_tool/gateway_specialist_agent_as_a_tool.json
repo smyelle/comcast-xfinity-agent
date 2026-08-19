@@ -1,0 +1,16 @@
+{
+  "name": "cdb0dd0b-0619-48f3-a551-19541efd4339",
+  "executionType": "SYNCHRONOUS",
+  "displayName": "gateway_specialist_agent_as_a_tool",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/gateway_specialist_agent_as_a_tool/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  },
+  "agentTool": {
+    "name": "gateway_specialist_agent_as_a_tool",
+    "description": "Gateway Specialist: Silently triages gateway modem hardware diagnostics logs, reboot or replacement eligibility, and pushes checklist updates.",
+    "agent": "gateway_specialist_agent"
+  }
+}

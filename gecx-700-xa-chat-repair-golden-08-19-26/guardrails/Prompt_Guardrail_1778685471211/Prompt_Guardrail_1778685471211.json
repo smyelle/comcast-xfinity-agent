@@ -1,0 +1,14 @@
+{
+  "name": "cce10b4c-f93a-4de2-a76c-0a4709bd0c03",
+  "displayName": "Prompt Guardrail 1778685471211",
+  "enabled": true,
+  "action": {
+    "generativeAnswer": {
+      "prompt": "I\u0027m sorry, but I can\u0027t assist with that request."
+    }
+  },
+  "llmPromptSecurity": {
+    "defaultSettings": {
+    }
+  }
+}

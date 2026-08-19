@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Restart IP Set-Top Box via Auth Proxy
+  version: 1.0.0
+  description: >-
+    Restart a customer's IP set-top box (video device) via the deviceservices
+    STB reset API through the DXP Cloud IVR Apigee auth-proxy. Uses GECX dynamic
+    variable "deviceservices_stb_server" as the backing service domain in the
+    x-url header, resolving all session transactions dynamically through the
+    Apigee gateway domain specified in variable "apigee_server".
+servers:
+- url: '$env_var'
+paths:
+  /v1/auth-proxy:
+    post:
+      summary: Restart an IP set-top box by MAC address
+      operationId: restartIpStbViaAuthProxy
+      description: >-
+        Proxies an upstream POST to the restartIpStb endpoint with the target
+        set-top box MAC and a tracking id, and returns the restart status.
+      parameters:
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: DEVICE-SAT-XAXLR
+        description: Authentication identifier for deviceservices SAT.
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "deviceservices:ipstb:reset deviceservices:stb:reset"
+        description: Authorization scope for the STB reset call.
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "https://deviceservices-stb-reset-prod.codebig2.net/v1.0/api/restartIpStb"
+        description: Target deviceservices STB reset URL.
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestartIpStbRequest'
+            example:
+              mac: "50:75:F1:9F:F9:71"
+              trackingId: "gecx-repair"
+      responses:
+        "200":
+          description: Restart result (success or warning).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestartIpStbResponse'
+        "400":
+          description: Bad request / invalid MAC
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    RestartIpStbRequest:
+      type: object
+      required: [mac, trackingId]
+      properties:
+        mac:
+          type: string
+          description: Set-top box MAC address in colon-separated form.
+          example: "50:75:F1:9F:F9:71"
+        trackingId:
+          type: string
+          description: Caller tracking identifier for the reset request.
+          example: "gecx-repair"
+    RestartIpStbResponse:
+      type: object
+      properties:
+        trackingId:
+          type: string
+        mac:
+          type: string
+        action:
+          type: string
+          example: restartIpStb
+        status:
+          type: string
+          description: success | warning | failure
+        statusCode:
+          type: string
+          description: "0=success, 2=warning (device not found/unrecognized), 1=failure (invalid MAC)."
+        message:
+          type: string
+

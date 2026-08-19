@@ -1,0 +1,16 @@
+{
+  "name": "get_video_devices",
+  "pythonFunction": {
+    "name": "get_video_devices",
+    "pythonCode": "tools/get_video_devices/python_function/python_code.py",
+    "description": "Fetch the account\u0027s video device inventory via the auth-proxy toolset.\n\nArgs:\n    account_number: Customer billing account number. Falls back to session\n        account context when empty.\n\nReturns:\n    dict: { video_devices: [...], device_count: n, status }."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "get_video_devices",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/get_video_devices/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

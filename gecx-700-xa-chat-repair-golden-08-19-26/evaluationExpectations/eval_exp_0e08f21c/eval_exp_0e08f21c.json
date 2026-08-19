@@ -1,0 +1,7 @@
+{
+  "name": "4dde53e2-4af1-5911-be85-49b1514a65d5",
+  "displayName": "eval_exp_0e08f21c",
+  "llmCriteria": {
+    "prompt": "After starting the refresh the agent must set the ~10 to 20 minute expectation."
+  }
+}

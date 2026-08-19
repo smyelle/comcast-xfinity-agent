@@ -1,0 +1,7 @@
+{
+  "name": "587b3609-7530-4d40-951c-df1bd19e8d94",
+  "displayName": "eval_exp_c3b112b1",
+  "llmCriteria": {
+    "prompt": "The agent must gracefully close when the customer declines."
+  }
+}

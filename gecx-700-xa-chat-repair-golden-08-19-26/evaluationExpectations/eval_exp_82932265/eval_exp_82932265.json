@@ -1,0 +1,7 @@
+{
+  "name": "136c14de-e151-467f-9c95-17e2aedb0ad2",
+  "displayName": "eval_exp_82932265",
+  "llmCriteria": {
+    "prompt": "When the device model is unsupported, the agent must escalate to a human."
+  }
+}

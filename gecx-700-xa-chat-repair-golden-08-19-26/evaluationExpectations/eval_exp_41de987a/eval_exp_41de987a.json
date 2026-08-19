@@ -1,0 +1,7 @@
+{
+  "name": "a230e976-e33c-5fd7-a29c-389a95a82bd9",
+  "displayName": "eval_exp_41de987a",
+  "llmCriteria": {
+    "prompt": "The agent must NOT state whether the customer needs to be home or any scheduling window."
+  }
+}

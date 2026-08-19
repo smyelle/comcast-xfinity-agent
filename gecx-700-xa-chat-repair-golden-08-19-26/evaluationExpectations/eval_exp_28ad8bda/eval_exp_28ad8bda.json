@@ -1,0 +1,7 @@
+{
+  "name": "5017bf02-e7ef-5f13-8580-cb0671030505",
+  "displayName": "eval_exp_28ad8bda",
+  "llmCriteria": {
+    "prompt": "The agent must not continue TV-only steps once the customer clearly switches to Internet."
+  }
+}

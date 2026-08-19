@@ -1,0 +1,10 @@
+{
+  "name": "rdk_device_diag_before",
+  "pythonFunction": {
+    "name": "rdk_device_diag_before",
+    "pythonCode": "tools/rdk_device_diag_before/python_function/python_code.py",
+    "description": "Prepares arguments for RDK device diagnostics and sets initial state.\n\nArgs:\n    device_identifier: Cable modem mac address.\n    problem_statement: Description of the customer\u0027s issue.\n    timestamp: The current formatted date/time string.\n\nReturns:\n    dict: Prepared arguments for triage, wifi summary, and client wifi tools."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "rdk_device_diag_before"
+}

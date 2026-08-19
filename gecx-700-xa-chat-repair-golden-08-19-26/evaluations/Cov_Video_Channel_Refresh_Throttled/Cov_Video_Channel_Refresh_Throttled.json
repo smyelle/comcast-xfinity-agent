@@ -1,0 +1,34 @@
+{
+  "name": "51c8c45d-86c4-56aa-a92d-507f5dc2f7b8",
+  "displayName": "Cov_Video_Channel_Refresh_Throttled",
+  "tags": ["P1", "MEDIUM", "video", "channel", "refresh_throttled", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8499100028142809",
+            "account_id": "8499100028142809",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none",
+              "whole_home_refresh": "throttled"
+            },
+            "video_flow_enabled": "true"
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my guide channels are missing"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "yes do it"
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_a321516e", "eval_exp_d3e40ca2"]
+  }
+}

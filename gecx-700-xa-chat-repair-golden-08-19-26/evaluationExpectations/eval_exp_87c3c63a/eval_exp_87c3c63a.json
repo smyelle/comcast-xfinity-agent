@@ -1,0 +1,7 @@
+{
+  "name": "b54e7df4-1118-5a45-8029-7b332d1fac09",
+  "displayName": "eval_exp_87c3c63a",
+  "llmCriteria": {
+    "prompt": "When a video XIT recommendation calls for a technician, the agent must say a technician visit is needed and route to scheduling."
+  }
+}

@@ -1,0 +1,140 @@
+openapi: 3.0.3
+info:
+  title: DuckDuckGo Search Tool
+  version: 1.0.0
+  description: No-auth search experiment using DuckDuckGo Instant Answer API.
+
+servers:
+- url: '$env_var'
+
+paths:
+  /:
+    get:
+      summary: Search DuckDuckGo
+      operationId: searchDuckDuckGo
+      description: Search DuckDuckGo Instant Answers and related topics without
+        an API key.
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: Search query.
+        schema:
+          type: string
+        example: latest AI news
+      - name: format
+        in: query
+        required: true
+        description: Response format.
+        schema:
+          type: string
+          enum:
+          - json
+          default: json
+      - name: no_html
+        in: query
+        required: false
+        description: Remove HTML from text fields.
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+          default: 1
+      - name: no_redirect
+        in: query
+        required: false
+        description: Prevent redirect responses for bang queries.
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+          default: 1
+      - name: skip_disambig
+        in: query
+        required: false
+        description: Skip disambiguation results.
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+          default: 0
+      responses:
+        "200":
+          description: DuckDuckGo search response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DuckDuckGoSearchResponse"
+        "400":
+          description: Bad request
+
+components:
+  schemas:
+    DuckDuckGoSearchResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        Heading:
+          type: string
+          example: OpenAI
+        Abstract:
+          type: string
+        AbstractText:
+          type: string
+        AbstractSource:
+          type: string
+          example: Wikipedia
+        AbstractURL:
+          type: string
+          format: uri
+        Answer:
+          type: string
+        AnswerType:
+          type: string
+        Definition:
+          type: string
+        DefinitionSource:
+          type: string
+        DefinitionURL:
+          type: string
+          format: uri
+        Image:
+          type: string
+        Type:
+          type: string
+        Results:
+          type: array
+          items:
+            $ref: "#/components/schemas/DuckDuckGoResult"
+        RelatedTopics:
+          type: array
+          items:
+            oneOf:
+            - $ref: "#/components/schemas/DuckDuckGoResult"
+            - $ref: "#/components/schemas/DuckDuckGoTopicGroup"
+
+    DuckDuckGoResult:
+      type: object
+      additionalProperties: true
+      properties:
+        FirstURL:
+          type: string
+          format: uri
+        Text:
+          type: string
+        Result:
+          type: string
+
+    DuckDuckGoTopicGroup:
+      type: object
+      additionalProperties: true
+      properties:
+        Name:
+          type: string
+        Topics:
+          type: array
+          items:
+            $ref: "#/components/schemas/DuckDuckGoResult"

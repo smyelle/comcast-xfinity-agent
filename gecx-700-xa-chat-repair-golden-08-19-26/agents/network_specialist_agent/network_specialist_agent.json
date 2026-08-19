@@ -1,0 +1,19 @@
+{
+  "name": "network_specialist_agent",
+  "displayName": "network_specialist_agent",
+  "instruction": "agents/network_specialist_agent/instruction.txt",
+  "tools": ["connect_network_before"],
+  "beforeAgentCallbacks": [{
+    "pythonCode": "agents/network_specialist_agent/before_agent_callbacks/before_agent_callbacks_01/python_code.py"
+  }],
+  "beforeModelCallbacks": [{
+    "pythonCode": "agents/network_specialist_agent/before_model_callbacks/before_model_callbacks_01/python_code.py"
+  }],
+  "afterToolCallbacks": [{
+    "pythonCode": "agents/network_specialist_agent/after_tool_callbacks/after_tool_callbacks_01/python_code.py"
+  }],
+  "toolsets": [{
+    "toolset": "connect_agent_rest_call",
+    "toolIds": ["sendA2AMessageViaAuthProxy"]
+  }]
+}

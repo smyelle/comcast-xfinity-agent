@@ -1,0 +1,16 @@
+{
+  "name": "whole_home_refresh",
+  "pythonFunction": {
+    "name": "whole_home_refresh",
+    "pythonCode": "tools/whole_home_refresh/python_function/python_code.py",
+    "description": "Trigger a WHOLE_HOME_REFRESH of the customer\u0027s TV boxes via the auth-proxy toolset.\n\nArgs:\n    account_number: Customer billing account number. Falls back to session\n        account context when empty.\n\nReturns:\n    dict: { status: started|throttled|error, tracking_id, last_refresh_time, message }."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "whole_home_refresh",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/whole_home_refresh/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

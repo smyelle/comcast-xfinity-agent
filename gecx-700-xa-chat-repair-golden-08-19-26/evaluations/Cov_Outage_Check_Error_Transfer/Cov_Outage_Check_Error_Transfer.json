@@ -1,0 +1,35 @@
+{
+  "name": "40158934-f9c8-43bb-870c-e192dd611144",
+  "displayName": "Cov_Outage_Check_Error_Transfer",
+  "tags": ["P0", "HIGH", "outage", "error_handling", "escalation", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8344200010126021",
+            "account_id": "8344200010126021",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "error"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my internet keeps dropping"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I just ran a few checks but wasn\u0027t able to get all the info I need. Let me get you to someone who can help."
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_5572cc3b"]
+  }
+}

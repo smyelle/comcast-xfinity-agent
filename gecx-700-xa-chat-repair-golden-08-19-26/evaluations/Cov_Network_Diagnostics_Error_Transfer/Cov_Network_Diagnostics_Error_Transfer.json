@@ -1,0 +1,53 @@
+{
+  "name": "da929630-6b8d-443d-ad37-1d38b270ecb6",
+  "displayName": "Cov_Network_Diagnostics_Error_Transfer",
+  "tags": ["P0", "HIGH", "network", "error_handling", "escalation", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361010",
+            "account_id": "8069100230361010",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "clear",
+              "gateway_status": "error",
+              "network_status": "error",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my connection is broken"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I just ran a few checks but wasn\u0027t able to get all the info I need. Let me get you to someone who can help."
+            }]
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-7e863f10-1c1b-4cc2-8333-5b79a339baa0",
+            "tool": "transfer_potato_to_agent_v2",
+            "args": {
+              "skill": {
+                "$matchType": "ignore",
+                "$matchValue": "",
+                "$originalValue": ""
+              }
+            },
+            "displayName": "transfer_potato_to_agent_v2"
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_2831fe61", "eval_exp_ed639768"]
+  }
+}

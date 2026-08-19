@@ -1,0 +1,7 @@
+{
+  "name": "17819b9a-74f0-42b3-a5e6-504ed112e350",
+  "displayName": "eval_exp_823aef8a",
+  "llmCriteria": {
+    "prompt": "When there is an active outage, the agent must refuse to transfer to a live agent and explain why."
+  }
+}

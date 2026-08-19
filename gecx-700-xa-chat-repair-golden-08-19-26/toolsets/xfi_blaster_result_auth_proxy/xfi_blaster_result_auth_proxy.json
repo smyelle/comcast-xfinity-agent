@@ -1,0 +1,15 @@
+{
+  "name": "xfi_blaster_result_auth_proxy",
+  "displayName": "xfi_blaster_result_auth_proxy",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/xfi_blaster_result_auth_proxy/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Gets WiFi blaster test results through the Apigee auth-proxy using the stored WiFi blaster plan ID."
+}

@@ -1,0 +1,16 @@
+{
+  "name": "restart_ip_stb",
+  "pythonFunction": {
+    "name": "restart_ip_stb",
+    "pythonCode": "tools/restart_ip_stb/python_function/python_code.py",
+    "description": "Restart an IP set-top box by MAC via the auth-proxy toolset.\n\nArgs:\n    mac: The set-top box MAC. Falls back to {video_selected_device_mac} then\n        {video_device_mac}.\n    tracking_id: Optional tracking id. Falls back to {convoy_tracking_id} then\n        the session id.\n\nReturns:\n    dict: Normalized restart result."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "restart_ip_stb",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/restart_ip_stb/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "fetch_customer_context",
+  "pythonFunction": {
+    "name": "fetch_customer_context",
+    "pythonCode": "tools/fetch_customer_context/python_function/python_code.py",
+    "description": "Invokes the context_hub_api toolset (fetchCustomerContext operation).\n\nas a CXAS tool, passing account_number and standard event names.\n\nUses tool_context.call_tool() so the platform handles auth, URL, and all\nOpenAPI spec defaults -- no direct HTTP calls are made here.\n\nArgs:\n    account_number: The customer account number to fetch context for.\n\nReturns:\n    dict: The customer context response containing account, device,\n        and interactions data."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "fetch_customer_context",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/fetch_customer_context/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

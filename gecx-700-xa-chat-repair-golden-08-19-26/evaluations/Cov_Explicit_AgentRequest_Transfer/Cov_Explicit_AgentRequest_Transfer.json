@@ -1,0 +1,53 @@
+{
+  "name": "cfa55581-f2b7-4b37-9285-7bc19cb51d44",
+  "displayName": "Cov_Explicit_AgentRequest_Transfer",
+  "tags": ["P0", "HIGH", "transfer", "customer_experience", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361077",
+            "account_id": "8069100230361077",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "clear",
+              "gateway_status": "healthy",
+              "network_status": "healthy",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "I don\u0027t want a bot, connect me to a real person"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Sure — let me connect you with someone who can help."
+            }]
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-55a23845-a99a-466c-b658-0631e82d0b3b",
+            "tool": "transfer_potato_to_agent_v2",
+            "args": {
+              "skill": {
+                "$matchType": "ignore",
+                "$matchValue": "",
+                "$originalValue": ""
+              }
+            },
+            "displayName": "transfer_potato_to_agent_v2"
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_d5e11aee"]
+  }
+}

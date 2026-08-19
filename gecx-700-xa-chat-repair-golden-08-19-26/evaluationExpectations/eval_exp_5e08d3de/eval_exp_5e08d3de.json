@@ -1,0 +1,7 @@
+{
+  "name": "b313dcd5-1731-45e4-b4f3-2fa34dd9ceea",
+  "displayName": "eval_exp_5e08d3de",
+  "llmCriteria": {
+    "prompt": "When asked about an outage and none exists, the agent must say there is no outage and offer a connection check."
+  }
+}

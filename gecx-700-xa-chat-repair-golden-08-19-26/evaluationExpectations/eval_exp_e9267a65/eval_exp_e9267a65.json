@@ -1,0 +1,7 @@
+{
+  "name": "9b4a9812-fdae-45ac-bcee-9362c664e778",
+  "displayName": "eval_exp_e9267a65",
+  "llmCriteria": {
+    "prompt": "When all checks are healthy but the customer confirms the issue persists, the agent must transfer to a human."
+  }
+}

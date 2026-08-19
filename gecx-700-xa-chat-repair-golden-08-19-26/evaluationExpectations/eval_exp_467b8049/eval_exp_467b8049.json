@@ -1,0 +1,7 @@
+{
+  "name": "110aa452-af2c-56da-81cb-1b94f97004cc",
+  "displayName": "eval_exp_467b8049",
+  "llmCriteria": {
+    "prompt": "The agent must NOT expose the raw provider warning code."
+  }
+}

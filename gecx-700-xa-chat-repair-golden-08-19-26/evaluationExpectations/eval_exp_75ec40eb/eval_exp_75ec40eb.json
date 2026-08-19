@@ -1,0 +1,7 @@
+{
+  "name": "27f6d2ed-a8fb-5189-afa3-807f78abdc6b",
+  "displayName": "eval_exp_75ec40eb",
+  "llmCriteria": {
+    "prompt": "When the box is not found/unreachable, the agent must explain it may be a power/cable issue in plain language."
+  }
+}

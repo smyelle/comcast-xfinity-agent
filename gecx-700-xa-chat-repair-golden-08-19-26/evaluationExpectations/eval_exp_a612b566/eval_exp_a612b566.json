@@ -1,0 +1,7 @@
+{
+  "name": "ec4b8e3b-a02b-48cc-bca4-83c927846fce",
+  "displayName": "eval_exp_a612b566",
+  "llmCriteria": {
+    "prompt": "The agent must NOT claim to support topics outside internet repair."
+  }
+}

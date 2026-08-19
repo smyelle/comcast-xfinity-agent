@@ -1,0 +1,41 @@
+{
+  "name": "c7388b73-c105-5b89-98e1-f823d42267fb",
+  "displayName": "Cov_Video_BlackScreen_Restart_Success",
+  "tags": ["P0", "HIGH", "video", "black_screen", "restart", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8499100028142809",
+            "account_id": "8499100028142809",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none",
+              "stb_restart": "success",
+              "video_devices": "multi"
+            },
+            "video_flow_enabled": "true"
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my tv is black, no picture"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "just the living room"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "yes please"
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_1e901b67", "eval_exp_204ea25a", "eval_exp_96cb2d52", "eval_exp_e55c9780"]
+  }
+}

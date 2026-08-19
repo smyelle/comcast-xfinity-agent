@@ -1,0 +1,15 @@
+{
+  "name": "whole_home_refresh_ViaAuthProxy",
+  "displayName": "whole_home_refresh_ViaAuthProxy",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/whole_home_refresh_ViaAuthProxy/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Trigger a WHOLE_HOME_REFRESH of the customer\u0027s Xfinity TV boxes via the CSP self-help account refresh API through the Apigee auth-proxy."
+}

@@ -1,0 +1,15 @@
+{
+  "name": "convoy_recs_session",
+  "displayName": "convoy_recs_session",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/convoy_recs_session/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Fetch Convoy XIT/predictive recommendations by session ID to determine if a technician dispatch is needed"
+}

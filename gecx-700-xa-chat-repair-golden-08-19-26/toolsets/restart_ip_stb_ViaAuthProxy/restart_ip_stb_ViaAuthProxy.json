@@ -1,0 +1,15 @@
+{
+  "name": "restart_ip_stb_ViaAuthProxy",
+  "displayName": "restart_ip_stb_ViaAuthProxy",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/restart_ip_stb_ViaAuthProxy/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Restart a customer\u0027s IP set-top box (video device) via the deviceservices STB reset API through the Apigee auth-proxy."
+}

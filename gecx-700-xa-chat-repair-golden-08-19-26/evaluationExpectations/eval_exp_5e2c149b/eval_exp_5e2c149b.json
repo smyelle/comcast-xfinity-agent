@@ -1,0 +1,7 @@
+{
+  "name": "b0931bcc-34da-5d4d-9602-b28ade1f41f5",
+  "displayName": "eval_exp_5e2c149b",
+  "llmCriteria": {
+    "prompt": "The agent must offer a relevant next step (e.g., a TV-box refresh/restart) or route appropriately."
+  }
+}

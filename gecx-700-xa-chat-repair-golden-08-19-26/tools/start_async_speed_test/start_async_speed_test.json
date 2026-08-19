@@ -1,0 +1,16 @@
+{
+  "name": "start_async_speed_test",
+  "pythonFunction": {
+    "name": "start_async_speed_test",
+    "pythonCode": "tools/start_async_speed_test/python_function/python_code.py",
+    "description": "Start an asynchronous gateway speed test and cache its execution id.\n\nArgs:\n    device_id: Optional gateway MAC. Defaults to context.state[\"cable_modem_mac\"].\n\nReturns:\n    A compact dict with status and execution_id, or a safe error response."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "start_async_speed_test",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/start_async_speed_test/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

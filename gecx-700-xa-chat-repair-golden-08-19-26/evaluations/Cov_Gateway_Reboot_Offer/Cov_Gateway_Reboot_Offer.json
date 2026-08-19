@@ -1,0 +1,38 @@
+{
+  "name": "5f90ba0c-8b4a-4912-b6bf-330d455c8fb0",
+  "displayName": "Cov_Gateway_Reboot_Offer",
+  "tags": ["P0", "HIGH", "gateway", "reboot", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361003",
+            "account_id": "8069100230361003",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "clear",
+              "gateway_status": "reboot",
+              "network_status": "healthy",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my internet is down"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I found an issue with your gateway and a reboot should fix it. Would you like us to reboot your device now?"
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_b2db87d1", "eval_exp_bfdd3c7c"]
+  }
+}

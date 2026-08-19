@@ -1,0 +1,10 @@
+{
+  "name": "rdk_device_diag_after",
+  "pythonFunction": {
+    "name": "rdk_device_diag_after",
+    "pythonCode": "tools/rdk_device_diag_after/python_function/python_code.py",
+    "description": "Parses responses for gateway triage, wifi summary, and client wifi, updating state variables and notifying the user.\n\nArgs:\n    triage_response: Response from getDeviceTriageSummaryViaAuthProxy.\n    wifi_response: Response from getGatewayWifiSummary.\n    client_wifi_response: Response from query_wifi_agent.\n\nReturns:\n    dict: status and parsed results."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "rdk_device_diag_after"
+}

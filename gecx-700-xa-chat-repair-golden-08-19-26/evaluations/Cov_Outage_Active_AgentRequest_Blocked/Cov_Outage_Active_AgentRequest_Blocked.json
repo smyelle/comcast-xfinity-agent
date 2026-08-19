@@ -1,0 +1,50 @@
+{
+  "name": "aeb95e19-9c6b-41e4-96ed-037ef48a388f",
+  "displayName": "Cov_Outage_Active_AgentRequest_Blocked",
+  "tags": ["P0", "HIGH", "outage", "safety", "no_transfer", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8344200010126021",
+            "account_id": "8344200010126021",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "active"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my internet is down"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "An outage in your area is affecting Internet and TV service. Our teams are working to restore service as quickly as possible. During an outage we can\u0027t connect you to a live agent. You can sign up for text alerts at the Xfinity Status Center. Can I help you with anything else right now?"
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "just get me a human agent"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "There\u0027s still an active outage in your area affecting Internet and TV service, and our teams are working to restore it as quickly as possible."
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_e10f45e3"]
+  }
+}

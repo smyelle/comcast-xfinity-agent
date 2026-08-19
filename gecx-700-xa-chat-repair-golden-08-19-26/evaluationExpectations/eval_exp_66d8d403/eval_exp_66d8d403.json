@@ -1,0 +1,7 @@
+{
+  "name": "45e60f14-72d0-4f00-bf08-85ee39efb20a",
+  "displayName": "eval_exp_66d8d403",
+  "llmCriteria": {
+    "prompt": "The agent must explain the gateway has a hardware fault requiring replacement."
+  }
+}

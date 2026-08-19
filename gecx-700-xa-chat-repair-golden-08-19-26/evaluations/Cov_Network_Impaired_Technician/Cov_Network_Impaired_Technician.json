@@ -1,0 +1,38 @@
+{
+  "name": "d4e328b8-5356-45f0-bd56-25dde3b72a85",
+  "displayName": "Cov_Network_Impaired_Technician",
+  "tags": ["P0", "HIGH", "network", "technician", "human", "escalation", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361010",
+            "account_id": "8069100230361010",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "clear",
+              "gateway_status": "healthy",
+              "network_status": "impaired",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my internet is really slow and keeps cutting out"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "It looks like there\u0027s a problem with the network signal going to your home. Let me connect you with someone to get this sorted out for you."
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_75941ea5"]
+  }
+}

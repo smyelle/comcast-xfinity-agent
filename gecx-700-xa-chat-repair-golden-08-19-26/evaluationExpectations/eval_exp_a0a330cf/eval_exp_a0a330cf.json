@@ -1,0 +1,7 @@
+{
+  "name": "29169827-d110-48f2-96b6-577629c17f8c",
+  "displayName": "eval_exp_a0a330cf",
+  "llmCriteria": {
+    "prompt": "The agent must NOT invent new problems or timelines."
+  }
+}

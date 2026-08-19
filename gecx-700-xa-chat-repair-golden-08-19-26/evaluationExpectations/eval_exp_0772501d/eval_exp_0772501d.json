@@ -1,0 +1,7 @@
+{
+  "name": "e322337c-803d-45ff-bebd-1d2d9f1e541c",
+  "displayName": "eval_exp_0772501d",
+  "llmCriteria": {
+    "prompt": "When customer-context lookup fails, the agent must offer to connect the customer with a human."
+  }
+}

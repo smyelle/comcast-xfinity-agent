@@ -1,0 +1,116 @@
+openapi: 3.0.3
+info:
+  title: Whole Home Refresh via Auth Proxy
+  version: 1.0.0
+  description: >-
+    Trigger a WHOLE_HOME_REFRESH of the customer's Xfinity TV boxes via the CSP
+    self-help account refresh API through the DXP Cloud IVR Apigee auth-proxy.
+    Uses GECX dynamic variable "selfhelp_server" as the backing service domain in
+    the x-url header, resolving all session transactions dynamically through the
+    Apigee gateway domain specified in variable "apigee_server".
+servers:
+- url: '$env_var'
+paths:
+  /v1/auth-proxy:
+    post:
+      summary: Trigger a whole-home refresh for the account
+      operationId: wholeHomeRefreshViaAuthProxy
+      description: >-
+        Proxies an upstream POST to the CSP self-help account refresh endpoint
+        with profile=WHOLE_HOME_REFRESH and returns the tracking id / last
+        refresh time, or a throttle response if a refresh was made too recently.
+      parameters:
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: accept
+        in: header
+        required: false
+        schema:
+          type: string
+          default: application/json.v2+json
+        description: Upstream response media type.
+      - name: client
+        in: header
+        required: false
+        schema:
+          type: string
+          default: aiQ
+        description: Originating client identifier.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: CSP-CIMA-XAXLR
+        description: Authentication identifier for CSP CIMA.
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "urn:csp:scope:self-help urn:csp:scope:self-help:systemrefresh urn:convoy:security:token:client-credentials"
+        description: Authorization scope for the CSP self-help refresh.
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "https://csp-prod.codebig2.net/selfhelp/account/{accountNumber}/refresh?profile=WHOLE_HOME_REFRESH"
+        description: Target CSP self-help refresh URL (account number substituted at call time).
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      responses:
+        "200":
+          description: Refresh accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshAcceptedResponse'
+        "400":
+          description: Refresh throttled (too early) or bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshThrottledResponse'
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    RefreshAcceptedResponse:
+      type: object
+      properties:
+        trackingId:
+          type: string
+          example: "sr.c68ee03c-2ecc-4217-a109-ba681e88dcf1"
+        lastRefreshTime:
+          type: string
+          example: "2026-07-29T00:46:54+0000"
+    RefreshThrottledResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Too early to make another refresh request"
+        code:
+          type: string
+          example: "SH400.59"
+        requestId:
+          type: string
+        retriable:
+          type: boolean
+          example: false
+        cspSource:
+          type: boolean
+

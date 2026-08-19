@@ -1,0 +1,7 @@
+{
+  "name": "b4295afb-ca93-4016-a417-1dd234c8fd93",
+  "displayName": "eval_exp_b2a388ca",
+  "llmCriteria": {
+    "prompt": "On a follow-up question, the agent must answer from the diagnosis without re-running diagnostics."
+  }
+}

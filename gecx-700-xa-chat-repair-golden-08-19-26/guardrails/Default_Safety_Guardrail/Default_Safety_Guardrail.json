@@ -1,0 +1,24 @@
+{
+  "name": "7da6657d-0f1c-4678-a0b2-da4d2573c325",
+  "displayName": "Default Safety Guardrail",
+  "action": {
+    "generativeAnswer": {
+      "prompt": "I\u0027m sorry, but I can\u0027t assist with that request."
+    }
+  },
+  "modelSafety": {
+    "safetySettings": [{
+      "category": "HARM_CATEGORY_HATE_SPEECH",
+      "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    }, {
+      "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+      "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    }, {
+      "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+      "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    }, {
+      "category": "HARM_CATEGORY_HARASSMENT",
+      "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    }]
+  }
+}

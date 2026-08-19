@@ -1,0 +1,16 @@
+{
+  "name": "6b9b02ae-521c-498b-b2b3-5fdc11796e16",
+  "executionType": "SYNCHRONOUS",
+  "displayName": "outage_specialist_agent_as_a_tool",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/outage_specialist_agent_as_a_tool/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  },
+  "agentTool": {
+    "name": "outage_specialist_agent_as_a_tool",
+    "description": "Outage Specialist: Silently checks neighborhood connection outages, pushes checklist updates, and updates outage_status variables.",
+    "agent": "outage_specialist_agent"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "a88dc4e1-723e-4b2f-a829-58dae175c4dd",
+  "displayName": "eval_exp_3d4b32ae",
+  "llmCriteria": {
+    "prompt": "When no telemetry is available, the agent must escalate to a human."
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "repair_orchestration_agent",
+  "displayName": "repair_orchestration_agent",
+  "instruction": "agents/repair_orchestration_agent/instruction.txt",
+  "tools": ["check_convoy_recommendations", "check_outage", "end_session", "fetch_customer_context", "gateway_specialist_agent_as_a_tool", "get_async_speed_test_result", "network_specialist_agent_as_a_tool", "outage_specialist_agent_as_a_tool", "perform_speed_test", "post_user_notification", "prepare_speed_test", "reboot", "search_connectivity_help", "search_wifi_settings_help", "start_async_speed_test", "transfer_potato_to_agent_v2"],
+  "childAgents": ["video_specialist_agent", "wifi_troubleshooting_agent"],
+  "beforeAgentCallbacks": [{
+    "pythonCode": "agents/repair_orchestration_agent/before_agent_callbacks/before_agent_callbacks_01/python_code.py"
+  }],
+  "afterAgentCallbacks": [{
+    "pythonCode": "agents/repair_orchestration_agent/after_agent_callbacks/after_agent_callbacks_01/python_code.py"
+  }],
+  "afterModelCallbacks": [{
+    "pythonCode": "agents/repair_orchestration_agent/after_model_callbacks/after_model_callbacks_01/python_code.py"
+  }],
+  "beforeToolCallbacks": [{
+    "pythonCode": "agents/repair_orchestration_agent/before_tool_callbacks/before_tool_callbacks_01/python_code.py"
+  }],
+  "afterToolCallbacks": [{
+    "pythonCode": "agents/repair_orchestration_agent/after_tool_callbacks/after_tool_callbacks_01/python_code.py"
+  }],
+  "toolsets": [{
+    "toolset": "convoy_recs_account",
+    "toolIds": ["getRecommendationsByAccount"]
+  }, {
+    "toolset": "device_status_api",
+    "toolIds": ["checkDeviceStatus"]
+  }, {
+    "toolset": "gateway_restart_api",
+    "toolIds": ["restartDevice"]
+  }, {
+    "toolset": "xa_customer_notification_api",
+    "toolIds": ["postNotification"]
+  }, {
+    "toolset": "xfi_async_speed_result_auth_proxy",
+    "toolIds": ["getAsyncSpeedTestResult"]
+  }, {
+    "toolset": "xfi_speed_test_ViaAuthProxy",
+    "toolIds": ["runSpeedTest", "startAsyncSpeedTest"]
+  }]
+}

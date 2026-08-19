@@ -1,0 +1,108 @@
+openapi: 3.0.3
+info:
+  title: Connect Agent Direct A2A JSON-RPC
+  version: 1.0.0
+  description: Test spec for invoking the Connect Agent A2A JSON-RPC endpoint
+    directly with a hardcoded Authorization header.
+
+servers:
+- url: '$env_var'
+
+paths:
+  /agent/a2a/jsonrpc:
+    post:
+      summary: Send message to Connect Agent
+      operationId: sendConnectAgentMessageDirect
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+          default: Bearer
+            eyJraWQiOiIzOTNhMGIyMi03MzNmLTQxZTUtYTM1Mi03NGU2ZjU1MDRhNjkiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ4bWVfYWdlbnRfcHJvZCIsIm5iZiI6MTc3ODcwNDI4OCwiY2FwYWJpbGl0aWVzIjpbInhtZTphY2Nlc3MiLCJ4bWU6YWktYWdlbnQ6YWNjZXNzIl0sInNjb3BlIjpbInhtZTphY2Nlc3MiLCJ4bWU6YWktYWdlbnQ6YWNjZXNzIl0sImlzcyI6Imh0dHBzOi8vd2Vic2VjLmNhYmxlLmNvbWNhc3QuY29tIiwiYWxsb3dlZFJlc291cmNlcyI6eyJhbGxvd2VkUGFydG5lcnMiOlsiY29tY2FzdCJdfSwiZXhwIjoxNzc4NzExNDkxLCJpYXQiOjE3Nzg3MDQyODgsInZlcnNpb24iOiIyLjAiLCJqdGkiOiIwMTllMjMwOS05ODZlLTc3ZmEtOGYzZC1kOWRkOWYyOTRjNGUiLCJjbGllbnRfaWQiOiJ4bWVfYWdlbnRfcHJvZCJ9.S7TtBcuwU2dvVOA6sJ7-J9oY3g6AJHrNbvKSreiYX1O3eh-h5x3VcLBg9xy4g4isY41uwoUOU-WtDyI1Kvz_52iC6VNOXZYsty-Q1D9KftVnddGKnpBR6eAlfpCnj9-zlHhxeyKxzY9B7rBVVE_WRWS6S7j0rLqa3cTjBtjaJY5Hu4cnP9qUoWTRHPBdc2WKktOI3A1gbmyXuWcjrbMLRvFsFUm-PD7TY-fUa0T4rhUH7wDzzgiShsPHNizzom8NLBz1mn6Rcr0ZBWVz9REKMNWBGIHH_WMYxgDXW0Bnq_0NkzI06k7LCykroR-Ho9zVUSMzY0GyuojNqlZ2OZXKIw
+        example: Bearer
+          eyJraWQiOiIzOTNhMGIyMi03MzNmLTQxZTUtYTM1Mi03NGU2ZjU1MDRhNjkiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ4bWVfYWdlbnRfcHJvZCIsIm5iZiI6MTc3ODcwNDI4OCwiY2FwYWJpbGl0aWVzIjpbInhtZTphY2Nlc3MiLCJ4bWU6YWktYWdlbnQ6YWNjZXNzIl0sInNjb3BlIjpbInhtZTphY2Nlc3MiLCJ4bWU6YWktYWdlbnQ6YWNjZXNzIl0sImlzcyI6Imh0dHBzOi8vd2Vic2VjLmNhYmxlLmNvbWNhc3QuY29tIiwiYWxsb3dlZFJlc291cmNlcyI6eyJhbGxvd2VkUGFydG5lcnMiOlsiY29tY2FzdCJdfSwiZXhwIjoxNzc4NzExNDkxLCJpYXQiOjE3Nzg3MDQyODgsInZlcnNpb24iOiIyLjAiLCJqdGkiOiIwMTllMjMwOS05ODZlLTc3ZmEtOGYzZC1kOWRkOWYyOTRjNGUiLCJjbGllbnRfaWQiOiJ4bWVfYWdlbnRfcHJvZCJ9.S7TtBcuwU2dvVOA6sJ7-J9oY3g6AJHrNbvKSreiYX1O3eh-h5x3VcLBg9xy4g4isY41uwoUOU-WtDyI1Kvz_52iC6VNOXZYsty-Q1D9KftVnddGKnpBR6eAlfpCnj9-zlHhxeyKxzY9B7rBVVE_WRWS6S7j0rLqa3cTjBtjaJY5Hu4cnP9qUoWTRHPBdc2WKktOI3A1gbmyXuWcjrbMLRvFsFUm-PD7TY-fUa0T4rhUH7wDzzgiShsPHNizzom8NLBz1mn6Rcr0ZBWVz9REKMNWBGIHH_WMYxgDXW0Bnq_0NkzI06k7LCykroR-Ho9zVUSMzY0GyuojNqlZ2OZXKIw
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/A2AMessageSendRequest"
+            example:
+              id: "1"
+              jsonrpc: "2.0"
+              method: message/send
+              params:
+                message:
+                  kind: message
+                  messageId: msg-1
+                  role: user
+                  parts:
+                  - kind: text
+                    text: What is the DOCSIS health of modem 80:D0:4A:43:2C:84?
+      responses:
+        "200":
+          description: Successful JSON-RPC response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
+components:
+  schemas:
+    A2AMessageSendRequest:
+      type: object
+      required: [id, jsonrpc, method, params]
+      properties:
+        id:
+          type: string
+          default: "1"
+        jsonrpc:
+          type: string
+          enum: ["2.0"]
+          default: "2.0"
+        method:
+          type: string
+          enum: [message/send]
+          default: message/send
+        params:
+          type: object
+          required: [message]
+          properties:
+            message:
+              $ref: "#/components/schemas/A2AMessage"
+
+    A2AMessage:
+      type: object
+      required: [kind, messageId, role, parts]
+      properties:
+        kind:
+          type: string
+          enum: [message]
+          default: message
+        messageId:
+          type: string
+          default: msg-1
+        role:
+          type: string
+          enum: [user]
+          default: user
+        parts:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/A2ATextPart"
+
+    A2ATextPart:
+      type: object
+      required: [kind, text]
+      properties:
+        kind:
+          type: string
+          enum: [text]
+          default: text
+        text:
+          type: string
+          default: What is the DOCSIS health of modem 80:D0:4A:43:2C:84?

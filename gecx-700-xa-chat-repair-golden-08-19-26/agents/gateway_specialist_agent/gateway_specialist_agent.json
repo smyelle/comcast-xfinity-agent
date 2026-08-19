@@ -1,0 +1,19 @@
+{
+  "name": "gateway_specialist_agent",
+  "displayName": "gateway_specialist_agent",
+  "instruction": "agents/gateway_specialist_agent/instruction.txt",
+  "tools": ["rdk_device_diag_before"],
+  "beforeAgentCallbacks": [{
+    "pythonCode": "agents/gateway_specialist_agent/before_agent_callbacks/before_agent_callbacks_01/python_code.py"
+  }],
+  "beforeModelCallbacks": [{
+    "pythonCode": "agents/gateway_specialist_agent/before_model_callbacks/before_model_callbacks_01/python_code.py"
+  }],
+  "afterToolCallbacks": [{
+    "pythonCode": "agents/gateway_specialist_agent/after_tool_callbacks/after_tool_callbacks_01/python_code.py"
+  }],
+  "toolsets": [{
+    "toolset": "execute_rdk_device_diagnostics_ViaAuthProxy",
+    "toolIds": ["getDeviceTriageSummaryViaAuthProxy"]
+  }]
+}

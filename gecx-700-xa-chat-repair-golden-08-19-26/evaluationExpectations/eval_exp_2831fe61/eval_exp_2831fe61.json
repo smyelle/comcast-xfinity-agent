@@ -1,0 +1,7 @@
+{
+  "name": "04925945-62ab-48d6-badc-00bc15359ba8",
+  "displayName": "eval_exp_2831fe61",
+  "llmCriteria": {
+    "prompt": "When diagnostics tools error, the agent must escalate to a human."
+  }
+}

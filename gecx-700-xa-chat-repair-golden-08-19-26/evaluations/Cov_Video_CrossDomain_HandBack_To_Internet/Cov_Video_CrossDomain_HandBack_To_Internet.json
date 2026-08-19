@@ -1,0 +1,34 @@
+{
+  "name": "35adee89-3887-57d6-8918-586dc9bbd545",
+  "displayName": "Cov_Video_CrossDomain_HandBack_To_Internet",
+  "tags": ["P0", "HIGH", "video", "cross_domain", "handback", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8499100028142809",
+            "account_id": "8499100028142809",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none",
+              "video_devices": "single"
+            },
+            "video_flow_enabled": "true"
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my tv has no picture"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "actually my internet is down too, forget the tv"
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_9dca0ac4", "eval_exp_28ad8bda"]
+  }
+}

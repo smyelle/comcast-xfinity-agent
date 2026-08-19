@@ -1,0 +1,7 @@
+{
+  "name": "679d74f5-557f-4511-9cd8-87a5973d898a",
+  "displayName": "eval_exp_8e8b9597",
+  "llmCriteria": {
+    "prompt": "The agent must decline the off-topic request and redirect to internet support."
+  }
+}

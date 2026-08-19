@@ -1,0 +1,7 @@
+{
+  "name": "9a606075-67e9-4191-b26f-1727d8b2957b",
+  "displayName": "eval_exp_711b763f",
+  "llmCriteria": {
+    "prompt": "The agent must surface the predictive hardware fault and recommend a gateway replacement."
+  }
+}

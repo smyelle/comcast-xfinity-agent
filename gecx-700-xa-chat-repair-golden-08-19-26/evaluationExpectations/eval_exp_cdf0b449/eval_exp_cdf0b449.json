@@ -1,0 +1,7 @@
+{
+  "name": "718e15f4-a8ce-5be5-8987-b46bc22d83b6",
+  "displayName": "eval_exp_cdf0b449",
+  "llmCriteria": {
+    "prompt": "The agent must look up the XRE code and explain in plain language what it means."
+  }
+}

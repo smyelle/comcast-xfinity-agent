@@ -1,0 +1,13 @@
+{
+  "name": "video_specialist_agent",
+  "displayName": "video_specialist_agent",
+  "description": "Video/TV/X1 troubleshooting specialist. Owns the multi-turn Video conversation (XRE error codes, black/frozen screen, channel/entitlement, remote issues, and XIT video recommendations) once the orchestrator transfers to it. Reuses cached account/outage/XIT context and only runs video-specific tools. Transfers back to the orchestrator for Internet/Outage topics and to a human for escalations. Only reached when video_flow_enabled is \u0027true\u0027.",
+  "instruction": "agents/video_specialist_agent/instruction.txt",
+  "tools": ["check_convoy_recommendations", "end_session", "get_video_devices", "lookup_xre_error", "restart_ip_stb", "search_connectivity_help", "transfer_potato_to_agent_v2", "whole_home_refresh"],
+  "beforeAgentCallbacks": [{
+    "pythonCode": "agents/video_specialist_agent/before_agent_callbacks/before_agent_callbacks_01/python_code.py"
+  }],
+  "afterModelCallbacks": [{
+    "pythonCode": "agents/video_specialist_agent/after_model_callbacks/after_model_callbacks_01/python_code.py"
+  }]
+}

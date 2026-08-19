@@ -1,0 +1,15 @@
+{
+  "name": "xfi_gateway_conn_auth_proxy",
+  "displayName": "xfi_gateway_conn_auth_proxy",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/xfi_gateway_conn_auth_proxy/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Gets gateway device connection and coverage details through the Apigee auth-proxy. Uses GECX dynamic variable \"coverage_platform_server\" as the backing service domain and dynamically constructs the x-url from XBO ID and gateway MAC."
+}

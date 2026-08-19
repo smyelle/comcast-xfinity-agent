@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Get Video Devices via Auth Proxy
+  version: 1.0.0
+  description: >-
+    Fetch the account's video device inventory (friendly names, MAC,
+    activationStatus, x1) from the Convoy device-context service through the DXP
+    Cloud IVR Apigee auth-proxy. Uses GECX dynamic variable "convoy_device_server"
+    as the backing service domain in the x-url header, resolving all session
+    transactions dynamically through the Apigee gateway domain specified in
+    variable "apigee_server".
+servers:
+- url: '$env_var'
+paths:
+  /v1/auth-proxy:
+    get:
+      summary: Get video device friendly names / inventory
+      operationId: getVideoDevicesViaAuthProxy
+      description: >-
+        Proxies an upstream GET to the Convoy device-context endpoint
+        (contextLight=true&friendlyName=true) and returns the deviceContexts
+        payload containing the account's video devices.
+      parameters:
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: CONVOY-CIMA-XAXLR
+        description: Authentication identifier for Convoy CIMA.
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "urn:convoy:security:token:client-credentials urn:convoy:session#read"
+        description: Authorization scope for the Convoy device-context read.
+      - name: x-cache-refresh
+        in: header
+        required: false
+        schema:
+          type: string
+          default: FORCE-REFRESH
+        description: Cache refresh policy.
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "https://ce-convoy-prod.codebig2.net/account/{accountNumber}/device/context?contextLight=true&cacheRefresh=DEFAULT&friendlyName=true&status=false"
+        description: Target Convoy device-context service URL (account number substituted at call time).
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      responses:
+        "200":
+          description: Successful device-context response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceContextsResponse'
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    DeviceContextsResponse:
+      type: object
+      properties:
+        deviceContexts:
+          type: object
+          properties:
+            video:
+              type: object
+              properties:
+                device:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/VideoDevice'
+    VideoDevice:
+      type: object
+      properties:
+        model:
+          type: string
+        mac:
+          type: string
+        serialNumber:
+          type: string
+        friendlyName:
+          type: string
+        x1:
+          type: boolean
+        activationStatus:
+          type: string
+        deviceId:
+          type: string
+

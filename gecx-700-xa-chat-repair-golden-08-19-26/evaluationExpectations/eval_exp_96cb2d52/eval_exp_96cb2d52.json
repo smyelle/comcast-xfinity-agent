@@ -1,0 +1,7 @@
+{
+  "name": "4ce5f2ed-bb50-5862-a3b9-c883e4c7b227",
+  "displayName": "eval_exp_96cb2d52",
+  "llmCriteria": {
+    "prompt": "On a successful restart the agent must tell the customer the box is restarting and to wait a couple of minutes."
+  }
+}

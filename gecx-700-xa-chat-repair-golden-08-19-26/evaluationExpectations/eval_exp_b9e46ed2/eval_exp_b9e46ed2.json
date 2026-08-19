@@ -1,0 +1,7 @@
+{
+  "name": "abfe074c-e527-4249-945f-e38ceb4c39d7",
+  "displayName": "eval_exp_b9e46ed2",
+  "llmCriteria": {
+    "prompt": "The agent must tell the customer a technician is needed for the connection issue."
+  }
+}

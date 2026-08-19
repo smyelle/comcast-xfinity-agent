@@ -1,0 +1,7 @@
+{
+  "name": "dd1b30c9-30a7-537f-becf-01dede87a823",
+  "displayName": "eval_exp_e55c9780",
+  "llmCriteria": {
+    "prompt": "The agent must NEVER expose raw provider codes (e.g., DS-#### or statusCode)."
+  }
+}

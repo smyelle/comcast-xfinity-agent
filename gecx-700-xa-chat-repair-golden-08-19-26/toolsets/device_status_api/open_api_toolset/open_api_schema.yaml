@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: Convoy Device Status API
+  version: 1.0.0
+  description: Check device online status and health via the Convoy device Uses GECX dynamic variable \"convoy_api_server\" as its backing server domain, resolving all session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    status API through Apigee prod auth-proxy.
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    get:
+      summary: Check device online status
+      operationId: checkDeviceStatus
+      description: Checks whether a customer's gateway/modem device is online,
+        retrieves device details and real-time telemetry data through the Apigee
+        prod auth-proxy.
+      parameters:
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: CONVOY-SAT
+        description: Authentication identifier for Convoy SAT
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "ceconvoy:device:status"
+        description: Authorization scope for device status access
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+        description: >-
+          The target Convoy device status URL. Format:
+          https://ce-convoy-prod.codebig2.net/device/{account_number}/status?checkType=CHECK_DEVICE_ONLINE&deviceDetailsRequired=true&realTimeRequired=true
+        example: "https://ce-convoy-prod.codebig2.net/device/8069100230017286/status?checkType=CHECK_DEVICE_ONLINE&deviceDetailsRequired=true&realTimeRequired=true"
+      responses:
+        "200":
+          description: Successful device status response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error

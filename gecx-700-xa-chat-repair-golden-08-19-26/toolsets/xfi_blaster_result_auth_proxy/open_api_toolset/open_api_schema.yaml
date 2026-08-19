@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Xfinity WiFi Blaster Result API
+  version: 1.0.0
+  description: >-
+    Uses GECX dynamic variable "coverage_platform_server" as its backing service
+    domain, resolving session transactions through the Apigee auth-proxy gateway
+    domain specified in variable "apigee_server". Gets WiFi blaster test results
+    for a previously created plan ID.
+    URL format: https://gw.api.dh.comcast.com/speed-test/blaster/api/blast/result/{wifi_blaster_plan_id}
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    get:
+      summary: Get WiFi blaster result
+      operationId: getWifiBlasterResult
+      description: >-
+        Gets WiFi blaster test results for the plan ID returned by
+        get_wifi_blaster_plan and stored in session state as wifi_blaster_plan_id.
+        The XBO ID should come from session context/state xbo_id.
+      parameters:
+      - name: accept
+        in: header
+        required: true
+        schema:
+          type: string
+          default: application/json
+          example: application/json
+      - name: content-type
+        in: header
+        required: true
+        schema:
+          type: string
+          default: application/json
+          example: application/json
+      - name: account-id
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Customer XBO ID value sent in the required account-id header.
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: session-id
+        in: header
+        required: false
+        schema:
+          type: string
+        description: Session identifier for request tracing.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: ST-SAT-XAXLR
+          example: ST-SAT-XAXLR
+        description: Authentication identifier for the xFi Speed Platform SAT.
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "x1:xfi-speed-platform:gateway,x1:xfi-speed-platform:blaster:poll,x1:xfi-speed-platform:blaster,x1:xfi-coverage-platform:read"
+          example: "x1:xfi-speed-platform:gateway,x1:xfi-speed-platform:blaster:poll,x1:xfi-speed-platform:blaster,x1:xfi-coverage-platform:read"
+        description: Authorization scopes required by the WiFi blaster result API.
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uri
+        description: >-
+          Target xFi Speed Platform WiFi blaster result URL. Must be dynamically
+          constructed with the stored plan ID.
+          Format: https://gw.api.dh.comcast.com/speed-test/blaster/api/blast/result/{wifi_blaster_plan_id}
+        example: "https://gw.api.dh.comcast.com/speed-test/blaster/api/blast/result/3a980346506c4cd3b71250dea2e87c68"
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      responses:
+        "200":
+          description: Successful WiFi blaster result response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WifiBlasterResultResponse'
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    WifiBlasterResultResponse:
+      type: object
+      additionalProperties: true

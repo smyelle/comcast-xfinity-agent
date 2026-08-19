@@ -1,0 +1,15 @@
+{
+  "name": "get_video_devices_ViaAuthProxy",
+  "displayName": "get_video_devices_ViaAuthProxy",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/get_video_devices_ViaAuthProxy/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Fetch the account\u0027s video device inventory (friendly names, MAC, activationStatus, x1) from Convoy device-context via the Apigee auth-proxy."
+}

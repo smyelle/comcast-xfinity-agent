@@ -1,0 +1,50 @@
+{
+  "name": "c16f1bfa-3f73-407e-9b68-6603adb8a2d5",
+  "displayName": "Cov_Outage_Inquiry_NoOutage_Decline",
+  "tags": ["P1", "MEDIUM", "outage", "inquiry", "customer_experience", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8344200010126021",
+            "account_id": "8344200010126021",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "Is there an outage in my area?"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Good news — I\u0027m not seeing any outages in your area right now. Would you like me to run a quick check on your connection to see what might be going on?"
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "no thanks, that\u0027s all"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "No problem. Is there anything else I can help you with?"
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_5e08d3de", "eval_exp_c3b112b1"]
+  }
+}

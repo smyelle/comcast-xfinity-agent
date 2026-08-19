@@ -1,0 +1,7 @@
+{
+  "name": "22e2f560-bca6-5c01-b9ec-07afe6cc63d9",
+  "displayName": "eval_exp_4553a062",
+  "llmCriteria": {
+    "prompt": "The agent must NOT run internet gateway/network/speed diagnostics and must NOT surface an internet troubleshooting recommendation or message."
+  }
+}

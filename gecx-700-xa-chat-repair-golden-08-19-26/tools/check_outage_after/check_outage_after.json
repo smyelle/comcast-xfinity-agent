@@ -1,0 +1,10 @@
+{
+  "name": "check_outage_after",
+  "pythonFunction": {
+    "name": "check_outage_after",
+    "pythonCode": "tools/check_outage_after/python_function/python_code.py",
+    "description": "Parses EDE outage response and updates state.\n\nArgs:\n    response: Raw response from checkOutageEde.\n\nReturns:\n    dict with status and outage details."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "check_outage_after"
+}

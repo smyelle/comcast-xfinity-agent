@@ -1,0 +1,28 @@
+{
+  "name": "e572508f-cba3-5816-88c0-7c1bbf0d51fb",
+  "displayName": "Cov_Video_XIT_Appointment",
+  "tags": ["P0", "HIGH", "video", "xit", "appointment", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8499100028142809",
+            "account_id": "8499100028142809",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none",
+              "video_xit": "truck_roll"
+            },
+            "video_flow_enabled": "true"
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my tv picture keeps breaking up"
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_87c3c63a", "eval_exp_41de987a"]
+  }
+}

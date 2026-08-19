@@ -1,0 +1,59 @@
+{
+  "name": "36c044d5-71c4-41c6-99ae-149c327d01b0",
+  "displayName": "Cov_AllClear_StillBroken_Transfer",
+  "tags": ["P0", "HIGH", "happy_path", "followup", "escalation", "stubbed", "happy_path_followup"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361099",
+            "account_id": "8069100230361099",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "clear",
+              "gateway_status": "healthy",
+              "network_status": "healthy",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my internet has been acting up"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Everything looks completely healthy from our end. Are you still experiencing issues with your service? If so, I can connect you with someone who can take a closer look."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "yes, it\u0027s still broken"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-2fd8040e-d1c9-49a8-a2d6-97b49829a8cd",
+            "tool": "transfer_potato_to_agent_v2",
+            "args": {
+              "skill": {
+                "$matchType": "ignore",
+                "$matchValue": "",
+                "$originalValue": ""
+              }
+            },
+            "displayName": "transfer_potato_to_agent_v2"
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_e9267a65"]
+  }
+}

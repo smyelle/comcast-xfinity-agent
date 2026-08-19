@@ -1,0 +1,7 @@
+{
+  "name": "f1b2fb6c-791c-41a1-93d1-658203db1b19",
+  "displayName": "eval_exp_d5e11aee",
+  "llmCriteria": {
+    "prompt": "When the customer explicitly asks for a human, the agent must transfer to a live agent."
+  }
+}

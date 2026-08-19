@@ -1,0 +1,7 @@
+{
+  "name": "25209cff-debd-45b5-bb95-64bfa0be9195",
+  "displayName": "eval_exp_b28f698b",
+  "llmCriteria": {
+    "prompt": "When the customer is upset and asks for a person, the agent must transfer to a live agent."
+  }
+}

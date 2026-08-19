@@ -1,0 +1,7 @@
+{
+  "name": "457ce01d-43ce-4352-b76c-aa53106b7f50",
+  "displayName": "eval_exp_7196a1d4",
+  "llmCriteria": {
+    "prompt": "The agent must NOT run further device or network diagnostics once an outage is confirmed."
+  }
+}

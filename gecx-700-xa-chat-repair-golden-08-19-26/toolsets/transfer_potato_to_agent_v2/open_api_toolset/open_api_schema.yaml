@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: Transfer Potato to Agent V2
+  version: 1.0.0
+  description: >-
+    Signals the steering orchestrator to transfer the conversation to a specialized
+    agent.
+    After calling this tool, the agent MUST NOT send any further messages or take
+    any actions.
+    The steering orchestrator reads this tool call from the event stream and handles
+    the routing.
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/transfer:
+    post:
+      summary: Transfer conversation to a specialized agent
+      operationId: transfer_potato_to_agent_v2
+      description: >-
+        Signals the steering orchestrator to transfer the conversation to a specialized
+        agent.
+        After invoking this tool, do NOT send any further messages or take any actions.
+        The steering orchestrator will stop reading events from this agent once it
+        detects this tool call.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransferRequest"
+            example:
+              task: "Customer needs a technician appointment for a network issue."
+              key_events: "Ran diagnostics, identified WAN impairment."
+              skill: "appointment"
+              data: ""
+      responses:
+        "200":
+          description: Transfer signal acknowledged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "transfer_initiated"
+                additionalProperties: true
+
+components:
+  schemas:
+    TransferRequest:
+      type: object
+      required: [task, key_events, skill]
+      properties:
+        task:
+          type: string
+          description: >-
+            Concise description of what the user is asking for RIGHT NOW that this
+            agent
+            cannot handle. Focus only on the current query, not previous conversation
+            history.
+            Tell the next agent what to focus on.
+        key_events:
+          type: string
+          description: >-
+            A brief summary of what this agent has accomplished so far (for context
+            continuity).
+        skill:
+          type: string
+          description: >-
+            REQUIRED. Skill to route to. Must be one of: nlu, human, appointment,
+            billing,
+            troubleshooting, payment_and_credit, ecm.
+          enum:
+          - nlu
+          - human
+          - appointment
+          - billing
+          - troubleshooting
+          - payment_and_credit
+          - ecm
+        data:
+          type: string
+          description: >-
+            OPTIONAL. Additional data to pass to the next agent. JSON string of key-value
+            pairs.
+            Not needed in most cases unless specifically required by the target agent.
+          default: ""

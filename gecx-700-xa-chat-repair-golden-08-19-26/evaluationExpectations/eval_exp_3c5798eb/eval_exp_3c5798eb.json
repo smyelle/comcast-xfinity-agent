@@ -1,0 +1,7 @@
+{
+  "name": "4e5ce002-ac70-48be-b368-ccf92c519c6b",
+  "displayName": "eval_exp_3c5798eb",
+  "llmCriteria": {
+    "prompt": "The agent must NOT transfer before confirming the customer still has an issue."
+  }
+}

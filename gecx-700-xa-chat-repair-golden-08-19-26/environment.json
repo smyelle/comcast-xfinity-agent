@@ -1,0 +1,256 @@
+{
+  "app": {
+    "loggingSettings": {
+      "redactionConfig": {
+        "inspectTemplate": "projects/dxp-pre-prod-678419/locations/us/inspectTemplates/Inspect-Template-1",
+        "deidentifyTemplate": "projects/dxp-pre-prod-678419/locations/us/deidentifyTemplates/Deidentify-Template-1"
+      },
+      "bigqueryExportSettings": {
+        "project": "dxp-pre-prod-678419",
+        "dataset": "xa_gecx_repair_agent"
+      }
+    }
+  },
+  "toolsets": {
+    "CONNECT_DIRECT_CALL": {
+      "openApiToolset": {
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "Duck_Duck_Search": {
+      "openApiToolset": {
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "connect_agent_rest_call": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "context_hub_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "convoy_recs_account": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "convoy_recs_session": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "device_status_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "ede_outage_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "execute_rdk_device_diagnostics_ViaAuthProxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "execute_rdk_gateway_wifisummary_ViaAuthProxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "gateway_restart_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "get_video_devices_ViaAuthProxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "restart_ip_stb_ViaAuthProxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "run_rdk_client_wifi_analysis": {
+      "mcpToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        }
+      }
+    },
+    "transfer_potato_to_agent_v2": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "whole_home_refresh_ViaAuthProxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "xa_customer_notification_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "xbo_lookup_ViaAuthProxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "xfi_async_speed_result_auth_proxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "xfi_blaster_plan_auth_proxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-cloud-ivr-preprod-0bc4/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "xfi_blaster_result_auth_proxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-cloud-ivr-preprod-0bc4/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "xfi_gateway_conn_auth_proxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "xfi_speed_test_ViaAuthProxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/dxp-pre-prod-678419/secrets/APIGEE_API_KEY/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    }
+  }
+}

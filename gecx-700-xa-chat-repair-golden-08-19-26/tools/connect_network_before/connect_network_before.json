@@ -1,0 +1,10 @@
+{
+  "name": "connect_network_before",
+  "pythonFunction": {
+    "name": "connect_network_before",
+    "pythonCode": "tools/connect_network_before/python_function/python_code.py",
+    "description": "Prepares arguments for Network analysis and sets initial state.\n\nArgs:\n    cable_modem_mac: The customer cable modem MAC address.\n\nReturns:\n    dict with network_analysis_args."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "connect_network_before"
+}

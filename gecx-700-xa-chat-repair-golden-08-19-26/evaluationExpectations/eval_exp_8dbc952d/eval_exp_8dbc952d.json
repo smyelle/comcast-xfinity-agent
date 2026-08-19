@@ -1,0 +1,7 @@
+{
+  "name": "456c8c29-8e69-51ca-99a2-5f907ed0d3d0",
+  "displayName": "eval_exp_8dbc952d",
+  "llmCriteria": {
+    "prompt": "After the self-help steps are exhausted, the agent must offer/connect to a human."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "c2220c21-107f-4a74-88ae-6e50bcf2b6dd",
+  "displayName": "eval_exp_e10f45e3",
+  "llmCriteria": {
+    "prompt": "During an active outage the agent must NOT transfer to a live agent and must restate the outage status instead."
+  }
+}

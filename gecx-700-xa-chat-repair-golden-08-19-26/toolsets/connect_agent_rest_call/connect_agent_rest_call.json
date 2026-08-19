@@ -1,0 +1,15 @@
+{
+  "name": "f4160d01-8fed-437d-b981-bf4f61e8c23b",
+  "displayName": "connect_agent_rest_call",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/connect_agent_rest_call/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Connect Agent REST Adapter"
+}

@@ -1,0 +1,36 @@
+{
+  "name": "7374b1cd-9736-49d8-8dc5-e6d9232b756f",
+  "displayName": "Cov_Convoy_Predictive_Technician",
+  "tags": ["P0", "HIGH", "convoy", "predictive", "technician", "appointment", "stubbed", "convoy_predictive"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361044",
+            "account_id": "8069100230361044",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "technician",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my connection has been unstable for days"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "We found an issue with the connection to your home that needs a technician."
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_b9e46ed2"]
+  }
+}

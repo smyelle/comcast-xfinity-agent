@@ -1,0 +1,92 @@
+openapi: 3.0.3
+info:
+  title: Convoy Recommendations by Session API
+  version: 1.0.0
+  description: >-
+    Uses GECX dynamic variable \"convoy_api_server\" as its backing server domain, resolving all session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    Fetch Convoy XIT/predictive recommendations by session ID via Apigee dev auth-proxy.
+    Used to determine if a technician dispatch or other repair action is needed based
+    on predictive analytics for the customer's session.
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    post:
+      summary: Get Convoy recommendations by session ID
+      operationId: getRecommendationsBySession
+      description: >-
+        Fetches repair recommendations from the Convoy recommendations engine using
+        the
+        customer's session ID. Returns predictive recommendations such as technician
+        dispatch,
+        gateway swap, or self-service fixes.
+
+        The sessionId should be pulled from the session variable {convoy_session_id}
+        or {xa_session_id}.
+      parameters:
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: CONVOYSOLVE-SAT-XAXLR
+        description: Authentication identifier for Convoy Solve service
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: cxp
+        description: Authorization scope for Convoy
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "https://ce-convoy-uat.codebig2.net/recommendations"
+        description: Target Convoy recommendations service URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConvoySessionRequest"
+            example:
+              sessionId: "32a616ee-c6fb-4692-a946-f0ca5b5daa63"
+              cacheRefresh: DEFAULT
+              agentCallCenter: XA Next
+      responses:
+        "200":
+          description: Successful response with recommendations
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    ConvoySessionRequest:
+      type: object
+      required: [sessionId]
+      properties:
+        sessionId:
+          type: string
+          description: The Convoy/XA session ID from session variables
+            (convoy_session_id or xa_session_id)
+        cacheRefresh:
+          type: string
+          default: DEFAULT
+          description: Cache refresh strategy
+        agentCallCenter:
+          type: string
+          default: XA Next
+          description: Agent call center identifier

@@ -1,0 +1,53 @@
+{
+  "name": "d9f8bcdc-1f16-4dd6-8f8c-2e3ee090964f",
+  "displayName": "Cov_AllClear_Resolved_GracefulClose",
+  "tags": ["P0", "HIGH", "happy_path", "followup", "close", "stubbed", "happy_path_followup"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361099",
+            "account_id": "8069100230361099",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "clear",
+              "gateway_status": "healthy",
+              "network_status": "healthy",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my internet has been acting up"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Everything looks completely healthy from our end. Are you still experiencing issues with your service? If so, I can connect you with someone who can take a closer look."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "no, it\u0027s actually working now"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Got it. If anything comes up, we\u0027re here to help."
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_a88a9fbe"]
+  }
+}

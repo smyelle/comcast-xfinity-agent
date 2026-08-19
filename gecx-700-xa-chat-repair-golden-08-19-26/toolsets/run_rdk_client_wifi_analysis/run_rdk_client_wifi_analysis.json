@@ -1,0 +1,25 @@
+{
+  "name": "608cd2b4-e460-4c61-b313-38969e0f9efb",
+  "displayName": "run_rdk_client_wifi_analysis",
+  "mcpToolset": {
+    "serverAddress": "https://dxp-cloud-ivr-apigee-dev.comcast.com/v1/auth-proxy",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    },
+    "customHeaders": {
+      "Content-Type": "$context.variables.Content-Type",
+      "client_id": "$context.variables.RDK_CLIENTID",
+      "client_secret": "$context.variables.RDK_MCP_CLIENT_SECRET",
+      "x-auth": "$context.variables.RDK_MCP_X_AUTH",
+      "x-flow-trace-id": "$context.session_id",
+      "x-scope": "$context.variables.RDK_OAUTH_SCOPE",
+      "x-url": "$context.variables.WIFI_MCP_ENDPOINT"
+    }
+  },
+  "executionType": "SYNCHRONOUS",
+  "description": "run_rdk_client_wifi_analysis"
+}

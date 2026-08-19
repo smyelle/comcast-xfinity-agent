@@ -1,0 +1,7 @@
+{
+  "name": "ebd76ecd-833f-40c1-9231-97c3a6995939",
+  "displayName": "eval_exp_2dcfbd3f",
+  "llmCriteria": {
+    "prompt": "When gateway diagnostics error, the agent must escalate to a human."
+  }
+}

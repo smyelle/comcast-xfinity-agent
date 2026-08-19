@@ -1,0 +1,7 @@
+{
+  "name": "4f3070c1-bece-4572-b539-7a9a5c4eba98",
+  "displayName": "eval_exp_e199ce78",
+  "llmCriteria": {
+    "prompt": "The agent must detect an account issue and offer to connect the customer with a human who can help."
+  }
+}

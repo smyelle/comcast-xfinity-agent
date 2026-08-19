@@ -1,0 +1,10 @@
+{
+  "name": "check_outage_before",
+  "pythonFunction": {
+    "name": "check_outage_before",
+    "pythonCode": "tools/check_outage_before/python_function/python_code.py",
+    "description": "Prepares arguments for EDE outage check and sets initial state.\n\nArgs:\n    account_number: The customer billing account number.\n\nReturns:\n    dict with outage_api_args."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "check_outage_before"
+}

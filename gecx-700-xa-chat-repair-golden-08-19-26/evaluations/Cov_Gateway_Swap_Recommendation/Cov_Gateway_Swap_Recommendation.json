@@ -1,0 +1,38 @@
+{
+  "name": "078be4f1-3ef7-4873-a40f-905938d5df17",
+  "displayName": "Cov_Gateway_Swap_Recommendation",
+  "tags": ["P0", "HIGH", "gateway", "swap", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361003",
+            "account_id": "8069100230361003",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "clear",
+              "gateway_status": "swap",
+              "network_status": "healthy",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my internet keeps going out"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Your gateway has a hardware fault — it\u0027s failing intermittently and a restart won\u0027t fix it. The fix is a replacement. You can get a new one shipped or swap at a store here: [Equipment Update](https://customer.xfinity.com/devices/equipment-update/new)."
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_66d8d403", "eval_exp_d685273f"]
+  }
+}

@@ -1,0 +1,234 @@
+openapi: 3.0.3
+info:
+  title: Xfinity Gateway Speed Test API
+  version: 1.0.0
+  description: >-
+    Uses GECX dynamic variable \"speed_test_server\" as its backing service domain, resolving all
+    session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    Runs a synchronous Xfinity gateway speed test (download/upload throughput, latency, and how the
+    measured speeds compare to the customer's plan) via the xFi Speed Platform.
+    The x-url header must be dynamically constructed with the customer's gateway MAC address.
+    URL format: https://gw.api.dh.comcast.com/xfispeedtest/api/gateway/speed_test_sync/{mac_address}
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    post:
+      summary: Start an asynchronous gateway speed test
+      operationId: startAsyncSpeedTest
+      description: >-
+        Triggers an asynchronous speed test against the customer's Xfinity Gateway and returns
+        an executionId that can be used by a later polling/result call. The gateway MAC address
+        should be taken from the session variable "cable_modem_mac". The account-id header must
+        be the account's XBO id from "xbo_id", not the billing account number.
+      parameters:
+      - name: accept
+        in: header
+        required: true
+        schema:
+          type: string
+          default: application/json
+          example: application/json
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: account-id
+        in: header
+        required: true
+        schema:
+          type: string
+        description: Customer XBO id (Titan account id), resolved from the billing account number via xbo_lookup_ViaAuthProxy. NOT the billing account number.
+      - name: session-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Session identifier for request tracing.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: ST-SAT-XAXLR
+          example: ST-SAT-XAXLR
+        description: Authentication identifier for the xFi Speed Platform SAT.
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "x1:xfi-speed-platform:gateway"
+          example: "x1:xfi-speed-platform:gateway"
+        description: Authorization scope for gateway speed-test operations.
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uri
+        description: >-
+          The target xFi Speed Platform URL. Must be dynamically constructed with the gateway MAC.
+          Format: https://gw.api.dh.comcast.com/xfispeedtest/api/gateway/speed_test/{mac_address}
+        example: "https://gw.api.dh.comcast.com/xfispeedtest/api/gateway/speed_test/8C:76:3F:CE:1A:CB"
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      responses:
+        "200":
+          description: Asynchronous speed-test start accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncSpeedTestStartResult'
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal server error
+    get:
+      summary: Run a synchronous gateway speed test
+      operationId: runSpeedTest
+      description: >-
+        Triggers a synchronous speed test against the customer's Xfinity Gateway and returns the
+        measured download/upload speeds, latency, the customer's plan speeds, and a contextual
+        result (FULL_PASS / RESTART) with a customer-facing title and message.
+        The gateway MAC address should be taken from the context hub response
+        (deviceContext.equipment[].macaddress where deviceStatus is ACTIVE and itemTypeCode is not STB),
+        i.e. the same value stored in the session variable "cable_modem_mac".
+      parameters:
+      - name: accept
+        in: header
+        required: true
+        schema:
+          type: string
+          default: application/json
+          example: application/json
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: account-id
+        in: header
+        required: false
+        schema:
+          type: string
+        description: Customer XBO id (Titan account id), resolved from the billing account number via the xbo_lookup_ViaAuthProxy toolset. NOT the billing account number.
+      - name: session-id
+        in: header
+        required: false
+        schema:
+          type: string
+        description: Session identifier for request tracing.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: ST-SAT-XAXLR
+          example: ST-SAT-XAXLR
+        description: Authentication identifier for the xFi Speed Platform SAT.
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "x1:xfi-speed-platform:gateway"
+          example: "x1:xfi-speed-platform:gateway"
+        description: Authorization scope for gateway speed-test operations.
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uri
+        description: >-
+          The target xFi Speed Platform URL. Must be dynamically constructed with the gateway MAC.
+          Format: https://gw.api.dh.comcast.com/xfispeedtest/api/gateway/speed_test_sync/{mac_address}
+        example: "https://gw.api.dh.comcast.com/xfispeedtest/api/gateway/speed_test_sync/8C:76:3F:CE:1A:CB"
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      responses:
+        "200":
+          description: Successful speed-test result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeedTestResult'
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    AsyncSpeedTestStartResult:
+      type: object
+      properties:
+        executionId:
+          type: string
+          description: Identifier used by the async speed-test result/polling API.
+        pollingIntervalInSeconds:
+          type: number
+        suggestedTotalPollingDurationInSeconds:
+          type: number
+      additionalProperties: true
+    SpeedTestResult:
+      type: object
+      properties:
+        executionId:
+          type: string
+        planDownloadSpeed:
+          type: number
+        planUploadSpeed:
+          type: number
+        actualDownloadSpeed:
+          type: number
+        actualUploadSpeed:
+          type: number
+        latencyMs:
+          type: number
+        gatewayContextualResult:
+          $ref: '#/components/schemas/ContextualResult'
+        gatewayContextualDownloadResult:
+          $ref: '#/components/schemas/ContextualResult'
+        gatewayContextualUploadResult:
+          $ref: '#/components/schemas/ContextualResult'
+      additionalProperties: true
+    ContextualResult:
+      type: object
+      properties:
+        resultType:
+          type: string
+          description: 'e.g. FULL_PASS, RESTART'
+        title:
+          type: string
+        message:
+          type: string
+        planSpeedPercent:
+          type: number
+      additionalProperties: true

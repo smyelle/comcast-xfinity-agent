@@ -1,0 +1,45 @@
+{
+  "name": "c029f5b7-c9bc-57d6-80b1-463907781cb7",
+  "displayName": "Cov_Video_Remote_Escalate_After_Tips",
+  "tags": ["P1", "MEDIUM", "video", "remote", "escalation", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8499100028142809",
+            "account_id": "8499100028142809",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "outage_status": "none"
+            },
+            "video_flow_enabled": "true"
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my xfinity remote won\u0027t work"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "nothing happens when I press buttons"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "no"
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "still nothing"
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_c5f957c0", "eval_exp_8dbc952d"]
+  }
+}

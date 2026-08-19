@@ -1,0 +1,7 @@
+{
+  "name": "1eba31d7-a456-44c2-b0c9-5cc14959c700",
+  "displayName": "eval_exp_a88a9fbe",
+  "llmCriteria": {
+    "prompt": "When the customer says the issue is resolved, the agent must close gracefully without transferring."
+  }
+}

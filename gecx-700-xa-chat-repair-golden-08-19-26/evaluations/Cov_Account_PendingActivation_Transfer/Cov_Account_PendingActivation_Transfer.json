@@ -1,0 +1,34 @@
+{
+  "name": "0c6e7a0f-22a5-47d0-8b23-d8c574023237",
+  "displayName": "Cov_Account_PendingActivation_Transfer",
+  "tags": ["P0", "HIGH", "account", "billing", "escalation", "stubbed", "account_billing"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361049",
+            "account_id": "8069100230361049",
+            "mock_config_dict": {
+              "account_status": "pending"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my service is down"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I found a few issues with your account. Let me connect you with someone who can help resolve this."
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_e199ce78"]
+  }
+}

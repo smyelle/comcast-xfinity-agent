@@ -1,0 +1,16 @@
+{
+  "name": "get_async_speed_test_result",
+  "pythonFunction": {
+    "name": "get_async_speed_test_result",
+    "pythonCode": "tools/get_async_speed_test_result/python_function/python_code.py",
+    "description": "Fetch and normalize an asynchronous gateway speed-test result.\n\nArgs:\n    execution_id: Optional async execution id. Defaults to\n      context.state[\"async_speed_test_execution_id\"].\n\nReturns:\n    A compact polling/result summary. The normalized payload is stored in\n    context.state[\"async_speed_test_result\"]."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "get_async_speed_test_result",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/get_async_speed_test_result/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

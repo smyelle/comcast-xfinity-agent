@@ -1,0 +1,7 @@
+{
+  "name": "1c67bf3a-f968-4745-96a5-8f770ed1da1d",
+  "displayName": "eval_exp_d685273f",
+  "llmCriteria": {
+    "prompt": "The agent must provide the equipment update / swap link and NOT recommend a reboot."
+  }
+}

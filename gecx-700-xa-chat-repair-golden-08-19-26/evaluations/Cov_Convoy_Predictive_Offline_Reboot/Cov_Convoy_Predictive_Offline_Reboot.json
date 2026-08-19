@@ -1,0 +1,36 @@
+{
+  "name": "635b1fbc-0539-4a4f-89d3-30aca758d813",
+  "displayName": "Cov_Convoy_Predictive_Offline_Reboot",
+  "tags": ["P0", "HIGH", "convoy", "predictive", "reboot", "stubbed", "convoy_predictive"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361044",
+            "account_id": "8069100230361044",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "predictive_offline",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "my internet is down"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I found an issue with your gateway and a reboot should fix it. Would you like us to reboot your device now?"
+            }]
+          }
+        }
+      }]
+    }],
+    "evaluationExpectations": ["eval_exp_7cd42dc1", "eval_exp_bfdd3c7c"]
+  }
+}

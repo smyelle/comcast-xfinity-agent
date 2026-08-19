@@ -1,0 +1,7 @@
+{
+  "name": "b314272a-0657-460a-983c-71a0743b42c6",
+  "displayName": "eval_exp_f35c7268",
+  "llmCriteria": {
+    "prompt": "The agent must NOT offer any bill credit, refund, or account adjustment when the customer has not raised billing or money."
+  }
+}

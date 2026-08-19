@@ -1,0 +1,7 @@
+{
+  "name": "b5920cfa-1caa-5cb7-82f9-7ea37a325562",
+  "displayName": "eval_exp_d4d4dfcf",
+  "llmCriteria": {
+    "prompt": "The agent must ask a single disambiguating question to identify the TV issue category."
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "187ad1c4-82fd-4039-bf90-a3c8304e8075",
+  "displayName": "Cov_IntentClarification_EverythingDown",
+  "tags": ["P1", "MEDIUM", "intent_clarification", "customer_experience", "stubbed"],
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "accountNumber": "8069100230361077",
+            "account_id": "8069100230361077",
+            "mock_config_dict": {
+              "account_status": "clear_with_mac",
+              "convoy_status": "clear",
+              "gateway_status": "healthy",
+              "network_status": "healthy",
+              "outage_status": "none"
+            }
+          }
+        }
+      }, {
+        "userInput": {
+          "text": "Netflix keeps buffering"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Just so I check the right thing — is it only Netflix that\u0027s not working, or are other apps and websites also having trouble?"
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "actually nothing loads, everything is down"
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Everything looks completely healthy from our end. Are you still experiencing issues with your service? If so, I can connect you with someone who can take a closer look."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "post_user_notification",
+  "pythonFunction": {
+    "name": "post_user_notification",
+    "pythonCode": "tools/post_user_notification/python_function/python_code.py",
+    "description": "Pushes a live diagnostic progress notification to the customer UI.\n\nArgs:\n    tool: Diagnostic category (\u0027account\u0027, \u0027outage\u0027, \u0027network\u0027, \u0027device\u0027,\n      \u0027wifi\u0027)\n    status: Result status (\u0027started\u0027, \u0027success\u0027, \u0027failure\u0027, \u0027error\u0027)\n    text: User-friendly description of progress (e.g., \u0027Your gateway looks\n      healthy\u0027)\n\nReturns:\n    dict: Status of the push notification request."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "post_user_notification"
+}

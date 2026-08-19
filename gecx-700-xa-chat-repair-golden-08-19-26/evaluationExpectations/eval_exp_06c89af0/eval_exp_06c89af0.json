@@ -1,0 +1,7 @@
+{
+  "name": "368dcb9e-6348-59d3-809c-2e3debfe7b05",
+  "displayName": "eval_exp_06c89af0",
+  "llmCriteria": {
+    "prompt": "During an active outage the agent must surface the outage first and must NOT restart a TV box."
+  }
+}

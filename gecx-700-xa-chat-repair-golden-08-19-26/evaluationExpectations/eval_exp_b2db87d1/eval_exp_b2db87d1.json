@@ -1,0 +1,7 @@
+{
+  "name": "4b8dca75-34c2-4e35-ac0a-2ded811ec974",
+  "displayName": "eval_exp_b2db87d1",
+  "llmCriteria": {
+    "prompt": "The agent must identify a gateway software issue and OFFER to reboot the device."
+  }
+}

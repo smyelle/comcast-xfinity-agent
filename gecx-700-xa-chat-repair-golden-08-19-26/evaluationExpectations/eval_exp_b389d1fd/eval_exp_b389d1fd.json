@@ -1,0 +1,7 @@
+{
+  "name": "41738f1a-5388-4159-a8f8-70d4ed21d4f3",
+  "displayName": "eval_exp_b389d1fd",
+  "llmCriteria": {
+    "prompt": "The agent must restate the outage status instead of escalating."
+  }
+}

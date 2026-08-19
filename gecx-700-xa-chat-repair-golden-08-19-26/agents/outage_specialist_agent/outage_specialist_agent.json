@@ -1,0 +1,19 @@
+{
+  "name": "outage_specialist_agent",
+  "displayName": "outage_specialist_agent",
+  "instruction": "agents/outage_specialist_agent/instruction.txt",
+  "tools": ["check_outage_before"],
+  "beforeAgentCallbacks": [{
+    "pythonCode": "agents/outage_specialist_agent/before_agent_callbacks/before_agent_callbacks_01/python_code.py"
+  }],
+  "beforeModelCallbacks": [{
+    "pythonCode": "agents/outage_specialist_agent/before_model_callbacks/before_model_callbacks_01/python_code.py"
+  }],
+  "afterToolCallbacks": [{
+    "pythonCode": "agents/outage_specialist_agent/after_tool_callbacks/after_tool_callbacks_01/python_code.py"
+  }],
+  "toolsets": [{
+    "toolset": "ede_outage_api",
+    "toolIds": ["checkOutageEde"]
+  }]
+}

@@ -1,0 +1,116 @@
+openapi: 3.0.3
+info:
+  title: Convoy Recommendations by Account API
+  version: 1.0.0
+  description: >-
+    Uses GECX dynamic variable \"convoy_api_server\" as its backing server domain, resolving all session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    Fetch Convoy XIT/predictive recommendations by account number via Apigee dev auth-proxy.
+    Uses the CARA intents endpoint to get repair recommendations for a customer account.
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    post:
+      summary: Get Convoy recommendations by account number
+      operationId: getRecommendationsByAccount
+      description: >-
+        Fetches repair recommendations from the Convoy CARA intents endpoint using
+        the
+        customer's account number. The account number is passed as part of the x-url
+        path.
+        Returns predictive recommendations such as technician dispatch or repair intents.
+
+        The account number should be pulled from the session variable {accountNumber}.
+
+        The x-url must be dynamically constructed:
+        https://ce-convoy-uat.codebig2.net/convoy/cara/intents/{accountNumber}
+      parameters:
+      - name: agent_name
+        in: header
+        required: false
+        schema:
+          type: string
+          default: gecx_repair_agent
+        description: Originating agent identifier for request tracking.
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: CONVOY-CIMA-XAXLR
+        description: Authentication identifier for Convoy CARA service
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "urn:convoy:security:token:client-credentials urn:convoy:session#read"
+        description: Authorization scopes for Convoy CARA
+      - name: x-cache-refresh
+        in: header
+        required: true
+        schema:
+          type: string
+          default: FORCE-REFRESH
+        description: Cache refresh policy
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+        description: >-
+          Target Convoy CARA intents URL. Must be dynamically constructed with account
+          number.
+          Format: https://ce-convoy-uat.codebig2.net/convoy/cara/intents/{accountNumber}
+        example: "https://ce-convoy-uat.codebig2.net/convoy/cara/intents/8529112990034868"
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConvoyAccountRequest"
+            example:
+              convoyIntents:
+              - XA_NEXT_REPAIR
+              agentCallCenter: XA Next
+      responses:
+        "200":
+          description: Successful response with recommendations
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    ConvoyAccountRequest:
+      type: object
+      required: [convoyIntents]
+      properties:
+        convoyIntents:
+          type: array
+          items:
+            type: string
+          description: List of Convoy intents to query
+          default:
+          - XA_NEXT_REPAIR
+        agentCallCenter:
+          type: string
+          default: XA Next
+          description: Agent call center identifier

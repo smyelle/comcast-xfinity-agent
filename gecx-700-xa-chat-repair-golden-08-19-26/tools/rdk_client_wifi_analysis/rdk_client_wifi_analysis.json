@@ -1,0 +1,10 @@
+{
+  "name": "rdk_client_wifi_analysis",
+  "pythonFunction": {
+    "name": "rdk_client_wifi_analysis",
+    "pythonCode": "tools/rdk_client_wifi_analysis/python_function/python_code.py",
+    "description": "Retry-capable wrapper for RDK client WiFi analysis MCP toolset.\n\nArgs:\n    query: The device MAC address or query string for WiFi analysis.\n\nReturns:\n    dict[str, Any]: The MCP tool response or an error dict with retry details."
+  },
+  "executionType": "ASYNCHRONOUS",
+  "displayName": "rdk_client_wifi_analysis"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "492b244f-e71f-5edb-903c-22bd34a19b3d",
+  "displayName": "eval_exp_d3e40ca2",
+  "llmCriteria": {
+    "prompt": "The agent must NOT expose the raw throttle code (e.g., SH400.59)."
+  }
+}
