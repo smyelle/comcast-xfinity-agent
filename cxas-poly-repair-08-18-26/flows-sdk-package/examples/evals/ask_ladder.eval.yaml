@@ -1,0 +1,32 @@
+meta:
+  example: ask_ladder
+  claim: "A re-asked closing question climbs its rungs, then clamps to the last rung."
+
+scenarios:
+  - name: opens_on_first_slot
+    polarity: positive
+    on_start:
+      - said_contains: "What can I help you with"
+    turns:
+      # Once the topic is captured, the closing question is asked (rung one).
+      - answer: {slot: topic, value: "my bill looks wrong"}
+        expect:
+          - asked_slot: anything_else
+          - said_contains: "Anything else I can help you with?"
+          - slot_status: {topic: filled}
+
+  - name: reask_ladder_climbs_then_clamps
+    polarity: negative
+    turns:
+      - answer: {slot: topic, value: "my bill looks wrong"}
+        expect:
+          - said_contains: "Anything else I can help you with?"     # rung 1
+      - say: "hmm"
+        expect:
+          - said_contains: "shall I let you go"                      # rung 2, worded differently
+      - say: "not sure"
+        expect:
+          - said_contains: "billing, your plan, or your equipment"  # rung 3, offers a menu
+      - say: "still nothing"
+        expect:
+          - said_contains: "billing, your plan, or your equipment"  # clamps on the last rung

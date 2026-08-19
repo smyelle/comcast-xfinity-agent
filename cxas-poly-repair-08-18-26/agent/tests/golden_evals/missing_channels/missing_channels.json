@@ -1,0 +1,192 @@
+{
+  "name": "c2e33beb-2345-4898-b704-ff157a9884f2",
+  "displayName": "missing_channels",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": false,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "Some of my channels are missing"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-433e5f1f-b288-4f30-a695-d5e56bfa399d",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "technical_television"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-433e5f1f-b288-4f30-a695-d5e56bfa399d",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Select exactly one head_intent from this allowlist:\n    - account_order_remote: Request a replacement TV remote control.\n- tv_channel_guide: Find channels or access TV guide listings.\n- tv_miscellaneous: Miscellaneous TV issues like TiVo or caller ID.\n- tv_on_demand_general: On Demand rentals, purchases, and access help.\n- tv_program_remote: Pair, activate, reset, or reprogram remote.\n- tv_remote_general: Remote not working or remote troubleshooting help.\n- tv_settings: Change TV settings like language or captions.\n- tv_troubleshoot: General TV signal, box, picture troubleshooting.\n- tv_troubleshoot_channels: Missing channels, lineup problems, StreamSaver channel issues.\n- tv_troubleshoot_dvr: DVR playback, recording, or DVR hardware issues.\n    Do not ask a clarifying question in this step.\n    Immediately call steering_handle_next_step again with:\n    - intent set to the same intent\n    - the selected exact head_intent value from this allowlist\n    - route_confidence set to a numeric value from 0 to 1 that reflects your confidence in that selection\n    If ambiguous, choose the closest head_intent and use lower confidence.\n    Confidence rubric: 0.95-0.99 explicit match; 0.75-0.94 strong inferred match; 0.55-0.74 ambiguous/partial; 0.35-0.54 weak forced closest match. Do not default to 1.0.\n\n\n\nExample - General TV troubleshooting\n[user]\nI mean what is wrong with the TVs\n[model]\ntv_troubleshoot",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 0.0,
+            "intent": "technical_television",
+            "lob": "VID",
+            "target_flow": "pre_lob"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-a22828e2-e958-4e5c-82ee-4a7680791b4a",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "tv_troubleshoot_channels",
+              "intent": "technical_television",
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.98
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-a22828e2-e958-4e5c-82ee-4a7680791b4a",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "\nSay nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n(1) Must clearly acknowledge the customer\u0027s request in a brief, empathetic way.\n(2) Must clearly state you will help them with it.\n(3) Must reuse the customer\u0027s exact wording when possible.\nThen immediately call steering_handle_next_step again with intent\u003d`technical_television`, head_intent\u003d`tv_troubleshoot_channels`, route_confidence\u003d`0.98`\nand message set to exactly that generated sentence (no changes, no reformatting).\n\n\u003cexamples\u003e\nExample 1: Billing issue\n[user]\nMy internet bill is too high\n[model]\nI understand. Let\u0027s take a look at your internet bill and see what options may be available\n\u003c/examples\u003e\n",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent": "tv_troubleshoot_channels",
+            "route_confidence": 0.98
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-2a39b4c3-5c81-4005-9914-8702b786f18f",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "tv_troubleshoot_channels",
+              "intent": "technical_television",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I understand, let\u0027s get those missing channels sorted out for you."
+              },
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.98
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-2a39b4c3-5c81-4005-9914-8702b786f18f",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "exit_utterance": "I understand, let\u0027s get those missing channels sorted out for you.",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "head_intent": "tv_troubleshoot_channels",
+              "lob": "VID",
+              "route_confidence": 0.98,
+              "target_flow": "pre_lob",
+              "transfer_type_exttype": null,
+              "transfer_type_module": null,
+              "transfer_type_subtype": null,
+              "transfer_type_type": null
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passedMainMenu": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_steering": true,
+              "head_intent": "tv_troubleshoot_channels",
+              "lob": "VID",
+              "passedMainMenu": true,
+              "route_confidence": 0.98,
+              "target_flow": "pre_lob"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I understand, let\u0027s get those missing channels sorted out for you."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

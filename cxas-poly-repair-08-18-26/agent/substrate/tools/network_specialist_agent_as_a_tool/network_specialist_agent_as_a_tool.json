@@ -1,0 +1,16 @@
+{
+  "name": "0b9948c8-3548-4778-87e1-ce0e2d879e51",
+  "executionType": "SYNCHRONOUS",
+  "displayName": "network_specialist_agent_as_a_tool",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/network_specialist_agent_as_a_tool/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  },
+  "agentTool": {
+    "name": "network_specialist_agent_as_a_tool",
+    "description": "Network Specialist: Silently measures external line signals signal health, pushes checklist updates, and updates network_status variables.",
+    "agent": "network_specialist_agent"
+  }
+}

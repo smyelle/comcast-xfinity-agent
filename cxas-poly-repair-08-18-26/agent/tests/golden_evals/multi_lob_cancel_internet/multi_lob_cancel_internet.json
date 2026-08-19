@@ -1,0 +1,205 @@
+{
+  "name": "71193314-549a-4a4f-a2ad-f805570fb869",
+  "displayName": "multi_lob_cancel_internet",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "greeting": "Please tell me how I can help you today, and I\u0027ll take it from here.",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "I want to cancel my internet service."
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-c1e6b18d-a175-4042-a0ec-3746b3882646",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "sales"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-c1e6b18d-a175-4042-a0ec-3746b3882646",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "For requests to disconnect or cancel services, ignore the following instructions and route to agent_handoff\n\n    Say nothing.\n\n    Select exactly one head_intent from this allowlist. You must select a value even if it is not a perfect match.\n    - account_transfer_service: Move or transfer service\n- internet_essentials_application_status: Check Internet Essentials application status.\n- account_add_new_customer: Start new customer service or new account setup.\n- account_contract_renew: Renew contract or term agreement.\n- account_renew: Renew current services or package.\n- internet_essentials_general: General questions about Internet Essentials eligibility or program details.\n- plan_add: Add services, channels, or packages (NOT sports packages).\n- plan_downgrade: Downgrade package, services, or channel lineup.\n- plan_upgrade: Upgrade package, services, or channel lineup (NOT sports packages).\n- plan_sports_channel_management: Add, remove, or manage sports packages and sports channels.\n    Immediately call steering_handle_next_step again with:\n    - intent set to sales\n    - the selected exact head_intent value from this allowlist\n    - route_confidence set to a numeric value from 0 to 1 that reflects your confidence in that selection\n    If ambiguous, choose the closest head_intent and use lower confidence.\n    Confidence rubric: 0.95-0.99 explicit match; 0.75-0.94 strong inferred match; 0.55-0.74 ambiguous/partial; 0.35-0.54 weak forced closest match. Do not default to 1.0.\n\n\n\nExample - Relocate cable box\n[user]\nNeed to relocate my cable box\n[model]\naccount_transfer_device\n\nExample - Cancel services\n[user]\nI want to cancel services\n[model]\nagent_handoff\n\nExample - Cancel Xfinity mobile\n[user]\nno longer want Xfinity mobile\n[model]\nagent_handoff",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 0.0,
+            "intent": "sales",
+            "target_flow": "Sales"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentTransfer": {
+            "targetAgent": "agent_handoff",
+            "displayName": "agent_handoff"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "agent_handoff_greeting": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment.",
+            "agent_handoff_setup_complete": true,
+            "entry_intent": "sales",
+            "has_asked_agent_reason": false,
+            "has_had_incidental_utterance": false,
+            "has_had_unintelligible_utterance": false,
+            "has_had_unrelated_utterance": false
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "_debug_testttt_4": true
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-733b9fc5-66ba-44a2-b171-3a219fa91ed6",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "downgrade",
+              "lob": "internet"
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-733b9fc5-66ba-44a2-b171-3a219fa91ed6",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n  (1) Must clearly acknowledge the customer’s downgrade request in a brief, empathetic way.\n  (2) Must clearly state you will connect with an agent to help\n\nImmediately call agent_handoff_handle_next_step with :\n  message \u003d exactly the generated sentence (no changes, no reformatting)\n  lob \u003d {lob}   \n  intent \u003d \u0027downgrade\u0027\n  details \u003d \u0027downgrade\u0027 if the customer specified they want to downgrade service, and \u0027disconnect\u0027 if they want to cancel/disconnect service(s)",
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "intent": "downgrade",
+            "lob": "internet"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-a988329e-bcfb-48e0-b0c4-25bed4f4be76",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "details": "disconnect",
+              "intent": "downgrade",
+              "lob": "internet",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I understand you\u0027d like to cancel your internet service, so I\u0027ll connect you with an agent who can help with that."
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-a988329e-bcfb-48e0-b0c4-25bed4f4be76",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "details": "disconnect",
+            "exit_utterance": "I understand you\u0027d like to cancel your internet service, so I\u0027ll connect you with an agent who can help with that.",
+            "lob": "HSI",
+            "target_flow": "Transfer",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_proxy": true,
+              "lob": "HSI",
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "null",
+              "transfer_type_module": "SalesRetention",
+              "transfer_type_subtype": "Disconnect",
+              "transfer_type_type": "Retention"
+            },
+            "transfer_type_exttype": "null",
+            "transfer_type_module": "SalesRetention",
+            "transfer_type_subtype": "Disconnect",
+            "transfer_type_type": "Retention"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I understand you\u0027d like to cancel your internet service, so I\u0027ll connect you with an agent who can help with that."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

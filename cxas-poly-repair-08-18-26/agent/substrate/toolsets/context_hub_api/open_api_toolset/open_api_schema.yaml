@@ -1,0 +1,158 @@
+openapi: 3.0.3
+info:
+  title: Context Hub API
+  version: 1.0.0
+  description: Fetch customer context (account, device, interactions, outage) Uses GECX dynamic variable \"convoy_api_server\" as its backing server domain, resolving all session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    from Context Hub via Apigee dev auth-proxy.
+
+servers:
+- url: '$env_var'
+
+paths:
+  /v1/auth-proxy:
+    post:
+      summary: Fetch customer context from Context Hub
+      operationId: fetchCustomerContext
+      description: >-
+        Retrieves customer account context including account details, device information,
+        recent interactions, and outage status from the Context Hub service.
+      parameters:
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: GECXCONVOY-SAT-XAXLR
+        description: Authentication identifier for Convoy SAT
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "ceconvoy:context_hub"
+        description: Authorization scope for Context Hub access
+      - name: x-cache-refresh
+        in: header
+        required: true
+        schema:
+          type: string
+          default: FORCE-REFRESH
+        description: Cache refresh policy
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          default: "https://ce-convoy-uat.codebig2.net/customer/context"
+        description: Target Context Hub service URL
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContextHubRequest"
+            example:
+              eventNames:
+              - call.getContext.account
+              - call.getContext.device
+              - call.getContext.interactions
+              - call.getContext.outage
+              data:
+                messageContext:
+                  accountNumber: "8155600801007850"
+                metadata:
+                  eventId: abcd-1234-efgh-5678
+                  source: auth-service
+      responses:
+        "200":
+          description: Successful context hub response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContextHubResponse'
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    ContextHubRequest:
+      type: object
+      required: [eventNames, data]
+      properties:
+        eventNames:
+          type: array
+          items:
+            type: string
+          description: List of context events to fetch
+          example:
+          - call.getContext.account
+          - call.getContext.device
+          - call.getContext.interactions
+          - call.getContext.outage
+        data:
+          type: object
+          required: [messageContext]
+          properties:
+            messageContext:
+              type: object
+              required: [accountNumber]
+              properties:
+                accountNumber:
+                  type: string
+                  description: Customer billing account number
+            metadata:
+              type: object
+              properties:
+                eventId:
+                  type: string
+                  default: abcd-1234-efgh-5678
+                source:
+                  type: string
+                  default: auth-service
+
+    ContextHubResponse:
+      type: object
+      properties:
+        accountContext:
+          $ref: '#/components/schemas/AccountContext'
+        deviceContext:
+          $ref: '#/components/schemas/DeviceContext'
+
+    AccountContext:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+        status:
+          type: string
+          enum: ['A', 'D', 'S', 'C']
+          description: Customer billing standing status. A=Active, D=Disconnected, S=Suspended, C=Pending Activation.
+
+    DeviceContext:
+      type: object
+      properties:
+        equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EquipmentItem'
+
+    EquipmentItem:
+      type: object
+      properties:
+        macaddress:
+          type: string
+        deviceStatus:
+          type: string
+        itemTypeCode:
+          type: string

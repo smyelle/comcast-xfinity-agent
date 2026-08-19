@@ -1,0 +1,10 @@
+{
+  "name": "connect_network_after",
+  "pythonFunction": {
+    "name": "connect_network_after",
+    "pythonCode": "tools/connect_network_after/python_function/python_code.py",
+    "description": "Parses Network analysis response and updates state.\n\nArgs:\n    response: Raw response from sendA2AMessageViaAuthProxy.\n\nReturns:\n    dict with status and network details."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "connect_network_after"
+}

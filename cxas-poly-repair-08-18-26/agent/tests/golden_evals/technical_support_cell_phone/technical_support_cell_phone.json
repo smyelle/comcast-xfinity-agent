@@ -1,0 +1,180 @@
+{
+  "name": "bdee715d-e883-4cad-93de-21852ba47d16",
+  "displayName": "technical_support_cell_phone",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "acount_number": "111111111111",
+            "is_cdv_active": "false",
+            "is_hsi_active": "true",
+            "is_vid_active": "true",
+            "is_xh_active": "false",
+            "is_xm_customer": "true",
+            "language": "en-us"
+          }
+        }
+      }, {
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": false,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": false,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "technical support"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-17d9123c-dcd3-4cb9-886a-ef3d2319ed7c",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "action": "service_disambiguate"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-17d9123c-dcd3-4cb9-886a-ef3d2319ed7c",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Ask the customer exactly which service they are having trouble with, offering only these active account services: Internet, TV, Xfinity Mobile.\nAfter the customer answers, call steering_handle_next_step again with only intent set to the mapped technical intent.\nUse this exact mapping: Internet -\u003e technical_internet, TV -\u003e technical_television, Xfinity Mobile -\u003e technical_phone.\nIf the answer is unclear, ask one concise follow-up limited to those same services.\nIf it is still unclear after that follow-up, route customer to agent_handoff subagent.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "has_asked_service_disambiguation": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Is that technical support for Internet, TV, or Xfinity Mobile?"
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "cell phone"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-94a8c002-a66c-4f24-8b96-501d8e664a80",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "technical_phone"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-94a8c002-a66c-4f24-8b96-501d8e664a80",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing. \n\n    Create a single, natural-sounding sentence and store it in the message variable.\n    Use - voice_blocking: Block or unblock unwanted, spam, or robocalls.\n- voice_callforward: Set up, disable, or troubleshoot call forwarding.\n- voice_troubleshoot: Troubleshoot phone service, fax lines, and reactivation.\n- voice_troubleshoot_static_clicking_distortion: Fix static, humming, echo, clicking, or distorted calls.\n- voice_voicemail_troubleshoot: Resolve voicemail setup, access, playback, and ring timing. and this phrasing template:\n    \"Got it. Are you calling to [thing A], [thing B], [thing C], or something else?\"\n    Fill [thing A], [thing B], and [thing C] with the three most likely options from the allowlist.\n\n    Immediately call steering_handle_next_step with:\n    intent\u003dtechnical_phone\n    message \u003d exactly the generated sentence (no changes, no reformatting)",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 1.0,
+            "intent": "technical_phone",
+            "target_flow": "pre_lob"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-9305c66b-8419-4dee-a057-f174e3ac9d0d",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "technical_phone",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "Got it. Are you calling to block unwanted calls, set up call forwarding, troubleshoot phone service, or something else?"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-9305c66b-8419-4dee-a057-f174e3ac9d0d",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say exactly: Got it. Are you calling to block unwanted calls, set up call forwarding, troubleshoot phone service, or something else? Then wait for the customer\u0027s reply. Do not call steering_handle_next_step again until after the customer answers.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Got it. Are you calling to block unwanted calls, set up call forwarding, troubleshoot phone service, or something else?"
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "9aa496dd-19a5-43a0-b4ff-9551785de1e5",
+  "pythonFunction": {
+    "name": "perform_connect_network_analysis",
+    "pythonCode": "tools/perform_connect_network_analysis/python_function/python_code.py",
+    "description": "Invokes the connect_agent_rest_call toolset.\n\nIt runs the sendA2AMessageViaAuthProxy operation as a CXAS tool,\npassing cable_modem_mac as the sole input.\n\nUses tool_context.call_tool() so the platform handles auth, URL, and all\nOpenAPI spec defaults -- no direct HTTP calls are made here.\n\nArgs:\n    cable_modem_mac: The modem MAC address to pass as the cable_modem_mac\n      query parameter (e.g. \"xx:xx:xx:xx:xx:xx\").\n\nReturns:\n    dict: The JSON-RPC response from the upstream A2A agent."
+  },
+  "executionType": "ASYNCHRONOUS",
+  "displayName": "perform_connect_network_analysis"
+}

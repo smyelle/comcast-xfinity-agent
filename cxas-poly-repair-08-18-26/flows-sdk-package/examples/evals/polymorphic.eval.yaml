@@ -1,0 +1,62 @@
+meta:
+  example: polymorphic
+  claim: "One definition projects onto the seeded surface: chat gets the full option list and the web link; voice gets the brief form and never the URL."
+
+scenarios:
+  - name: chat_gets_full_list_and_keeps_the_link
+    polarity: positive
+    seed: {channel: "chat"}
+    tool_fakes:
+      get_open_appointments: {times: ["Tuesday morning", "Tuesday afternoon", "Wednesday morning", "Thursday afternoon", "Friday morning"], success: true}
+      book_visit: {confirmation: "BK-4417", success: true}
+    on_start:
+      - said_contains: "account number"
+    turns:
+      # The lookup runs, then the appointment question renders the FULL option list on a
+      # surface that can read it (a card + chips ride along as a payload).
+      - answer: {slot: account_number, value: "8069100230359928"}
+        expect:
+          - tool_called: get_open_appointments
+          - said_contains: "Here's what's available this week"
+          - said_contains: "Wednesday morning"          # only present in the long form
+      # The terminal keeps the reschedule URL, because chat can render a link.
+      - answer: {slot: appointment, value: "Tuesday morning"}
+        expect:
+          - tool_called: book_visit
+          - said_contains: "confirmation BK-4417"
+          - said_contains: "example.test/appointments"
+          - disposition: complete
+
+  - name: voice_speaks_the_brief_form_and_drops_the_url
+    polarity: positive
+    seed: {channel: "voice"}
+    tool_fakes:
+      get_open_appointments: {times: ["Tuesday morning", "Tuesday afternoon", "Wednesday morning", "Thursday afternoon", "Friday morning"], success: true}
+      book_visit: {confirmation: "BK-4417", success: true}
+    turns:
+      # Same slot, same config, same deployed app — only the surface differs. Voice hears
+      # the two-option brief and never the five-option long form.
+      - answer: {slot: account_number, value: "8069100230359928"}
+        expect:
+          - tool_called: get_open_appointments
+          - said_contains: "Which works better"
+          - said_contains: "Tuesday morning or Thursday afternoon"
+      # A phone caller must never be read a web address: the spoken terminal offers a text
+      # instead of the URL.
+      - answer: {slot: appointment, value: "Tuesday morning"}
+        expect:
+          - tool_called: book_visit
+          - said_contains: "texted you the details"
+          - disposition: complete
+
+  - name: unusable_turn_reasks_and_fires_nothing
+    polarity: negative
+    seed: {channel: "voice"}
+    turns:
+      # A caller turn that carries no account number leaves the first slot open and must
+      # NOT fire the lookup — the flow re-asks rather than inventing a value.
+      - say: "hi, is anyone there?"
+        expect:
+          - asked_slot: account_number
+          - no_tools_called: true
+          - slot_status: {account_number: open}

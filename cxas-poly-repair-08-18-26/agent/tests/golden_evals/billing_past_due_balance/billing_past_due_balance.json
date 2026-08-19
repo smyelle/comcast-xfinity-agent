@@ -1,0 +1,202 @@
+{
+  "name": "ec0aed03-c541-4ac8-80f1-6eaff7c897e5",
+  "displayName": "billing_past_due_balance",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "acount_number": "111111111111",
+            "customer_prepaid_flag": "false",
+            "is_cdv_active": "false",
+            "is_hsi_active": "true",
+            "is_vid_active": "true",
+            "is_xh_active": "false",
+            "is_xm_customer": "false",
+            "language": "en-us"
+          }
+        }
+      }, {
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": false,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": false,
+            "is_xm_customer": false,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "Do I have a past-due balance?"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-c2384f06-77bb-4286-8073-4a3e3507cc1a",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "billing"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-c2384f06-77bb-4286-8073-4a3e3507cc1a",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Select exactly one head_intent from this allowlist:\n    - account_update_info: Update account-holder details or account information.\n- billing_amount_final: Ask about final bill after disconnect/closure.\n- billing_amount_future: Check upcoming bill amount or due date.\n- billing_complaint_fraud: Report billing fraud, scams, or identity theft.\n- billing_credits_info: Ask about bill credits or missing credits.\n- billing_discuss: Explore or discuss available billing options, learn about promotions, understand bill charges, or get general bill explanation.\n- billing_lower_bill_request: Explicitly request action to lower bill, negotiate rate, or ask agent to apply discounts or credits.\n- billing_manage_ecobill: Enroll, unenroll, or check paperless billing.\n- billing_refund_inquiry: Request refund or check refund status.\n- billing_service_gurantee: Ask about money-back or service guarantee.\n- billing_toohigh: Complain that current bill amount is too high.\n- payments_balance_due: Check outstanding balance or amount due.\n- payments_troubleshoot_issues: Resolve payment failures, duplicates, overpayments, or reversals.\n    Immediately call steering_handle_next_step again with:\n    - intent set to the same intent\n    - the selected exact head_intent value from this allowlist\n    - route_confidence set to a numeric value from 0 to 1 that reflects your confidence in that selection\n    If ambiguous, choose the closest head_intent and use lower confidence.\n    Confidence rubric: 0.95-0.99 explicit match; 0.75-0.94 strong inferred match; 0.55-0.74 ambiguous/partial; 0.35-0.54 weak forced closest match. Do not default to 1.0.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 0.0,
+            "intent": "billing",
+            "target_flow": "Billing"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-6c2308af-4298-44e4-9064-5d24225f868f",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "payments_balance_due",
+              "intent": "billing",
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 1.0
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-6c2308af-4298-44e4-9064-5d24225f868f",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "\nSay nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n(1) Must clearly acknowledge the customer\u0027s request in a brief, empathetic way.\n(2) Must clearly state you will help them with it.\n(3) Must reuse the customer\u0027s exact wording when possible.\nThen immediately call steering_handle_next_step again with intent\u003d`billing`, head_intent\u003d`payments_balance_due`, route_confidence\u003d`1.0`\nand message set to exactly that generated sentence (no changes, no reformatting).\n\n\u003cexamples\u003e\nExample 1: Billing issue\n[user]\nMy internet bill is too high\n[model]\nI understand. Let\u0027s take a look at your internet bill and see what options may be available\n\u003c/examples\u003e\n",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent": "payments_balance_due",
+            "route_confidence": 1.0
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-fd5f7b16-0312-4615-9cf2-4053f4a7a0f1",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "payments_balance_due",
+              "intent": "billing",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I understand, I can help you check if you have a past due balance."
+              },
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 1.0
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-fd5f7b16-0312-4615-9cf2-4053f4a7a0f1",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "exit_utterance": "I understand, I can help you check if you have a past due balance.",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "head_intent": "payments_balance_due",
+              "route_confidence": 1.0,
+              "target_flow": "Billing",
+              "transfer_type_exttype": null,
+              "transfer_type_module": null,
+              "transfer_type_subtype": null,
+              "transfer_type_type": null
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passedMainMenu": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_steering": true,
+              "head_intent": "payments_balance_due",
+              "passedMainMenu": true,
+              "route_confidence": 1.0,
+              "target_flow": "Billing"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I understand, I can help you check if you have a past due balance."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

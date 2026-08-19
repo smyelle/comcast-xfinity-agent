@@ -1,0 +1,43 @@
+meta:
+  example: announce_ladder
+  claim: "With a shared latch written by `sets`, the first eligible rung is the only one the caller hears; the floor rung speaks only when no problem rung matched."
+
+scenarios:
+  # All three problems at once, which is the case the ladder exists for: the conditions
+  # are NOT mutually exclusive, so only the latch can decide which rung speaks.
+  - name: highest_rung_wins_and_silences_the_rest
+    polarity: positive
+    tool_fakes:
+      look_up_order:
+        payment_failed: "yes"
+        address_unverified: "yes"
+        backordered: "yes"
+        success: true
+    on_start:
+      - asked_slot: order_id
+    turns:
+      - answer: {slot: order_id, value: "A9"}
+        expect:
+          - tool_called: look_up_order
+          # `said_equals`, not `said_contains`: the three lower rungs were all eligible
+          # on this same pass, so the assertion that matters is that NOTHING else was
+          # spoken. A `contains` would pass just as happily on all four concatenated.
+          - said_equals: "Your payment didn't go through, so the order is on hold. Once the card is sorted the rest will follow."
+          - slot_filled: {verdict_given: "true"}
+
+  # No problems: every problem rung is gated out by its own flag, so the ladder falls
+  # through to the floor. Proves the gate is not simply suppressing everything.
+  - name: floor_rung_speaks_when_nothing_is_wrong
+    polarity: negative
+    tool_fakes:
+      look_up_order:
+        payment_failed: "no"
+        address_unverified: "no"
+        backordered: "no"
+        success: true
+    turns:
+      - answer: {slot: order_id, value: "A1"}
+        expect:
+          - tool_called: look_up_order
+          - said_equals: "Everything checks out — your order is on track."
+          - slot_filled: {verdict_given: "true"}

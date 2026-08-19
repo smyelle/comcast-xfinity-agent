@@ -1,0 +1,189 @@
+{
+  "name": "2de83a0b-13a5-4ae6-9353-ead3ce1d7b40",
+  "displayName": "payments_frustrated",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": false,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "I\u0027ve been trying to make a payment and nothing is working"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-b1875d32-6c3c-4559-8ea1-e8bfd205acfd",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "payments"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-b1875d32-6c3c-4559-8ea1-e8bfd205acfd",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Select exactly one head_intent from this allowlist:\n    - payments_cancel_payment: Cancel scheduled or automatic payment.\n- payments_make_payment: Make immediate payment by card or bank.\n- payments_manage_autopay: Set up or manage autopay settings.\n- payments_method_update: Update saved card/bank payment method.\n    Do not ask a clarifying question in this step.\n    Immediately call steering_handle_next_step again with:\n    - intent set to the same intent\n    - the selected exact head_intent value from this allowlist\n    - route_confidence set to a numeric value from 0 to 1 that reflects your confidence in that selection\n    If ambiguous, choose the closest head_intent and use lower confidence.\n    Confidence rubric: 0.95-0.99 explicit match; 0.75-0.94 strong inferred match; 0.55-0.74 ambiguous/partial; 0.35-0.54 weak forced closest match. Do not default to 1.0.\n\n\n\nExample - Set up autopay\n[user]\nI want my bill to be auto-deducted from my bank account\n[model]\nget_valid_head_intents_agent_instructions(intent\u003d\u0027payments\u0027)",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 0.0,
+            "intent": "payments",
+            "target_flow": "Payments"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-f9407128-e469-4e91-9059-f767936b222b",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "payments_make_payment",
+              "intent": "payments",
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.98
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-f9407128-e469-4e91-9059-f767936b222b",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "\nSay nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n(1) Must clearly acknowledge the customer\u0027s request in a brief, empathetic way.\n(2) Must clearly state you will help them with it.\n(3) Must reuse the customer\u0027s exact wording when possible.\nThen immediately call steering_handle_next_step again with intent\u003d`payments`, head_intent\u003d`payments_make_payment`, route_confidence\u003d`0.98`\nand message set to exactly that generated sentence (no changes, no reformatting).\n\n\u003cexamples\u003e\nExample 1: Billing issue\n[user]\nMy internet bill is too high\n[model]\nI understand. Let\u0027s take a look at your internet bill and see what options may be available\n\u003c/examples\u003e\n",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent": "payments_make_payment",
+            "route_confidence": 0.98
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-f59cbfe0-19b6-4911-af73-47068c37f210",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "payments_make_payment",
+              "intent": "payments",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I\u0027m sorry to hear that. I can help you make your payment right now."
+              },
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.98
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-f59cbfe0-19b6-4911-af73-47068c37f210",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "exit_utterance": "I\u0027m sorry to hear that. I can help you make your payment right now.",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "head_intent": "payments_make_payment",
+              "route_confidence": 0.98,
+              "target_flow": "Payments",
+              "transfer_type_exttype": null,
+              "transfer_type_module": null,
+              "transfer_type_subtype": null,
+              "transfer_type_type": null
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passedMainMenu": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_steering": true,
+              "head_intent": "payments_make_payment",
+              "passedMainMenu": true,
+              "route_confidence": 0.98,
+              "target_flow": "Payments"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I\u0027m sorry to hear that. I can help you make your payment right now."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

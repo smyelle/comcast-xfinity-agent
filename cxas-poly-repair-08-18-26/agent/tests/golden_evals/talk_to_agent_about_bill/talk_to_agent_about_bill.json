@@ -1,0 +1,180 @@
+{
+  "name": "34373e2a-c096-46ec-800a-2dd5cdc09776",
+  "displayName": "talk_to_agent_about_bill",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "greeting": "Please tell me how I can help you today, and I\u0027ll take it from here.",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "I want to talk to agent about my bill."
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-8c2e7825-9e73-403a-bf98-34d8e88ef3cd",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "agent"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-8c2e7825-9e73-403a-bf98-34d8e88ef3cd",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Determine whether the customer already gave a reason for asking for an agent.\nThen immediately call steering_handle_next_step again with intent\u003d\u0027agent\u0027 and specified_reason set to:\n- true if they gave a reason\n- false if they did not give a reason",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 0.0,
+            "intent": "agent"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-f54137ca-b63c-47d8-be6e-b2d81430c9ae",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "agent",
+              "specified_reason": true
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-f54137ca-b63c-47d8-be6e-b2d81430c9ae",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Route customer to agent_handoff subagent",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "intent": "agent_with_reason"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentTransfer": {
+            "targetAgent": "agent_handoff",
+            "displayName": "agent_handoff"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "agent_handoff_greeting": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment.",
+            "agent_handoff_setup_complete": true,
+            "entry_intent": "agent_with_reason",
+            "has_asked_agent_reason": false,
+            "has_had_incidental_utterance": false,
+            "has_had_unintelligible_utterance": false,
+            "has_had_unrelated_utterance": false
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "_debug_testttt_4": true
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-f02a0a18-a90d-4ead-86ab-ac95ebc46ebc",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "billing"
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-f02a0a18-a90d-4ead-86ab-ac95ebc46ebc",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Ask the customer: Is your billing question about Xfinity Mobile? \nIf the customer says yes, then generate a single-sentence response that \n  (1) empathetically acknowledges their billing question, and \n  (2) tells the customer you are going to get them to an agent to help with their billing question. \nThen immediately call agent_handoff_handle_next_step again with intent\u003d\u0027billing\u0027, details\u003d\u0027xm_billing\u0027, and message set to exactly that generated text.",
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "intent": "billing"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Please tell me if your billing question is about Xfinity Mobile?"
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

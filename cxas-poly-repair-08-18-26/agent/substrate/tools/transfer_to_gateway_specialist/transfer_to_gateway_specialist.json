@@ -1,0 +1,9 @@
+{
+  "name": "transfer_to_gateway_specialist",
+  "pythonFunction": {
+    "name": "transfer_to_gateway_specialist",
+    "pythonCode": "tools/transfer_to_gateway_specialist/python_function/python_code.py",
+    "description": "Transfer to gateway specialist."
+  },
+  "displayName": "transfer_to_gateway_specialist"
+}

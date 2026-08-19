@@ -1,0 +1,850 @@
+{
+  "source": "tests/golden_evals (gecx-ivr-golden-dev)",
+  "scenarios": [
+    {
+      "id": "billing_disambig_deterministic",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "billing",
+        "something else",
+        "my bill is too high"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "billing",
+        "billing",
+        "billing",
+        "billing",
+        "billing",
+        "billing",
+        "billing"
+      ],
+      "golden_head_intents": [
+        "billing_discuss",
+        "billing_discuss",
+        "billing_toohigh",
+        "billing_toohigh"
+      ],
+      "expected_head_intent": "billing_discuss",
+      "golden_handoff": false
+    },
+    {
+      "id": "billing_disambig_something_else",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "billing",
+        "something else",
+        "not sure",
+        "yes"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [
+        "billing"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "billing",
+        "billing",
+        "billing",
+        "billing",
+        "billing",
+        "billing"
+      ],
+      "golden_head_intents": [
+        "billing_discuss",
+        "billing_discuss"
+      ],
+      "expected_head_intent": "billing_discuss",
+      "golden_handoff": true
+    },
+    {
+      "id": "billing_discuss_my_bill",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "billing",
+        "want to discuss my current bill"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "billing",
+        "billing",
+        "billing",
+        "billing",
+        "billing"
+      ],
+      "golden_head_intents": [
+        "billing_discuss",
+        "billing_discuss",
+        "billing_discuss"
+      ],
+      "expected_head_intent": "billing_discuss",
+      "golden_handoff": false
+    },
+    {
+      "id": "billing_frustrated",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "My bill is way too high again. I'm tired of this"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "billing",
+        "billing",
+        "billing"
+      ],
+      "golden_head_intents": [
+        "billing_toohigh",
+        "billing_toohigh"
+      ],
+      "expected_head_intent": "billing_toohigh",
+      "golden_handoff": false
+    },
+    {
+      "id": "billing_past_due_balance",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "Do I have a past-due balance?"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "billing",
+        "billing",
+        "billing"
+      ],
+      "golden_head_intents": [
+        "payments_balance_due",
+        "payments_balance_due"
+      ],
+      "expected_head_intent": "payments_balance_due",
+      "golden_handoff": false
+    },
+    {
+      "id": "cancel_internet_service_multi_lob",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want to cancel my internet service"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [
+        "sales"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "sales"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "cancel_internet_service_one_lob",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want to cancel my internet service"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [
+        "sales"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "sales"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "cancel_mobile",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "Cancel mobile service"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [
+        "sales"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "sales"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "cancellation",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "cancellation"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [
+        "sales"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "sales"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "disconnect",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want to disconnect my services"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [
+        "sales"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "sales"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "from_bau_proxy_agent",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "agent"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [],
+      "tag": "proxy",
+      "golden_intents": [],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "from_bau_proxy_cancel_services",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want to cancel my services"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [],
+      "tag": "proxy",
+      "golden_intents": [],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "from_bau_proxy_payments_return_tv",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "can I make a payment?",
+        "service issues",
+        "my tv"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [],
+      "tag": "proxy",
+      "golden_intents": [],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "kb_tell_me_about_rewards",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "tell me about rewards"
+      ],
+      "expected_flow": "disambiguation_main_menu",
+      "acceptable_flows": [
+        "disambiguation_main_menu",
+        "human"
+      ],
+      "tag": "kb_gap",
+      "golden_intents": [],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": false
+    },
+    {
+      "id": "kb_whats_my_billing_address",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "What's my billing address?"
+      ],
+      "expected_flow": "disambiguation_main_menu",
+      "acceptable_flows": [
+        "disambiguation_main_menu",
+        "human"
+      ],
+      "tag": "kb_gap",
+      "golden_intents": [],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": false
+    },
+    {
+      "id": "missing_channels",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "Some of my channels are missing"
+      ],
+      "expected_flow": "technical_television",
+      "acceptable_flows": [
+        "repair"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "technical_television",
+        "technical_television",
+        "technical_television"
+      ],
+      "golden_head_intents": [
+        "tv_troubleshoot_channels",
+        "tv_troubleshoot_channels"
+      ],
+      "expected_head_intent": "tv_troubleshoot_channels",
+      "golden_handoff": false
+    },
+    {
+      "id": "move_service_standard",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I'm moving next week"
+      ],
+      "expected_flow": "sales",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "sales",
+        "sales",
+        "sales"
+      ],
+      "golden_head_intents": [
+        "account_transfer_service",
+        "account_transfer_service"
+      ],
+      "expected_head_intent": "account_transfer_service",
+      "golden_handoff": false
+    },
+    {
+      "id": "multi_lob_cancel_internet",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want to cancel my internet service."
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [
+        "sales"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "sales"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "multi_lob_cancel_service",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "cancel service"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [
+        "sales"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "sales"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "payment_reentry_explain_my_bill",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "can I pay my bill?",
+        "explain my bill"
+      ],
+      "expected_flow": "payments",
+      "acceptable_flows": [
+        "billing"
+      ],
+      "tag": "clean",
+      "golden_intents": [
+        "payments",
+        "payments",
+        "payments",
+        "billing",
+        "billing",
+        "billing"
+      ],
+      "golden_head_intents": [
+        "payments_make_payment",
+        "payments_make_payment",
+        "billing_discuss",
+        "billing_discuss"
+      ],
+      "expected_head_intent": "payments_make_payment",
+      "golden_handoff": false
+    },
+    {
+      "id": "payments_frustrated",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I've been trying to make a payment and nothing is working"
+      ],
+      "expected_flow": "payments",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "payments",
+        "payments",
+        "payments"
+      ],
+      "golden_head_intents": [
+        "payments_make_payment",
+        "payments_make_payment"
+      ],
+      "expected_head_intent": "payments_make_payment",
+      "golden_handoff": false
+    },
+    {
+      "id": "plans_and_services_internet_upgrade",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want to upgrade my internet"
+      ],
+      "expected_flow": "sales",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "sales",
+        "sales",
+        "sales"
+      ],
+      "golden_head_intents": [
+        "plan_upgrade",
+        "plan_upgrade"
+      ],
+      "expected_head_intent": "plan_upgrade",
+      "golden_handoff": false
+    },
+    {
+      "id": "rage_agent",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "For fuck's sake",
+        "Connect to a fucking agent"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "rage",
+        "agent",
+        "agent"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "request_switching",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I have a billing question Actually it's about my internet"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "technical_internet"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": false
+    },
+    {
+      "id": "request_switching_internet",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I have a billing question ... actually, it\u2019s about my internet",
+        "yes"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "technical_internet",
+        "technical_internet",
+        "technical_internet",
+        "technical_internet"
+      ],
+      "golden_head_intents": [
+        "internet_troubleshoot"
+      ],
+      "expected_head_intent": "internet_troubleshoot",
+      "golden_handoff": false
+    },
+    {
+      "id": "returning_customer_payments_english",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "Can I make a payment?"
+      ],
+      "expected_flow": "payments",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "payments",
+        "payments",
+        "payments"
+      ],
+      "golden_head_intents": [
+        "payments_make_payment",
+        "payments_make_payment"
+      ],
+      "expected_head_intent": "payments_make_payment",
+      "golden_handoff": false
+    },
+    {
+      "id": "returning_customer_payments_spanish",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "\u00bfPuedo realizar un pago?"
+      ],
+      "expected_flow": "payments",
+      "acceptable_flows": [],
+      "tag": "bilingual",
+      "golden_intents": [
+        "payments",
+        "payments",
+        "payments"
+      ],
+      "golden_head_intents": [
+        "payments_make_payment",
+        "payments_make_payment"
+      ],
+      "expected_head_intent": "payments_make_payment",
+      "golden_handoff": false
+    },
+    {
+      "id": "seasonal_turnoff",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I need to turn off seasonal"
+      ],
+      "expected_flow": "disambiguation_main_menu",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "disambiguation_main_menu",
+        "disambiguation_main_menu",
+        "disambiguation_main_menu"
+      ],
+      "golden_head_intents": [
+        "plan_manage_temporary_disconnect",
+        "plan_manage_temporary_disconnect"
+      ],
+      "expected_head_intent": "plan_manage_temporary_disconnect",
+      "golden_handoff": false
+    },
+    {
+      "id": "spanish_rage_then_agent",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "\u00bfMe est\u00e1s jodiendo?",
+        "\u00bfPuedo hablar con una puta persona?"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [],
+      "tag": "bilingual",
+      "golden_intents": [
+        "rage",
+        "agent",
+        "agent"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "talk_to_agent_about_bill",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want to talk to agent about my bill."
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "agent",
+        "agent"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": true
+    },
+    {
+      "id": "technical_support_cell_phone",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "technical support",
+        "cell phone"
+      ],
+      "expected_flow": "technical_phone",
+      "acceptable_flows": [],
+      "tag": "disambiguation",
+      "golden_intents": [
+        "technical_phone",
+        "technical_phone"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": false
+    },
+    {
+      "id": "technical_support_router_restarting",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "my router keeps restarting"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "clean",
+      "golden_intents": [
+        "technical_internet",
+        "technical_internet",
+        "technical_internet"
+      ],
+      "golden_head_intents": [
+        "internet_troubleshoot",
+        "internet_troubleshoot"
+      ],
+      "expected_head_intent": "internet_troubleshoot",
+      "golden_handoff": false
+    },
+    {
+      "id": "unintelligible",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "kjngkjdnfg",
+        "kjnkjjkn"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "global_behavior",
+      "golden_intents": [
+        "unintelligible",
+        "unintelligible"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": false
+    },
+    {
+      "id": "unrelated_utterance_banana",
+      "kind": "golden",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "banana",
+        "banana"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "global_behavior",
+      "golden_intents": [
+        "unrelated",
+        "unrelated"
+      ],
+      "golden_head_intents": [],
+      "expected_head_intent": "",
+      "golden_handoff": false
+    }
+  ]
+}

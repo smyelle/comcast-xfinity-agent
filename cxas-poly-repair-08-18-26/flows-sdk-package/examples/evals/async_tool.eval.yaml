@@ -1,0 +1,40 @@
+meta:
+  example: async_tool
+  claim: "An async backend defers, the flow keeps collecting a slot that doesn't depend on it, and the terminal fires once both inputs converge."
+
+scenarios:
+  - name: async_completion_converges_with_collected_slot
+    polarity: positive
+    tool_fakes:
+      start_activation: {order_ref: "ORD-9413", success: true}
+      # The async poll's real payload, delivered as the completion.
+      poll_activation: {status_msg: "Good news, your device is activated. Restart it to finish.", success: true}
+      finish_activation: {closing: "Good news, your device is activated. Restart it to finish. We'll text the confirmation to 555-0101.", success: true}
+    on_start:
+      - asked_slot: last_four
+    turns:
+      # Kicking off activation fires start, then the ASYNC poll; with the poll
+      # outstanding there is still a question to ask, so the callback number is asked.
+      - answer: {slot: last_four, value: "9413"}
+        expect:
+          - tool_called: start_activation
+          - tool_called: poll_activation
+          - tool_args: {tool: start_activation, args: {last_four: "9413"}}
+          - asked_slot: callback_number       # collected WHILE the backend was working
+      # Once the callback number is in, the terminal fires on both converged inputs.
+      - answer: {slot: callback_number, value: "555-0101"}
+        expect:
+          - tool_called: finish_activation
+          - tool_args: {tool: finish_activation, args: {status_msg: "Good news, your device is activated. Restart it to finish.", callback_number: "555-0101"}}
+          - said_contains: "device is activated"
+          - disposition: complete
+
+  - name: unusable_first_turn_reasks_last_four
+    polarity: negative
+    turns:
+      # A caller turn the flow cannot use to fill last_four: no backend touched, slot re-asked.
+      - say: "wait, are you a robot?"
+        expect:
+          - asked_slot: last_four
+          - no_tools_called: true
+          - slot_status: {last_four: open}

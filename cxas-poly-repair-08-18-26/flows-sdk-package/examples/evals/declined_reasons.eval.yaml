@@ -1,0 +1,56 @@
+meta:
+  example: declined_reasons
+  claim: "One escalate gate refused for three different reasons says the right one for each, and stops refusing once the gate opens."
+
+scenarios:
+  # Nothing is known yet, so neither conditional reason holds and the entry with no
+  # `when` speaks. The arm that proves the catch-all is REACHABLE — a catch-all nothing
+  # can reach is a catch-all nobody has read.
+  - name: catch_all_when_nothing_is_known
+    polarity: positive
+    turns:
+      - answer: {slot: escalate, args: {reason: "I want a person"}}
+        expect:
+          - said_contains: "take a couple of details first"
+          - slot_filled: {escalate_declined: 1}
+
+  # Both of the first two reasons hold here: there IS an outage and the check has NOT
+  # run. First match wins, and the outage one is listed first because it is the answer
+  # that decides the caller's next hour rather than their next ten seconds.
+  - name: an_outage_wins_over_the_running_check
+    polarity: positive
+    seed: {outage_status: active}
+    turns:
+      - answer: {slot: escalate, args: {reason: "put me through"}}
+        expect:
+          - said_contains: "outage on your street"
+
+  # The matched reason's `say` is itself a ladder, indexed by the refusal count on the
+  # CALL. A second ask inside one reason gets a second sentence.
+  - name: a_reason_ladder_answers_a_second_ask_differently
+    polarity: negative
+    turns:
+      - answer: {slot: account_id, value: "A-1042"}
+      - answer: {slot: escalate, args: {reason: "an engineer please"}}
+        expect:
+          - said_contains: "line check is still running"
+      - answer: {slot: escalate, args: {reason: "no, a person"}}
+        expect:
+          - said_contains: "last few seconds"
+          - slot_filled: {escalate_declined: 2}
+
+  # The gate opens once the check lands, and nothing is refused. Without this arm the
+  # eval would pass just as well against a gate that is simply always shut.
+  - name: the_hand_off_happens_once_the_check_is_back
+    polarity: positive
+    tool_fakes:
+      run_line_check_tool: {check_result: "the line drops every few minutes", success: true}
+    turns:
+      - answer: {slot: account_id, value: "A-1042"}
+      - answer: {slot: zip_code, value: "94043"}
+        expect:
+          - tool_called: run_line_check_tool
+      - answer: {slot: escalate, args: {reason: "an engineer please"}}
+        expect:
+          - said_contains: "through to an engineer"
+          - disposition: escalate

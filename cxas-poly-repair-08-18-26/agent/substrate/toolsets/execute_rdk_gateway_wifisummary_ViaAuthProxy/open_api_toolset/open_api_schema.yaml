@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: Gateway WiFi Summary API
+  version: 1.0.0
+  description: OpenAPI specification for calling get_gateway_wifi_summary through Uses GECX dynamic variable \"rdk_mcp_server\" as its backing server domain, resolving all session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    the auth proxy.
+servers:
+- url: '$env_var'
+paths:
+  /v1/auth-proxy:
+    post:
+      summary: Get gateway WiFi summary
+      operationId: getGatewayWifiSummary
+      parameters:
+      - name: accept
+        in: header
+        required: true
+        schema:
+          type: string
+          default: application/json, text/event-stream
+          example: application/json, text/event-stream
+      - name: x-auth
+        in: header
+        required: true
+        schema:
+          type: string
+          default: MCP-SAT-XAXLR
+          example: MCP-SAT-XAXLR
+      - name: x-scope
+        in: header
+        required: true
+        schema:
+          type: string
+          default: rdkmcpserver:access
+          example: rdkmcpserver:access
+      - name: x-url
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uri
+          default: https://rdk-mcp-dev.codebig2.net/tool/gru/mcp
+          example: https://rdk-mcp-dev.codebig2.net/tool/gru/mcp
+      - name: x-flow-trace-id
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetGatewayWifiSummaryRequest'
+            example:
+              jsonrpc: '2.0'
+              id: 2
+              method: tools/call
+              params:
+                name: get_gateway_wifi_summary
+                arguments:
+                  device_identifier: 10:56:11:8A:66:ED
+                  problem_statement: slow internet
+      responses:
+        '200':
+          description: Successful JSON-RPC response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcResponse'
+            text/event-stream:
+              schema:
+                type: string
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized.
+        '403':
+          description: Forbidden.
+        '500':
+          description: Internal server error.
+components:
+  schemas:
+    GetGatewayWifiSummaryRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      - params
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          default: '2.0'
+          example: '2.0'
+        id:
+          type: integer
+          default: 2
+          example: 2
+        method:
+          type: string
+          enum:
+          - tools/call
+          default: tools/call
+          example: tools/call
+        params:
+          type: object
+          required:
+          - name
+          - arguments
+          properties:
+            name:
+              type: string
+              enum:
+              - get_gateway_wifi_summary
+              default: get_gateway_wifi_summary
+              example: get_gateway_wifi_summary
+            arguments:
+              type: object
+              required:
+              - device_identifier
+              - problem_statement
+              properties:
+                device_identifier:
+                  type: string
+                  default: 10:56:11:8A:66:ED
+                  example: 10:56:11:8A:66:ED
+                problem_statement:
+                  type: string
+                  default: slow internet
+                  example: slow internet
+    JsonRpcResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          type: integer
+          example: 2
+        result:
+          type: object
+          additionalProperties: true
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+            data:
+              type: object
+              additionalProperties: true

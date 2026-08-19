@@ -1,0 +1,16 @@
+{
+  "name": "check_outage",
+  "pythonFunction": {
+    "name": "check_outage",
+    "pythonCode": "tools/check_outage/python_function/python_code.py",
+    "description": "Calls EDE outage check and parses response for active outage info.\n\nArgs:\n    account_number: The customer billing account number.\n\nReturns:\n    dict with outage_detected, outage_message, customer_message,\n    impacted_services."
+  },
+  "executionType": "ASYNCHRONOUS",
+  "displayName": "check_outage",
+  "toolFakeConfig": {
+    "codeBlock": {
+      "pythonCode": "tools/check_outage/tool_fake_config/code_block/python_code.py"
+    },
+    "enableFakeMode": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "set_confirm_reboot",
+  "pythonFunction": {
+    "name": "set_confirm_reboot",
+    "pythonCode": "tools/set_confirm_reboot/python_function/python_code.py",
+    "description": "Set the reboot confirmation.\n\nArgs:\n    confirm_reboot: Yes/No, true/false, or similar utterance.\n\nReturns:\n    {\"stored\": True, \"value\": True/False} on success;\n    {\"error\": True, \"error_code\": \"invalid_format\"} on failure."
+  },
+  "displayName": "set_confirm_reboot"
+}

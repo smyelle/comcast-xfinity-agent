@@ -1,0 +1,51 @@
+meta:
+  example: multi_fill
+  claim: "multi_fill lets a second slot (tone) fill from an utterance that also fills request; a lone request leaves tone unmatched; an ambiguous match fills nothing."
+
+scenarios:
+  - name: one_breath_fills_both_request_and_tone
+    polarity: positive
+    on_start:
+      - asked_slot: account
+      - said_contains: "What's the account number?"
+    turns:
+      - answer: {slot: account, value: "A1"}
+        expect:
+          - slot_status: {request: open}
+          - slot_status: {tone: open}
+      # "that's a lot, can you waive the fee" carries WHAT (waive) and HOW (cost) at once.
+      # multi_fill=True lets tone fill on the same turn that fills request, so the
+      # cost-framed acknowledgement is spoken.
+      - say: "that's a lot, can you waive the fee"
+        expect:
+          - slot_filled: {request: "waive"}
+          - slot_filled: {tone: "cost"}
+          - said_contains: "I understand a charge like that can be stressful."
+          - said_contains: "Let me see what I can do about it."
+          - disposition: complete
+
+  - name: request_without_tone_leaves_tone_unmatched
+    polarity: positive
+    turns:
+      - answer: {slot: account, value: "A1"}
+      # A bare request: tone has no cue here, so it stays open and no ack is spoken.
+      - say: "can you waive the fee"
+        expect:
+          - slot_filled: {request: "waive"}
+          - slot_status: {tone: open}
+          - said_contains: "Let me see what I can do about it."
+          - said_equals: "Let me see what I can do about it."
+
+  - name: ambiguous_request_fills_nothing
+    polarity: negative
+    turns:
+      - answer: {slot: account, value: "A1"}
+      # The utterance hits two request values at once (waive AND why/explain). An
+      # ambiguous match is skipped, so request stays open, nothing routes, and no
+      # announce or ack is spoken.
+      - say: "why did you waive nothing, explain the charge"
+        expect:
+          - slot_status: {request: open}
+          - slot_status: {tone: open}
+          - said_equals: ""
+          - no_tools_called: true

@@ -1,0 +1,9 @@
+{
+  "name": "a1b2c3d4-1012-4e6f-8a1c-000000000027",
+  "pythonFunction": {
+    "name": "settle_guard",
+    "pythonCode": "tools/settle_guard/python_function/python_code.py",
+    "description": "Internal. The framework dispatches this alongside a deferred call to hold the turn open while it settles; it is never shown to the model."
+  },
+  "displayName": "settle_guard"
+}

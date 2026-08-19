@@ -1,0 +1,83 @@
+meta:
+  example: task_fire_cap
+  claim: "Eight record systems share one `count_into` counter with a budget of three. The engine bumps the counter at each dispatch, the first three systems are searched, the remaining five are gated off, and the `gte` branch opens a case instead."
+
+scenarios:
+  # Every system answers, and every system answers "no record" — `success: true` with
+  # `found: no`. That split is load-bearing: a `success: false` would exhaust the first
+  # search's failure ladder and end the flow before the second ever ran.
+  - name: three_searches_then_the_budget_opens_a_case
+    polarity: positive
+    tool_fakes:
+      search_core: {status_message: "the core system has no record of it", found: "no", success: true}
+      search_billing: {status_message: "billing shows no charge for it", found: "no", success: true}
+      search_crm: {status_message: "the CRM has nothing filed under it", found: "no", success: true}
+      search_carrier: {status_message: "the carrier never scanned it", found: "no", success: true}
+      search_warehouse: {status_message: "the warehouse feed is offline", found: "no", success: true}
+      search_returns: {status_message: "returns has no record of it", found: "no", success: true}
+      search_partner: {status_message: "the partner has no record of it", found: "no", success: true}
+      search_archive: {status_message: "the archive has nothing that old", found: "no", success: true}
+      open_trace_case: {status_message: "a case is open for C-4471", success: true}
+    on_start:
+      - asked_slot: case_id
+    turns:
+      # One caller turn. The searches chain back-to-back behind it, because nothing
+      # between them needs the caller — they are round trips, not questions.
+      - answer: {slot: case_id, value: "C-4471"}
+        expect:
+          - tool_called: search_core
+          - tool_called: search_billing
+          - tool_called: search_crm
+          - tool_called: open_trace_case
+          - said_contains: "a case is open for C-4471"
+          - disposition: complete
+
+  # Named for what must NOT happen. All five are real declared tasks with real tools and
+  # working fakes; the only thing keeping them off the call is the counter. This is the
+  # scenario that a counter doing nothing at all would fail.
+  - name: the_last_five_systems_are_never_searched
+    polarity: negative
+    tool_fakes:
+      search_core: {status_message: "the core system has no record of it", found: "no", success: true}
+      search_billing: {status_message: "billing shows no charge for it", found: "no", success: true}
+      search_crm: {status_message: "the CRM has nothing filed under it", found: "no", success: true}
+      search_carrier: {status_message: "the carrier never scanned it", found: "no", success: true}
+      search_warehouse: {status_message: "the warehouse feed is offline", found: "no", success: true}
+      search_returns: {status_message: "returns has no record of it", found: "no", success: true}
+      search_partner: {status_message: "the partner has no record of it", found: "no", success: true}
+      search_archive: {status_message: "the archive has nothing that old", found: "no", success: true}
+      open_trace_case: {status_message: "a case is open for C-4471", success: true}
+    turns:
+      - answer: {slot: case_id, value: "C-4471"}
+        expect:
+          # Asserted on the fires, not on slots: the terminal task completes the flow and
+          # the reset empties `filled`, so afterwards every slot reads unset for the
+          # wrong reason.
+          - tool_not_called: search_carrier
+          - tool_not_called: search_warehouse
+          - tool_not_called: search_returns
+          - tool_not_called: search_partner
+          - tool_not_called: search_archive
+          - tool_called: open_trace_case
+
+  # The other way to waste the budget: keep spending it after the answer is in hand. The
+  # core system finds the order, so nothing else is searched and no case is opened.
+  - name: a_hit_on_the_first_system_stops_the_ladder
+    polarity: negative
+    tool_fakes:
+      search_core: {status_message: "it shipped on Tuesday", found: "yes", success: true}
+      search_billing: {status_message: "billing shows no charge for it", found: "no", success: true}
+      search_crm: {status_message: "the CRM has nothing filed under it", found: "no", success: true}
+      search_carrier: {status_message: "the carrier never scanned it", found: "no", success: true}
+      search_warehouse: {status_message: "the warehouse feed is offline", found: "no", success: true}
+      search_returns: {status_message: "returns has no record of it", found: "no", success: true}
+      search_partner: {status_message: "the partner has no record of it", found: "no", success: true}
+      search_archive: {status_message: "the archive has nothing that old", found: "no", success: true}
+      open_trace_case: {status_message: "a case is open for C-4471", success: true}
+    turns:
+      - answer: {slot: case_id, value: "C-4471"}
+        expect:
+          - tool_called: search_core
+          - slot_filled: {searches: 1}
+          - tool_not_called: search_billing
+          - tool_not_called: open_trace_case

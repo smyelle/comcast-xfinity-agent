@@ -1,0 +1,9 @@
+{
+  "name": "transfer_to_appointment_specialist",
+  "pythonFunction": {
+    "name": "transfer_to_appointment_specialist",
+    "pythonCode": "tools/transfer_to_appointment_specialist/python_function/python_code.py",
+    "description": "Transfer to appointment specialist."
+  },
+  "displayName": "transfer_to_appointment_specialist"
+}

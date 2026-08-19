@@ -1,0 +1,42 @@
+meta:
+  example: repeated_slots
+  claim: "A repeated slot iterates ask -> ask_more, collects scalars into one list, and completes at max_count."
+
+scenarios:
+  - name: collects_three_then_completes
+    polarity: positive
+    on_start:
+      - asked_slot: topping
+      - said_contains: "What topping would you like?"
+    turns:
+      # First element uses `ask`; the follow-up uses `ask_more`, and the slot stays open.
+      - answer: {slot: topping, value: "pepperoni"}
+        expect:
+          - said_contains: "Any other topping?"
+          - slot_status: {topping: open}
+      - answer: {slot: topping, value: "mushroom"}
+        expect:
+          - said_contains: "Any other topping?"
+          - slot_status: {topping: open}
+      # Third element hits until.max_count=3: the list closes and the flow completes.
+      - answer: {slot: topping, value: "olives"}
+        expect:
+          - slot_filled: {topping: ["pepperoni", "mushroom", "olives"]}
+          - slot_status: {topping: filled}
+          - disposition: complete
+
+  - name: unusable_turn_reasks_and_loop_stays_open
+    polarity: negative
+    turns:
+      # A caller turn the collector cannot use re-asks the first-element `ask`.
+      - say: "hmm, not sure"
+        expect:
+          - said_contains: "What topping would you like?"
+          - slot_status: {topping: open}
+          - no_tools_called: true
+      # One topping satisfies min_count but not max_count, so the loop keeps collecting
+      # (ask_more) rather than completing.
+      - answer: {slot: topping, value: "cheese"}
+        expect:
+          - said_contains: "Any other topping?"
+          - slot_status: {topping: open}

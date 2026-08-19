@@ -1,0 +1,617 @@
+{
+  "source": "held-out paraphrases (generalization test)",
+  "scenarios": [
+    {
+      "id": "heldout_diagnostics_0",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "the internet keeps dropping every few minutes"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_diagnostics_1",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "nothing will load on any of my devices"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_reboot_2",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "can you give my gateway a restart"
+      ],
+      "expected_flow": "reboot",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_reboot_3",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I'd like to power cycle the box myself"
+      ],
+      "expected_flow": "reboot",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_human_4",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "get me a real person please"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_human_5",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I need to speak with someone in support"
+      ],
+      "expected_flow": "human",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_billing_6",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "why did my charges go up this month"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_billing_7",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I see a fee I don't recognize"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_payments_8",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I'd like to put a card on file"
+      ],
+      "expected_flow": "payments",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_payments_9",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "can I schedule a payment for next week"
+      ],
+      "expected_flow": "payments",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_sales_10",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I'm interested in a faster internet tier"
+      ],
+      "expected_flow": "sales",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_sales_11",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I'd like to add a premium sports package"
+      ],
+      "expected_flow": "sales",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_technical_television_12",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "the picture on my television is frozen"
+      ],
+      "expected_flow": "technical_television",
+      "acceptable_flows": [
+        "repair"
+      ],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_technical_television_13",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "the on-screen guide won't come up"
+      ],
+      "expected_flow": "technical_television",
+      "acceptable_flows": [
+        "repair"
+      ],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_technical_phone_14",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I can't hear anything when I pick up the phone"
+      ],
+      "expected_flow": "technical_phone",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_technical_phone_15",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "my voice mail box is completely full"
+      ],
+      "expected_flow": "technical_phone",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_xfinity_mobile_16",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "my cell service through xfinity is down"
+      ],
+      "expected_flow": "xfinity_mobile",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_xfinity_mobile_17",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want to add a new phone line to my plan"
+      ],
+      "expected_flow": "xfinity_mobile",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_technical_xfinity_home_18",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "my doorbell camera stopped recording"
+      ],
+      "expected_flow": "technical_xfinity_home",
+      "acceptable_flows": [
+        "repair"
+      ],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_technical_xfinity_home_19",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "the motion sensor keeps going off"
+      ],
+      "expected_flow": "technical_xfinity_home",
+      "acceptable_flows": [
+        "repair"
+      ],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_appointments_20",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I need to push back the technician visit"
+      ],
+      "expected_flow": "appointments",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_appointments_21",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "when is my installation scheduled for"
+      ],
+      "expected_flow": "appointments",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_activations_22",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I just received my new box and need to set it up"
+      ],
+      "expected_flow": "activations",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_activations_23",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "how do I turn on the service I ordered"
+      ],
+      "expected_flow": "activations",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_service_center_24",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "where can I drop off my old equipment"
+      ],
+      "expected_flow": "service_center",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_service_center_25",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "is there an xfinity location near me"
+      ],
+      "expected_flow": "service_center",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_accessibility_26",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I need subtitles enabled for the hearing impaired"
+      ],
+      "expected_flow": "accessibility",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_accessibility_27",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "do you support relay services for the deaf"
+      ],
+      "expected_flow": "accessibility",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_equipment_swap_28",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I'd like to trade in my old gateway for a newer one"
+      ],
+      "expected_flow": "equipment_swap",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_equipment_swap_29",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "can I get a different model of router"
+      ],
+      "expected_flow": "equipment_swap",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_phone_security_30",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "someone transferred my number to another carrier without asking"
+      ],
+      "expected_flow": "phone_security",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_phone_security_31",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I think my phone number was hijacked"
+      ],
+      "expected_flow": "phone_security",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_transfers_32",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "please add my daughter to the account"
+      ],
+      "expected_flow": "transfers",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_transfers_33",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "what's the status of my recent order"
+      ],
+      "expected_flow": "transfers",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_disambiguation_main_menu_34",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "change the name of my wifi"
+      ],
+      "expected_flow": "disambiguation_main_menu",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_disambiguation_main_menu_35",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "put my account on hold while I'm away for the winter"
+      ],
+      "expected_flow": "disambiguation_main_menu",
+      "acceptable_flows": [],
+      "tag": "heldout"
+    },
+    {
+      "id": "heldout_streaming_36",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "my Netflix keeps buffering"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "heldout",
+      "notes": "app will not stream -> connectivity, not a subscription task"
+    },
+    {
+      "id": "heldout_streaming_37",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "Peacock won't load"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "heldout",
+      "notes": "app will not load -> connectivity"
+    },
+    {
+      "id": "heldout_streaming_38",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "my Xbox can't get online"
+      ],
+      "expected_flow": "repair",
+      "acceptable_flows": [],
+      "tag": "heldout",
+      "notes": "device cannot reach the network -> connectivity"
+    },
+    {
+      "id": "heldout_streaming_39",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want to cancel my Netflix subscription"
+      ],
+      "expected_flow": "disambiguation_main_menu",
+      "acceptable_flows": [],
+      "tag": "heldout",
+      "notes": "subscription/billing side -> still defers"
+    }
+  ]
+}

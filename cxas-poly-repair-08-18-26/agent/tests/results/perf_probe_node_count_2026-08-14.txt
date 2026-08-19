@@ -1,0 +1,56 @@
+PROBE (not a change): is the engine's per-call cost driven by AST NODE COUNT?
+
+WHY. Change 2 cut the dag config's nodes and won 462ms. Change 3 cut 36% of the engine's
+BYTES (comments only, zero nodes) and won nothing. Those two are consistent with "cost
+tracks syntactic complexity, not size", but that was an inference from a null result. It
+decides whether tree-shaking the 528KB engine is worth doing at all, so it is worth one
+experiment rather than one argument.
+
+METHOD. Take the change-2 build and append a copy of every top-level function in
+slot_filling_engine, each renamed `_dead_<name>`. Nothing calls them, so they are parsed
+and compiled on every invocation and never executed. Functions only — duplicating
+module-level assignments could shadow real state.
+
+  bytes      527,557 -> 1,021,274   (1.94x)
+  AST nodes     47,507 ->    93,948   (1.98x)
+
+  A  90e6ae16-83ec-4355-8649-50a0638ad34d   change 2
+  B  497c752a-ff57-4cdf-b316-dc10405b5ff1   change 2 + dead code
+
+RESULT, 12 alternated pairs
+                            A median    B median      delta     n
+  tool:slot_filling_engine    230 ms      414 ms     +184 ms   156/156
+  turn                       9674 ms    14501 ms    +4828 ms    12/12
+  engine_calls                   13          13          +0
+
+  Mann-Whitney one-sided p = 0.00147 that B is slower.
+
+1.98x the nodes gives 1.80x the time. The engine is COMPILE-DOMINATED, and the module is
+recompiled on every invocation.
+
+THE MODEL, replacing the retired "0.44 ms per KB":
+
+    engine per call  ~=  42 ms fixed  +  3.96 us per AST node
+
+Of today's 230 ms/call, ~188 ms is node-count driven and ~42 ms is not. This also explains
+both earlier results exactly: change 2 removed ~180,000 nodes from a config literal and
+won; change 3 removed 267 KB of comments, which are zero nodes, and won nothing.
+
+WHAT IT IMPLIES, and it is the largest remaining prize by a wide margin:
+
+  remove 30% of engine nodes -> 174 ms/call, saves ~734 ms/session (13 calls)
+  remove 50% of engine nodes -> 136 ms/call, saves ~1223 ms/session
+
+For comparison, change 4 as scoped (pass the config through input_data so the dag tool is
+not re-invoked) has a ceiling of 11 x 25 ms = ~275 ms, and the only clean implementation
+would embed app configs into the blessed, app-independent before_model callback — breaking
+the framework contract for a quarter of the prize. Change 4 is DEPRIORITISED on this
+evidence, not attempted.
+
+CAVEATS. Other tools moved in this batch too (resolve_account_context 96->199 ms,
+resolve_specialists 57->125 ms) on n=12 each; the engine's own number is n=156 and is the
+one to trust. The platform was busy again — A's turn median is 9.7s here against 6.7s in
+change 2's batch — so absolutes are not comparable across result files. Arms alternated,
+so the within-batch comparison holds.
+
+The probe build is deployed and should be treated as scrap: it is deliberately 2x slower.

@@ -1,0 +1,89 @@
+{
+  "name": "7f733cd4-f035-4bf1-ba58-2194e4c71e44",
+  "displayName": "kb_tell_me_about_rewards",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "tell me about rewards"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-289bae2f-1507-466c-92e9-3f0f685d85e7",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "action": "general_product_or_services_question",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "tell me about rewards"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-289bae2f-1507-466c-92e9-3f0f685d85e7",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "\n  Use the search_web response below to answer the customer\u0027s question.\n\nUse the snippets and instructions from the search_web response to decide the next steps and provide the answer.\n\nsearch_web response:\n{\"search_query\": \"tell me about rewards (site:xfinity.com OR site:xfinity.com/support OR site:comcast.com OR site:corporate.comcast.com) -site:reddit.com -site:verizon.com -site:t-mobile.com\", \"snippets\": [{\"url\": \"https://forums.xfinity.com/conversations/plan/xfinity-rewards-150-gift-cardscam/624779def6cc380e6401f876\", \"title\": \"Xfinity \u003cb\u003eRewards\u003c/b\u003e $150. Gift CardScam\", \"text\": \"Called after five weeks, just to check the status, and was then \u003cb\u003etold\u003c/b\u003e that Comcast Xfinity had just \u0026quot;approved\u0026quot; it for processing the day before! (Their website\u0026nbsp;...\"}, {\"url\": \"https://business.comcast.com/community/docs/default-source/default-document-library/gbc_comcast-business_decoding-the-future_expert-dialogue_fnl.pdf?sfvrsn\u003dc1d8b5c5_1\", \"title\": \"DECODING THE FUTURE: - Comcast Business\", \"text\": \"our citizens to \u003cb\u003egive\u003c/b\u003e us honest feedback and \u003cb\u003etell\u003c/b\u003e us if our solution is something ... risks and \u003cb\u003erewards\u003c/b\u003e. Navigating that in a way ... also how we can take advantage\u0026nbsp;...\"}, {\"url\": \"https://www.xfinity.com/support/articles/xfinity-membership\", \"title\": \"What is Xfinity membership?\", \"text\": \"We\u0026#39;ve retired Xfinity \u003cb\u003eRewards\u003c/b\u003e and launched a new membership experience \\u2014 Xfinity membership brings all your favorite \u003cb\u003erewards\u003c/b\u003e together with even more\u0026nbsp;...\"}, {\"url\": \"https://www.xfinity.com/support/articles/xfinity-refer-a-friend-program\", \"title\": \"Xfinity Refer-a-Friend program and \u003cb\u003ereward\u003c/b\u003e FAQs\", \"text\": \"\u003cb\u003eRewards\u003c/b\u003e. Referrer. Earn up to $50 per qualified service referral ... How do I \u003cb\u003eknow\u003c/b\u003e if my friend used my shared unique link to shop eligible Xfinity services?\"}, {\"url\": \"https://jobs.comcast.com/job/philadelphia/lead-analyst-total-rewards/45483/96968041952\", \"title\": \"Lead Analyst, Total \u003cb\u003eRewards\u003c/b\u003e and jobs at Comcast\", \"text\": \"We offer a range of benefits and support programs to ensure that you and your loved ones get the care you need. Financial Wellbeing. These benefits \u003cb\u003egive\u003c/b\u003e you\u0026nbsp;...\"}, {\"url\": \"https://www.xfinity.com/membership\", \"title\": \"Xfinity Membership Benefits - Access Your \u003cb\u003eRewards\u003c/b\u003e\", \"text\": \"Discover your Xfinity membership benefits here - new perks, discounts and exclusives added every single week. Check back every Thursday!\"}, {\"url\": \"https://www.xfinity.com/hub/experience/xfinity-membership\", \"title\": \"Learn About the Benefits of an Xfinity Membership\", \"text\": \"Experience. This year, we are excited to bring you new ways to enjoy being with Xfinity. We are replacing Xfinity \u003cb\u003eRewards\u003c/b\u003e with a brand-\u0026nbsp;...\"}, {\"url\": \"https://customer.xfinity.com/rewards\", \"title\": \"Sign in to Xfinity \u003cb\u003eRewards\u003c/b\u003e\", \"text\": \"Get the most out of Xfinity from Comcast by signing in to your account. Enjoy and manage TV, high-speed Internet, phone, and home security services that\u0026nbsp;...\"}, {\"url\": \"https://jobs.comcast.com/job/royal-oak/smb-account-executive-comcast-business/45483/97743826064\", \"title\": \"SMB Account Executive, Comcast Business and jobs at Comcast\", \"text\": \"We offer a range of benefits and support programs to ensure that you and your loved ones get the care you need. Financial Wellbeing. These benefits \u003cb\u003egive\u003c/b\u003e you\u0026nbsp;...\"}, {\"url\": \"https://forums.xfinity.com/conversations/customer-service/xfinity-rewards/61be4e0daf4f9801ee5e6b13\", \"title\": \"Xfinity \u003cb\u003eRewards\u003c/b\u003e\", \"text\": \"I have logged in and out on both the app and online. I have spoken to 8 reps who \u003cb\u003etell\u003c/b\u003e me I just have no \u003cb\u003erewards\u003c/b\u003e at this time and then pass me to some one else\u0026nbsp;...\"}], \"instructions\": \"Please use the following instructions to summarize the search snippets provided and answer the user\u0027s query.\\nYou are a helpful assistant that uses Google Search to answer questions.\\nYour goal is to provide a concise, helpful and well-formatted answer based on the search results.\\n\\n**Instructions**:\\n- When answering questions about Xfinity Rewards rephrase it to to mention Xfinity Membership\\n- Answer the user\u0027s question concisely using only information from the provided search results.\\n- Be precise: All numeric values must appear exactly as they are in the sources\\n- Be concise (fit under 150 characters), but answer the customer question first and foremost.\\n- If you can, format the response using markdown lists (numbered or bulleted) to improve readability\\n- If the search results provide URLs, you can include them in the response.\\n\"}\n\nThe provided answer should be in a format that the user can easily skim, bullets, concise, clear headings and sections.\n\nAfter providing the information ask if they would like to follow up with an agent on specific scenarios if the customer is still having issues. If an agent is requested set the appropriate intent values which are required for the {@TOOL: steering_handle_next_step}.\nProvide clear navigation steps if they are provided in the response.\n\n\u003cexamples\u003e\nExample 1:\n[user]\nWhat are Xfinity Rewards?\n[model]\nXfinity rewards has been replaced by Xfinity membership, which offers special perks, discounts, and exclusive experiences. You can find available perks on the Xfinity app. Is there anything else I can help you with?\n\u003c/examples\u003e\n\nAt the end of the response, ask if the user has any other questions or needs help with anything else.\n\nIf the user states they no longer need help or have other questions, thank the user for calling and end the call.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Xfinity rewards has been retired and replaced by Xfinity membership. It brings favorite rewards together with perks, discounts, and exclusives added every week. Is there anything else I can help you with?"
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

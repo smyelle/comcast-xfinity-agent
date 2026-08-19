@@ -1,0 +1,159 @@
+{
+  "completed": [
+    {
+      "agent": "To get started, could you please tell me your Xfinity account number or the phone number associated with your account?",
+      "said": "my internet is down",
+      "verdicts": []
+    },
+    {
+      "agent": "Thanks. Give me just a moment while I check your connection. While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?",
+      "said": "8069100230359946",
+      "verdicts": []
+    },
+    {
+      "agent": "Got it, that helps. While those checks finish, we could try a couple of quick things on that device. Want to give it a go?",
+      "said": "just one device",
+      "verdicts": [
+        "verdict_scope_noted"
+      ]
+    },
+    {
+      "agent": "Let's start simple. On the device that's struggling, forget the home network in its Wi-Fi settings, then join it again. Did that help?",
+      "said": "yes please",
+      "verdicts": [
+        "verdict_wifi_tip_rejoin"
+      ]
+    },
+    {
+      "agent": "That's good to hear. If anything else comes up, we're here.",
+      "said": "that fixed it thanks",
+      "verdicts": [
+        "verdict_wifi_fixed"
+      ]
+    },
+    {
+      "agent": "ERR FailedPrecondition: 400 Session has already ended. Please create a new session. [reason: \"SESSION_ALREADY_ENDED\"\ndomain: \"ces.googleapis.com\"\nmetadata {\n  key: \"session_id\"\n  value: \"completed-63844\"\n}\n]",
+      "said": "my internet is playing up again",
+      "verdicts": []
+    }
+  ],
+  "dispatch": [
+    {
+      "agent": "To get started, could you please tell me your Xfinity account number or the phone number associated with your account?",
+      "said": "my internet is down",
+      "verdicts": []
+    },
+    {
+      "agent": "Thanks. Give me just a moment while I check your connection. While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?",
+      "said": "8069100230359944",
+      "verdicts": []
+    },
+    {
+      "agent": "",
+      "said": "",
+      "verdicts": []
+    },
+    {
+      "agent": "Still running those checks \u2014 thanks for bearing with me.",
+      "said": "",
+      "verdicts": []
+    }
+  ],
+  "fee": [
+    {
+      "agent": "To get started, could you please tell me your Xfinity account number or the phone number associated with your account?",
+      "said": "my internet is down",
+      "verdicts": []
+    },
+    {
+      "agent": "Thanks. Give me just a moment while I check your connection. While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?",
+      "said": "8069100230361005",
+      "verdicts": []
+    },
+    {
+      "agent": "No, nothing we're doing here costs anything. This call and any troubleshooting we try together are free. The only thing that can carry a charge is a technician visit, and I'd tell you before we booked one.",
+      "said": "will this cost me anything",
+      "verdicts": [
+        "verdict_no_charge"
+      ]
+    },
+    {
+      "agent": "To be clear: there's no charge for this call or anything we try together. A charge only applies if a technician visits and finds the fault isn't with Xfinity's equipment or service, and I'd tell you before booking one.",
+      "said": "",
+      "verdicts": [
+        "verdict_fee_again"
+      ]
+    },
+    {
+      "agent": "",
+      "said": "and will the visit cost me",
+      "verdicts": []
+    }
+  ],
+  "spoken": [
+    {
+      "agent": "To get started, could you please tell me your Xfinity account number or the phone number associated with your account?",
+      "said": "my internet is not working",
+      "verdicts": [
+        "verdict_wifi_scope_early"
+      ]
+    },
+    {
+      "agent": "Thanks. Give me just a moment while I check your connection. While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?",
+      "said": "eight zero six nine one zero zero two three zero three five nine nine four six",
+      "verdicts": []
+    },
+    {
+      "agent": "",
+      "said": "",
+      "verdicts": []
+    }
+  ],
+  "walkthrough": [
+    {
+      "agent": "To get started, could you please tell me your Xfinity account number or the phone number associated with your account?",
+      "said": "my internet is down",
+      "verdicts": []
+    },
+    {
+      "agent": "Thanks. Give me just a moment while I check your connection. While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?",
+      "said": "8069100230359946",
+      "verdicts": []
+    },
+    {
+      "agent": "Got it, that helps. While those checks finish, we could try a couple of quick things on that device. Want to give it a go?",
+      "said": "just one device",
+      "verdicts": [
+        "verdict_scope_noted"
+      ]
+    },
+    {
+      "agent": "Let's start simple. On the device that's struggling, forget the home network in its Wi-Fi settings, then join it again. Did that help?",
+      "said": "yes please",
+      "verdicts": [
+        "verdict_wifi_tip_rejoin"
+      ]
+    },
+    {
+      "agent": "Next one. Try moving closer to your gateway, and check nothing large or metal is sitting right against it. Did that make a difference?",
+      "said": "that didn't work",
+      "verdicts": [
+        "verdict_wifi_tip_closer"
+      ]
+    },
+    {
+      "agent": "Try this one. Turn the device's Wi-Fi off and back on again. On a phone, airplane mode for a few seconds does the same thing. Any change?",
+      "said": "still nothing",
+      "verdicts": [
+        "verdict_wifi_tip_toggle"
+      ]
+    },
+    {
+      "agent": "That's everything I can try from here. Let me get you to someone who can take a closer look at your home setup.",
+      "said": "no better",
+      "verdicts": [
+        "verdict_wifi_exhausted"
+      ]
+    }
+  ]
+}

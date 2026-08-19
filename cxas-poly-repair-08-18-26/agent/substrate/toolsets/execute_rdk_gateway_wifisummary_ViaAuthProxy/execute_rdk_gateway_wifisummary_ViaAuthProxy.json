@@ -1,0 +1,14 @@
+{
+  "name": "9f56b6ca-03c1-4b1e-a3a6-02f3ebb2686c",
+  "displayName": "execute_rdk_gateway_wifisummary_ViaAuthProxy",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/execute_rdk_gateway_wifisummary_ViaAuthProxy/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  }
+}

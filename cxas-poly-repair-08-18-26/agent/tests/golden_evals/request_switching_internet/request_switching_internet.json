@@ -1,0 +1,203 @@
+{
+  "name": "e4b35282-13f2-403a-86ff-35658be6b659",
+  "displayName": "request_switching_internet",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": false,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "I have a billing question ... actually, it’s about my internet"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-b7e98fcd-ec09-4c1a-99cc-310803a4c519",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "action": "disambiguate_intent",
+              "intent": "technical_internet"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-b7e98fcd-ec09-4c1a-99cc-310803a4c519",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Ask the customer in a conversational way: Do you need help with your internet service?",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "has_asked_disambiguation": true,
+            "head_intent_selection_count": 0.0,
+            "intent": "technical_internet"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "To help me direct you better, do you need help with your internet service?"
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "yes"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-8f213ddc-79b3-43d7-974a-9d562995c6d6",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "technical_internet"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-8f213ddc-79b3-43d7-974a-9d562995c6d6",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing.\n\n    Select exactly one head_intent from this allowlist. You must select a value even if it is not a perfect match.\n    - devices_modem_exchange: Replace or swap modem due to issues.\n- internet_email_inquiry: Questions about internet email setup or access.\n- internet_hotspot_inquiry: Ask about Xfinity hotspot availability or use.\n- internet_sound: Internet issue affecting audio or voice quality.\n- internet_streaming: Streaming performance or connectivity troubleshooting request.\n- internet_troubleshoot: General internet troubleshooting and connectivity support, speed issues.\n- login_and_password_general: Help with account login or password reset.\n- login_and_password_networking: Network credential or Wi-Fi password assistance.\n    Immediately call steering_handle_next_step again with:\n    - intent set to technical_internet\n    - the selected exact head_intent value from this allowlist\n    - route_confidence set to a numeric value from 0 to 1 that reflects your confidence in that selection\n    If ambiguous, choose the closest head_intent and use lower confidence.\n    Confidence rubric: 0.95-0.99 explicit match; 0.75-0.94 strong inferred match; 0.55-0.74 ambiguous/partial; 0.35-0.54 weak forced closest match. Do not default to 1.0.\n\n\n\nExample - Reset password\n[user]\nI need to reset my password\n[model]\nlogin_and_password_general",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "lob": "HSI",
+            "target_flow": "pre_lob"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-8f662fba-4b94-4298-9d2a-c319483c53c9",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "internet_troubleshoot",
+              "intent": "technical_internet",
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.9
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-8f662fba-4b94-4298-9d2a-c319483c53c9",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing. \n\n    Create a single, natural-sounding sentence and store it in the message variable.\n    Use - devices_modem_exchange: Replace or swap modem due to issues.\n- internet_email_inquiry: Questions about internet email setup or access.\n- internet_hotspot_inquiry: Ask about Xfinity hotspot availability or use.\n- internet_sound: Internet issue affecting audio or voice quality.\n- internet_streaming: Streaming performance or connectivity troubleshooting request.\n- internet_troubleshoot: General internet troubleshooting and connectivity support, speed issues.\n- login_and_password_general: Help with account login or password reset.\n- login_and_password_networking: Network credential or Wi-Fi password assistance. and this phrasing template:\n    \"Got it. Are you calling to [thing A], [thing B], [thing C], or something else?\"\n    Fill [thing A], [thing B], and [thing C] with the three most likely options from the allowlist.\n\n    Immediately call steering_handle_next_step with:\n    intent\u003dtechnical_internet\n    message \u003d exactly the generated sentence (no changes, no reformatting)",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent": "internet_troubleshoot",
+            "head_intent_selection_count": 1.0,
+            "route_confidence": 0.9
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-96f23cee-daec-4ccb-8028-73be28e80727",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "technical_internet",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "Got it. Are you calling to troubleshoot your internet, help with your wifi password, or something else?"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-96f23cee-daec-4ccb-8028-73be28e80727",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say exactly: Got it. Are you calling to troubleshoot your internet, help with your wifi password, or something else? Then wait for the customer\u0027s reply. Do not call steering_handle_next_step again until after the customer answers.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Got it. Are you calling to troubleshoot your internet, help with your wifi password, or something else?"
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

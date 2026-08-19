@@ -1,0 +1,209 @@
+Cold from the console: the account step clears, and the account number picks the journey.
+
+app 9a503448-b4b6-4746-a354-22163f4ea286 (xa-repair-voice-ux-cold-console), 2026-08-13.
+A SPIKE_DEMO + SPIKE_LOCAL_SPECIALISTS build. Every drive below is COLD: no seeded
+variables, no `use_tool_fakes`, no --var, no --fakes -- exactly what the CES console can
+supply, which is nothing but the caller's own words.
+
+WHAT CHANGED. The demo gate used to RETURN a canned "clear / aa:bb:cc:dd:ee:ff", so the
+account number was ignored and eight of the nine authored journeys were unreachable from
+a console session. It now falls through to its real body and lets the promoted
+`fetch_customer_context` fixture answer, and the fixture is taught cujs.yaml's account ->
+scenario bindings at build time.
+
+CONTROL, same day, same driver: the DEFAULT build (590a468f) driven cold still answers
+"I see an issue with your account status" on every account, because the context hub errors
+in dev. That build is unchanged by design -- it is the one that talks to real backends.
+
+MARGIN. The verdict lands 43.5-51.3s into the call and the account is captured at
+~17s, so the caller's silence has to outlast ~26-34s of sweep. 45s and 60s clear it every
+time; 30s is a coin flip (2 of 4 attempts showed the verdict, 2 did not, one of those with
+the session returning nothing at all afterwards). Do not verify this journey on a single
+30s pass.
+
+===============================================================================
+1. all_clear (8069100230359946), 45s hold -- the full journey
+===============================================================================
+app 9a503448-b4b6-4746-a354-22163f4ea286  session demovoice-1786655850  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 45s of SILENCE
+  --- turn 236  (t= 71.7s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 513  (t= 71.7s at read)
+     17.2s + 17.2s  < Thanks.
+     17.5s +  0.4s  < Give me just a moment while I check your connection.
+     17.5s +  0.0s  < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 601  (t= 71.7s at read)
+     34.4s + 16.9s  < Still running those checks — thanks for bearing with me.
+  --- turn 960  (t= 71.7s at read)
+     43.5s +  9.1s  < Everything on our side looks healthy. Your account, your area, the line into your home and your gateway all check out. That usually leaves the Wi-Fi inside your home as the most likely spot. Would you like me to walk you through a few things to try?
+
+[caller] 'yes please'
+  --- turn 135  (t= 85.5s at read)
+      0.0s         < Got it.
+      0.4s +  0.4s  < Is everything having trouble connecting, or just one device?
+
+[caller] 'just one device'
+  --- turn 234  (t=102.9s at read)
+      0.0s         < Let's start simple.
+      0.3s +  0.3s  < On the device that's struggling, forget the home network in its Wi-Fi settings, then join it again. Did that help?
+
+[caller] "that didn't work"
+  --- turn 223  (t=121.0s at read)
+      0.0s         < Next one.
+      1.1s +  1.1s  < Try moving closer to your gateway, and check nothing large or metal is sitting right against it. Did that make a difference?
+
+[caller] 'still nothing'
+  --- turn 238  (t=137.9s at read)
+      0.0s         < Try this one.
+      0.4s +  0.4s  < Turn the device's Wi-Fi off and back on again. On a phone, airplane mode for a few seconds does the same thing. Any change?
+
+[caller] 'no change'
+  --- turn 149  (t=152.4s at read)
+      0.0s         < That's everything I can try from here. Let me get you to someone who can take a closer look at your home setup.
+
+===============================================================================
+2. all_clear (8069100230359946), 60s hold -- the same journey, more margin
+===============================================================================
+app 9a503448-b4b6-4746-a354-22163f4ea286  session demovoice-1786656008  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 60s of SILENCE
+  --- turn 210  (t= 87.7s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 496  (t= 87.7s at read)
+     16.8s + 16.8s  < Thanks.
+     18.4s +  1.6s  < Give me just a moment while I check your connection.
+     18.4s +  0.0s  < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 572  (t= 87.7s at read)
+     37.2s + 18.9s  < Still running those checks — thanks for bearing with me.
+  --- turn 973  (t= 87.7s at read)
+     51.3s + 14.1s  < Everything on our side looks healthy. Your account, your area, the line into your home and your gateway all check out. That usually leaves the Wi-Fi inside your home as the most likely spot. Would you like me to walk you through a few things to try?
+  --- turn 1038  (t= 87.7s at read)
+     75.7s + 24.4s  < Would you like to try a few things with me?
+
+[caller] 'yes please'
+  --- turn 140  (t=103.1s at read)
+      0.0s         < Got it.
+      1.4s +  1.4s  < Is everything having trouble connecting, or just one device?
+
+[caller] 'just one device'
+  --- turn 216  (t=120.4s at read)
+      0.0s         < Let's start simple.
+      0.5s +  0.5s  < On the device that's struggling, forget the home network in its Wi-Fi settings, then join it again. Did that help?
+
+[caller] "that didn't work"
+  --- turn 219  (t=138.8s at read)
+      0.0s         < Next one.
+      1.4s +  1.4s  < Try moving closer to your gateway, and check nothing large or metal is sitting right against it. Did that make a difference?
+
+[caller] 'still nothing'
+  --- turn 249  (t=156.9s at read)
+      0.0s         < Try this one.
+      0.8s +  0.8s  < Turn the device's Wi-Fi off and back on again. On a phone, airplane mode for a few seconds does the same thing. Any change?
+
+[caller] 'no change'
+  --- turn 159  (t=174.2s at read)
+      0.0s         < That's everything I can try from here. Let me get you to someone who can take a closer look at your home setup.
+
+===============================================================================
+3. all_clear (8069100230359946), 30s hold -- passes, but only just
+===============================================================================
+app 9a503448-b4b6-4746-a354-22163f4ea286  session demovoice-1786656325  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 30s of SILENCE
+  --- turn 227  (t= 56.0s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 507  (t= 56.0s at read)
+     16.8s + 16.8s  < Thanks.
+     17.2s +  0.4s  < Give me just a moment while I check your connection.
+     17.2s +  0.0s  < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 597  (t= 56.0s at read)
+     34.2s + 17.0s  < Still running those checks — thanks for bearing with me.
+  --- turn 965  (t= 56.0s at read)
+     44.1s +  9.8s  < Everything on our side looks healthy. Your account, your area, the line into your home and your gateway all check out. That usually leaves the Wi-Fi inside your home as the most likely spot. Would you like me to walk you through a few things to try?
+
+[caller] 'yes please'
+  --- turn 132  (t= 69.4s at read)
+      0.0s         < Got it.
+      0.3s +  0.3s  < Is everything having trouble connecting, or just one device?
+
+[caller] 'just one device'
+  --- turn 223  (t= 86.5s at read)
+      0.0s         < Let's start simple.
+      0.3s +  0.3s  < On the device that's struggling, forget the home network in its Wi-Fi settings, then join it again. Did that help?
+
+[caller] "that didn't work"
+  --- turn 221  (t=103.6s at read)
+      0.0s         < Next one.
+      0.3s +  0.3s  < Try moving closer to your gateway, and check nothing large or metal is sitting right against it. Did that make a difference?
+
+[caller] 'still nothing'
+  --- turn 264  (t=122.0s at read)
+      0.0s         < Try this one.
+      0.4s +  0.4s  < Turn the device's Wi-Fi off and back on again. On a phone, airplane mode for a few seconds does the same thing. Any change?
+
+[caller] 'no change'
+  --- turn 150  (t=136.6s at read)
+      0.0s         < That's everything I can try from here. Let me get you to someone who can take a closer look at your home setup.
+
+===============================================================================
+4. account_suspended (8069100020078787) -- billing hand-off, and it never sweeps
+===============================================================================
+app 9a503448-b4b6-4746-a354-22163f4ea286  session demovoice-1786655466  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 0 2 0 0 7 8 7 8 7" … then 20s of SILENCE
+  --- turn 241  (t= 46.8s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 533  (t= 46.8s at read)
+     16.9s + 16.9s  < Thanks.
+     17.4s +  0.5s  < Give me just a moment while I check your connection.
+     17.9s +  0.5s  < I see an issue with your account status that's interrupting your internet service. Let me get you to someone who can help with your account.
+  --- turn 610  (t= 46.8s at read)
+     35.6s + 17.6s  < Is there anything else I can help you with today?
+
+[caller] 'okay'
+  --- turn 87  (t= 60.9s at read)
+      0.0s         < Got it. If anything comes up, we're here to help.
+
+===============================================================================
+5. gateway_reboot (8069100230361003) -- the sweep runs, the reboot is sent
+===============================================================================
+app 9a503448-b4b6-4746-a354-22163f4ea286  session demovoice-1786655531  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 6 1 0 0 3" … then 45s of SILENCE
+  --- turn 230  (t=150.1s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 516  (t=150.1s at read)
+     17.0s + 17.0s  < Thanks.
+     18.6s +  1.6s  < Give me just a moment while I check your connection.
+     18.6s +  0.0s  < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 607  (t=150.1s at read)
+     39.7s + 21.0s  < Still running those checks — thanks for bearing with me.
+
+[caller] 'yes please'
+  --- turn 242  (t=171.1s at read)
+      0.0s         < Okay, give me just a moment.
+      1.6s +  1.6s  < Alright, I'm sending a signal to reboot your gateway now. This usually takes about 5 to 7 minutes to complete.
+
+[caller] 'okay'
+  --- turn 67  (t=183.9s at read)
+      0.0s         < Is there anything else I can help you with today?
+===============================================================================
+6. area_outage (8344200010126021) -- no modem MAC, so missing hardware wins
+===============================================================================
+app 9a503448-b4b6-4746-a354-22163f4ea286  session demovoice-1786656187  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 3 4 4 2 0 0 0 1 0 1 2 6 0 2 1" … then 25s of SILENCE
+  --- turn 243  (t= 50.4s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 549  (t= 50.4s at read)
+     16.6s + 16.6s  < Thanks.
+     17.4s +  0.8s  < Give me just a moment while I check your connection.
+     25.1s +  7.7s  < I'm not seeing an Xfinity Gateway on your account, so I can't run any more checks.
+     25.7s +  0.7s  < Let me connect you with someone who can help.
+  --- turn 707  (t= 50.4s at read)
+     35.6s +  9.9s  < I've already transferred you to a representative who can help get your equipment set up. Please stay on the line.
+
+[caller] 'okay'
+  --- turn 90  (t= 63.4s at read)
+      0.0s         < Got it. If anything else comes up, we're here to help.

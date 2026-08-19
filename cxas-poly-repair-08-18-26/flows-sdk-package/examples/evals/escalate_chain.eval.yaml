@@ -1,0 +1,44 @@
+meta:
+  example: escalate_chain
+  claim: "escalate(tasks=[...]) runs a warm-handoff chain (prepare_handoff then hand_off, in order) before the transfer disposition; with no account the chain has nothing to build and a bare escalate short-circuits straight to the transfer."
+
+scenarios:
+  # Account captured -> Diagnostics runs in the ordinary spine and the verdict is read out.
+  # Asking for a person then ARMS THE CHAIN: prepare_handoff, then hand_off, then escalate.
+  - name: chain_runs_before_the_transfer
+    polarity: positive
+    tool_fakes:
+      diagnose: {diagnosis: "the gateway has been offline since 9:14 this morning", success: true}
+      prepare_handoff: {summary: "Account 8069 asked for a person. Diagnostics found the gateway offline.", success: true}
+      hand_off: {handoff_ack: "filed", success: true}
+    on_start:
+      - asked_slot: account
+    turns:
+      - answer: {slot: account, value: "8069100230361049"}
+        expect:
+          - tool_called: diagnose                              # ordinary spine
+          - said_contains: "Here's what I found: the gateway has been offline"
+          - asked_slot: next_step
+      - answer: {slot: escalate, args: {reason: "just get me a person"}}
+        expect:
+          - tool_called: prepare_handoff        # chain member 1
+          - tool_called: hand_off               # chain member 2 (runs after prepare_handoff)
+          - tool_args: {tool: hand_off, args: {summary: "Account 8069 asked for a person. Diagnostics found the gateway offline."}}
+          - said_contains: "One moment while I pull your details together"   # then_say on last member
+          - said_contains: "get you to someone who can help"                 # escalate.say
+          - disposition: escalate
+
+  # Ask for a person before any account exists: the chain's inputs are not ready, so no
+  # chain member fires and the caller gets the plain transfer with no warm-handoff work.
+  - name: bare_escalate_when_nothing_to_hand_off
+    polarity: negative
+    tool_fakes:
+      diagnose: {diagnosis: "x", success: true}
+      prepare_handoff: {summary: "s", success: true}
+      hand_off: {handoff_ack: "filed", success: true}
+    turns:
+      - answer: {slot: escalate, args: {reason: "person now"}}
+        expect:
+          - no_tools_called: true                              # chain did not arm
+          - said_contains: "get you to someone who can help"
+          - disposition: escalate

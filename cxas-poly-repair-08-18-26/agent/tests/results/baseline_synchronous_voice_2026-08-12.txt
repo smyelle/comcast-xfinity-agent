@@ -1,0 +1,31 @@
+The SYNCHRONOUS sweep, driven for comparison. Built from 72709b8 (the commit before the
+remote-job build became the default) and pushed to the same app, same journey, same script.
+
+Read the third turn: the bridge line, the results, the verdict and the offer are ALL in one
+turn, because the sweep ran inside it and the caller could not have interrupted if they had
+wanted to. Then read what happens to the scope answer -- the caller says "just one device",
+the model improvises a paragraph about it, and two turns later the agent asks "is everything
+having trouble connecting, or just one device?". The answer was given and then asked for.
+
+Against tests/results/scope_overlap_voice_2026-08-12.txt: 3 caller turns from verdict to
+first tip here, 1 there, and the question is put once rather than twice.
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 22s of SILENCE
+  --- turn 253  (t= 47.8s at read)
+      < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 772  (t= 47.8s at read)
+      < Thanks. Give me just a moment while I check your connection.
+      < Okay, those results are back.
+      < Everything on our side looks healthy. Your account, your area, the line into your home and your gateway all check out. That usually leaves the Wi-Fi inside your home as the most likely spot. Would you like me to walk you through a few things to try?
+[caller] 'just one device'
+  --- turn 378  (t= 70.9s at read)
+      < Since the issue is isolated to just that one device, the problem is likely with the device itself or its connection settings rather than your Xfinity service. Would you like to try a few troubleshooting steps with me to see if we can get it reconnected?
+[caller] ... 14s of silence ...
+[caller] 'yes please'
+  --- turn 125  (t=102.4s at read)
+      < Got it.
+      < Is everything having trouble connecting, or just one device?
+[caller] "that didn't work"
+  --- turn 213  (t=121.5s at read)
+      < Let's start simple.
+      < On the device that's struggling, forget the home network in its Wi-Fi settings, then join it again. Did that help?

@@ -1,0 +1,38 @@
+Escalation is HELD while the diagnostics sweep runs -- live, over voice.
+
+app 590a468f (cxas-comcast-staging), 2026-08-13, the default `built` app.
+Seeded ONLY the gate's own prepopulation keys (`gateway_status`, `cable_modem_mac`), so
+the account reads clear cold -- every account on the dev backends currently answers "I
+see an issue with your account status", which short circuits the sweep before any of
+this can happen. `network_status` is deliberately NOT seeded, so the remote specialist
+job is a real Cloud Run round trip. Tool fakes cover only the two fan-out legs, whose
+Comcast backends dev cannot route to.
+
+The three things this shows, in order: the hold, the SECOND hold (a repeated ask does
+not fall through), and the hand-off once the wait is over.
+
+The wait ended here on the `on_timeout` rail rather than on a clean verdict -- the
+specialists themselves are unreachable from dev -- which is the honest EXIT being
+exercised as well: a sweep that never answers still releases the hold.
+
+app 590a468f-af4a-45f9-a760-24676fdd52e4  session demovoice-1786643352  VOICE, seeded variables ['cable_modem_mac', 'gateway_status'], no tool fakes
+
+[caller] "my internet is not working" … 9s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 6s of SILENCE
+  --- turn 256  (t= 29.6s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+
+[caller] 'can I speak to a real person please'
+  --- turn 207  (t= 50.1s at read)
+      0.0s         < I can do that. I'd just like the check on your line to finish first, so whoever picks up already knows what's actually wrong. Give me a moment.
+
+[caller] 'I really need to talk to a human now'
+  --- turn 167  (t= 68.5s at read)
+      0.0s         < Almost there. As soon as those results are back I'll get you over to someone, and they'll know what we're dealing with.
+
+[caller] ... 25s of silence ...
+  --- turn 158  (t= 99.2s at read)
+      0.0s         < I just ran a few checks but wasn't able to get all the info I need. Let me get you to someone who can help.
+
+[caller] 'please connect me with an agent'
+  --- turn 137  (t=117.1s at read)
+      0.0s         < I completely understand, let me get you connected to a live agent who can help you directly.

@@ -1,0 +1,48 @@
+app 3e1e6137-956b-453b-96ac-bc661c0ee35c  session demovoice-1786541579  VOICE, SEEDED context fakes (specialists still real)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 40s of SILENCE
+  --- turn 270  (t= 66.6s at read)
+      < Thanks.
+      < Give me just a moment while I check your connection.
+      < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 478  (t= 66.6s at read)
+      < I wasn't able to finish the checks on your line just now. Let me get you to someone who can help.
+      < I am connecting you to a representative now.
+  --- turn 572  (t= 66.6s at read)
+      < Thanks for calling Xfinity. What's going on with your service today?
+  --- turn 687  (t= 66.6s at read)
+      < Are you still there? Please let me know if you still need help with your internet.
+
+[caller] 'just one device'
+  --- turn 367  (t= 88.8s at read)
+      < Since it is just one device, try turning its WiFi off and back on, or restarting that device. If that does not fix it, you may need to forget the network and reconnect.
+
+--------------------------------------------------------------------------------
+Recorded 2026-08-12, app 3e1e6137-956b-453b-96ac-bc661c0ee35c (comcast-scope-overlap),
+branch flows-sdk/wifi-scope-overlap, flows 0.16.0.
+
+  python tests/demo_voice.py --account 8069100230359946 --fake-context \
+    --mock "outage_status=none&convoy_status=clear&context_status=clear" \
+    --hold 40 --say "just one device"
+
+WHAT THIS SHOWS, and it is the point of the change: on turn 270, over real audio with
+real silence on the wire, the caller hears the bridge line in two parts and then the
+scope question DURING the wait, before any verdict exists.
+
+WHAT IT DOES NOT SHOW: the rest of the journey. The specialists fail here
+("I wasn't able to finish the checks"), because `use_tool_fakes` is session-wide and
+`resolve_specialists_remote` has no fake, so the remote job does not come back. The
+turns after 270 are that failure and the transfer it triggers, not the feature.
+
+WHY THE WAIT HAD TO BE FAKED AT ALL: driven cold against the dev backends the same day,
+every account in cujs.yaml -- including the all-clear one, 8069100230359946 -- answers
+"I see an issue with your account status" and hands off before the sweep runs.
+Reproduced on the pre-change app 2e058bf5 with the same account and the same result, so
+it is the environment and not this build.
+
+STILL UNVERIFIED, and none of it should be claimed until it is driven:
+  * the answer being captured by `wifi_scope_early` and promoted into `wifi_scope`
+  * the walkthrough skipping `AskWifiScope` because the answer is already in hand
+  * a NOT-all-clear sweep leaving the early answer unused and never offering tips
+  * a silent caller through the wait: what they hear, and that nothing force-fills
+  * the answer landing on the completion turn (`answer_first=1`)

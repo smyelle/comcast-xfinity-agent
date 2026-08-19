@@ -1,0 +1,46 @@
+meta:
+  example: async_stale_consumer
+  claim: "A placeholder verdict is replaced by the async scan's real finding, and the consumer task reads the real finding — never the placeholder."
+
+scenarios:
+  - name: advise_reads_the_real_finding_not_the_placeholder
+    polarity: positive
+    tool_fakes:
+      quick_check: {verdict: "still checking", success: true}
+      deep_scan: {verdict: "a faulty splitter on the street cabinet", success: true}
+      advise: {advice: "The scan found a faulty splitter on the street cabinet. I've booked an engineer and we'll confirm by text.", success: true}
+    on_start:
+      - asked_slot: account
+    turns:
+      # Answering the account fires the quick placeholder AND the full scan; the scan's
+      # real finding replaces the placeholder in the shared `verdict` slot.
+      - answer: {slot: account, value: "8069100230361049"}
+        expect:
+          - tool_called: quick_check
+          - tool_called: deep_scan
+          - slot_filled: {verdict: "a faulty splitter on the street cabinet"}
+          - asked_slot: contact_pref          # unrelated slot still collected during the scan
+      # With both inputs present the consumer fires — on the REAL finding.
+      - answer: {slot: contact_pref, value: "text"}
+        expect:
+          - tool_called: advise
+          - tool_args: {tool: advise, args: {verdict: "a faulty splitter on the street cabinet", contact_pref: "text"}}
+          - said_contains: "faulty splitter"
+          - disposition: complete
+
+  - name: consumer_is_withheld_until_its_input_is_ready
+    polarity: negative
+    tool_fakes:
+      quick_check: {verdict: "still checking", success: true}
+      deep_scan: {verdict: "a faulty splitter on the street cabinet", success: true}
+      advise: {advice: "should never be read on the placeholder", success: true}
+    turns:
+      # The interesting edge: after the scan writes the shared slot, `advise` is NOT run
+      # yet — its other input (contact_pref) is still open — so the placeholder is never
+      # consumed and the flow keeps collecting instead of terminating early.
+      - answer: {slot: account, value: "8069100230361049"}
+        expect:
+          - slot_status: {verdict: filled}
+          - slot_status: {contact_pref: open}
+          - asked_slot: contact_pref
+          - status: in_progress

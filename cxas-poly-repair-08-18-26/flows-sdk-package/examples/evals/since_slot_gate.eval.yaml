@@ -1,0 +1,54 @@
+meta:
+  example: since_slot_gate
+  claim: "A slot gated on `since_turns` refuses the offer's own turn and captures the caller's answer on the next one — the gate is read by the cue matcher, so both halves have to hold there and not only in the DAG walk."
+
+scenarios:
+  # The positive, and the whole point: the offer is spoken on one turn and the answer
+  # arrives on the next. The gate has to be OPEN by the time the cue matcher runs, which
+  # is earlier in the turn than any task condition is read.
+  - name: the_answer_is_captured_on_the_turn_after_the_offer
+    polarity: positive
+    tool_fakes:
+      look_up_parcel:
+        location: "back at the depot"
+        redeliverable: "yes"
+        success: true
+      book_redelivery:
+        booked: "tomorrow"
+        success: true
+    on_start:
+      - asked_slot: tracking_number
+    turns:
+      - answer: {slot: tracking_number, value: "773"}
+        expect:
+          - tool_called: look_up_parcel
+          # The offer, and NOT the answer: `rebook` must still be shut on this turn.
+          - said_contains: "Shall I book a redelivery for tomorrow?"
+          - slot_filled: {rebook_offered: "true"}
+      - say: "yes please"
+        expect:
+          - slot_filled: {rebook: "YES"}
+          - tool_called: book_redelivery
+          - said_contains: "it's booked for tomorrow"
+
+  # The negative that makes the positive mean something. Saying "yes please" on the
+  # offer's OWN turn must not book anything: the gate is shut, so there is nothing for
+  # the model to fill and nothing for the consuming rung to act on.
+  - name: the_offer_turn_itself_cannot_be_answered
+    polarity: negative
+    tool_fakes:
+      look_up_parcel:
+        location: "back at the depot"
+        redeliverable: "yes"
+        success: true
+      book_redelivery:
+        booked: "tomorrow"
+        success: true
+    on_start:
+      - asked_slot: tracking_number
+    turns:
+      - answer: {slot: tracking_number, value: "773"}
+        expect:
+          - said_contains: "Shall I book a redelivery for tomorrow?"
+          - tool_not_called: book_redelivery
+          - slot_status: {rebook: open}

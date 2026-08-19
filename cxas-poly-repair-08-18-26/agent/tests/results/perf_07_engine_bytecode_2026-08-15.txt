@@ -1,0 +1,77 @@
+perf_07 — ship the slot-filling engine as precompiled bytecode
+==============================================================
+
+ACCEPTED. -91 to -99ms per engine invocation, ~11 invocations a call, measured live on
+this agent with the two arms taking the SAME path.
+
+This file previously carried a RETRACTED -81ms figure. That measurement was taken against
+a packed engine that was crashing on every call, so it timed the cost of failing. The
+root cause is below; the numbers here are the re-measurement after the fix.
+
+What changed
+------------
+Nothing in this repo. In the flows SDK (cxas-labs `perf/engine-bytecode`) the engine's
+deployed `python_code.py` becomes an ast-visible annotated stub plus two base64 literals --
+`zlib(marshal(code))` and `zlib(source)` -- which a module-level `exec` unpacks at import.
+A string literal is ONE ast node however long it is, so the module goes from 555,399 B /
+49,860 nodes to 503,919 B / ~165 nodes. The packed file is SMALLER than the source.
+
+Result
+------
+Two apps from byte-identical app dirs differing in exactly one file, alternated,
+`tests/latency_attribution.py --repeat 3`, run twice:
+
+                              A source    B packed      delta   calls
+  run 1  slot_filling_engine    165 ms       74 ms      -91 ms   33/33
+  run 2  slot_filling_engine    169 ms       70 ms      -99 ms   33/33
+
+  run 2  turn total            5219 ms     4228 ms     -991 ms
+  run 2  tool component        3496 ms     2368 ms    -1129 ms
+  run 2  llm                    884 ms      882 ms       -1 ms
+         engine_calls              11          11          +0
+
+THE CONTROL THAT MATTERS is `engine_calls 11 vs 11`. In the retracted measurement it was
+11 vs 5, which was not "the drives diverged" as recorded at the time -- it was the agent no
+longer doing its job. Equal call counts, equal slot_intake counts (33/33) and equal callback
+counts (66/66) are what say both arms walked the same conversation.
+
+`llm` moving -1ms in run 2 is the other guard: packing cannot make the model faster, so a
+large llm delta means platform drift is contaminating the turn total. Run 1 had llm at
+-348ms and its -1255ms turn delta is correspondingly NOT fully attributable. Run 2 is the
+one to quote: 11 calls x 99ms = 1089ms, against a measured tool delta of 1129ms.
+
+Root cause of the earlier failure (worth carrying forward)
+----------------------------------------------------------
+`packing.py` carries `from __future__ import annotations`, and a bare `compile()` INHERITS
+the calling module's __future__ flags. So the marshalled code object came out with
+CO_FUTURE_ANNOTATIONS and every function's annotations became STRINGS. CES builds a
+`pydantic.TypeAdapter` per call and evaluates those strings in a namespace with no `Any`:
+
+    NameError: name 'Any' is not defined. Did you mean: 'any'?
+
+-> tool error envelope -> `before_model_CRASH KeyError('result')` on every turn -> the agent
+degraded into a plain model asking the caller for their account number.
+
+The fix is `compile(src, "python_code.py", "exec", 0, True)` -- `dont_inherit=True`.
+
+It hid from SEVEN probes because every probe entry was annotated `-> dict` and took no
+parameters: `dict` is a builtin and resolves fine even as a string, `Any` does not. The
+real entry is `slot_filling_engine(input_data: dict[str, Any])`. Two probes that DID use
+`dict[str, Any]` failed in both arms and were dismissed as construction faults -- they were
+the bug, showing up in the source arm too because the probe module itself imported
+annotations from `__future__`.
+
+An exact major.minor.micro interpreter pin was added at one point to explain the failure.
+It was wrong: 3.12.13 bytecode runs correctly on CES's 3.12.5, and the pin was masking the
+annotations bug. The gate is now the bytecode MAGIC NUMBER, which is what CPython itself
+validates on a .pyc; marshal performs no such check of its own.
+
+Gotchas worth keeping
+---------------------
+* Both compiles in the emitted module use dont_inherit=True. The fallback one matters too:
+  it runs INSIDE the packed module, so it would otherwise inherit whatever flags the host
+  used to compile that file -- the same leak by a different route.
+* A packed artifact still passes the framework drift check, because it embeds its own
+  source and `verify_files` recovers and hashes the exact blessed bytes.
+* Driving these arms needs `CXAS_LABS` set and a NEUTRAL cwd; `flows-sdk/app.py` shadows
+  the Labs `app` package, and `add_sdk_paths` returns early when flows is installed.

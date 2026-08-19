@@ -1,0 +1,15 @@
+{
+  "name": "ede_outage_api",
+  "displayName": "ede_outage_api",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/ede_outage_api/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Fetch EDE (Experience Decision Engine) recommendations to check for active internet outages via Apigee dev auth-proxy"
+}

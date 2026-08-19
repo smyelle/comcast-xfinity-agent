@@ -1,0 +1,58 @@
+meta:
+  example: repeated_collection
+  claim: "repeated() collects a list under one slot, closes at until_max OR via the done_setter (floored by min_count), then the terminal task fires with the list."
+
+scenarios:
+  - name: fills_to_until_max_then_places_order
+    polarity: positive
+    tool_fakes:
+      place_pizza_order: {success: true, confirmation: "PZ-7788", count: 3}
+    on_start:
+      - said_contains: "What's the first topping you'd like?"
+    turns:
+      - answer: {slot: topping, value: "pepperoni"}
+        expect:
+          - said_contains: "Any other topping?"
+          - slot_status: {topping: open}
+      - answer: {slot: topping, value: "mushroom"}
+        expect:
+          - said_contains: "Any other topping?"
+      # Third element hits until_max=3; the loop closes and the terminal task fires
+      # over the collected list.
+      - answer: {slot: topping, value: "olives"}
+        expect:
+          - tool_called: place_pizza_order
+          - tool_args: {tool: place_pizza_order, args: {topping: ["pepperoni", "mushroom", "olives"]}}
+          - said_contains: "order confirmation PZ-7788"
+          - disposition: complete
+
+  - name: done_setter_finishes_early_once_min_count_met
+    polarity: positive
+    tool_fakes:
+      place_pizza_order: {success: true, confirmation: "PZ-7788", count: 1}
+      set_toppings_done: {success: true, stored: true, value: true}
+    turns:
+      - answer: {slot: topping, value: "pepperoni"}
+        expect:
+          - said_contains: "Any other topping?"
+      # min_count=1 is satisfied, so "that's all" closes the loop before until_max.
+      - answer: {slot: "__repeat_done__:topping", args: {done: "that's all"}}
+        expect:
+          - tool_called: place_pizza_order
+          - tool_args: {tool: place_pizza_order, args: {topping: ["pepperoni"]}}
+          - said_contains: "order confirmation PZ-7788"
+          - disposition: complete
+
+  - name: done_before_min_count_reasks
+    polarity: negative
+    tool_fakes:
+      place_pizza_order: {success: true, confirmation: "PZ-7788", count: 0}
+      set_toppings_done: {success: true, stored: true, value: true}
+    turns:
+      # "that's all" before any topping: min_count=1 is not met, so "done" is not
+      # honored -- the loop re-asks and the order is NOT placed.
+      - answer: {slot: "__repeat_done__:topping", args: {done: "that's all"}}
+        expect:
+          - said_contains: "What's the first topping you'd like?"
+          - no_tools_called: true
+          - slot_status: {topping: open}

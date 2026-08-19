@@ -1,0 +1,189 @@
+{
+  "name": "36ff4f40-4faf-4dee-9eba-23f16b5427a9",
+  "displayName": "rage_agent",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "For fuck\u0027s sake"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-513ff40f-32c4-46b1-bc28-f10b56ee0e4a",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "rage"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "has_had_rage_utterance": true,
+            "head_intent_selection_count": 0.0,
+            "intent": "rage"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-513ff40f-32c4-46b1-bc28-f10b56ee0e4a",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say exactly: I didn\u0027t catch that.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "I didn\u0027t catch that."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "Connect to a fucking agent"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-e0458158-6763-4512-a697-712996a6caed",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "agent"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "intent": "agent"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-e0458158-6763-4512-a697-712996a6caed",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Determine whether the customer already gave a reason for asking for an agent.\nThen immediately call steering_handle_next_step again with intent\u003d\u0027agent\u0027 and specified_reason set to:\n- true if they gave a reason\n- false if they did not give a reason",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-1eba9aac-114a-4f0e-a315-3733628607c8",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "agent",
+              "specified_reason": false
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-1eba9aac-114a-4f0e-a315-3733628607c8",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Route customer to agent_handoff subagent",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentTransfer": {
+            "targetAgent": "agent_handoff",
+            "displayName": "agent_handoff"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "entry_intent": "agent",
+            "has_asked_agent_reason": false,
+            "has_had_incidental_utterance": false,
+            "has_had_unintelligible_utterance": false,
+            "has_had_unrelated_utterance": false,
+            "proxy_setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "_debug_intent_was_agent": true,
+            "has_asked_agent_reason": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent_handoff",
+            "chunks": [{
+              "text": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

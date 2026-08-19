@@ -1,0 +1,195 @@
+{
+  "name": "1c505056-99b7-45c5-9084-b8f8100ef6ca",
+  "displayName": "seasonal_turnoff",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "I need to turn off seasonal"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-b8010d2d-ef46-443b-918e-19b4d68b7adc",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "disambiguation_main_menu"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-b8010d2d-ef46-443b-918e-19b4d68b7adc",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing.\n\n    Select exactly one head_intent from this allowlist. You must select a value even if it is not a perfect match.\n    - plan_manage_temporary_disconnect: Place services on hold and later reactivate.\n- account_handle_bereavement: Handle account changes after customer death or loss.\n- miscellaneous_inquire_rewards: Ask about Xfinity Rewards or membership benefits.\n- miscellaneous_inquire_broadband_nutrition_labels: Ask about broadband nutrition labels or internet plan transparency details.\n- internet_manage_wifi_xfi_pod: Get help with xFi Pods or managing WiFi mesh coverage.\n- internet_ip: Change, troubleshoot, or request static/dynamic IP addresses.\n- voice_international_phone_coverage: Add or remove Unlimited Pass international calling.\n- account_order_gen: Place new order or check order status.\n- tv_troubleshoot_netflix: Resolve Netflix app, login, or playback issues.\n- vague_peacock: Questions about Peacock, including account, app, or streaming support.\n- vague_xumo: Questions about [redacted], including account, app, or streaming support.\n- business_general: Comcast Business account, service, and support inquiries.\n- account_update_address: Update service, billing, or mailing address.\n- california_lifeline: Questions about California Lifeline eligibility, enrollment, or benefits.\n- vague_change_general: General request to change plan or services.\n- account_check_ticket_status: Check status of open service ticket/request.\n    Immediately call steering_handle_next_step again with:\n    - intent set to disambiguation_main_menu\n    - the selected exact head_intent value from this allowlist\n    - route_confidence set to a numeric value from 0 to 1 that reflects your confidence in that selection\n    If ambiguous, choose the closest head_intent and use lower confidence.\n    Confidence rubric: 0.95-0.99 explicit match; 0.75-0.94 strong inferred match; 0.55-0.74 ambiguous/partial; 0.35-0.54 weak forced closest match. Do not default to 1.0.\n\n\n\nExample - Questions about youtube TV\n[user]\nI have a question about youtube TV\n[model]\ntv_general",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 0.0,
+            "intent": "disambiguation_main_menu",
+            "target_flow": "DisambigMenu"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-a141cbc1-d532-4590-a6ec-7b04b16f4999",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "plan_manage_temporary_disconnect",
+              "intent": "disambiguation_main_menu",
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.98
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-a141cbc1-d532-4590-a6ec-7b04b16f4999",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "\nSay nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n(1) Must clearly acknowledge the customer\u0027s request in a brief, empathetic way.\n(2) Must clearly state you will help them with it.\n(3) Use plain ASCII text only in message (letters, numbers, spaces, and basic punctuation).\n(4) Do not use apostrophes or quotation marks in message.\nOutput format requirement: return only one function call to steering_handle_next_step.\nDo not output any prose, commentary, or markdown.\nThen immediately call steering_handle_next_step again with intent\u003d`disambiguation_main_menu`, head_intent\u003d`plan_manage_temporary_disconnect`, route_confidence\u003d`0.98`\nand message set to exactly that generated sentence (no changes, no reformatting).\n\n\u003cexamples\u003e\nExample 1: Billing issue\n[user]\nMy internet bill is too high\n[model]\nsteering_handle_next_step(intent\u003d\"billing\", head_intent\u003d\"billing_toohigh\", route_confidence\u003d0.97, message\u003d\"I understand. We can review your internet bill together and check available options.\")\n\nExample 2: Billing discussion\n[user]\nI want to discuss my current bill\n[model]\nsteering_handle_next_step(intent\u003d\"billing\", head_intent\u003d\"billing_discuss\", route_confidence\u003d0.95, message\u003d\"I understand. I can help review your current bill and explain the details.\")\n\u003c/examples\u003e\n",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent": "plan_manage_temporary_disconnect",
+            "route_confidence": 0.98
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-360d897e-99b7-495d-be85-df0ce63a1dd4",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "plan_manage_temporary_disconnect",
+              "intent": "disambiguation_main_menu",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I understand and I can help with your temporary disconnect request."
+              },
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.98
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-360d897e-99b7-495d-be85-df0ce63a1dd4",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "exit_utterance": "I understand and I can help with your temporary disconnect request.",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "head_intent": "plan_manage_temporary_disconnect",
+              "route_confidence": 0.98,
+              "target_flow": "DisambigMenu",
+              "transfer_type_exttype": null,
+              "transfer_type_module": null,
+              "transfer_type_subtype": null,
+              "transfer_type_type": null
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passedMainMenu": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_steering": true,
+              "head_intent": "plan_manage_temporary_disconnect",
+              "passedMainMenu": true,
+              "route_confidence": 0.98,
+              "target_flow": "DisambigMenu"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I understand and I can help with your temporary disconnect request."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "name": "e66768cb-6c61-401a-8e8f-3293e15c2f9b",
+  "displayName": "technical_support_router_restarting",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": false,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "my router keeps restarting"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-abd134db-30fe-431a-a1dd-a8545a6e47da",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "technical_internet"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-abd134db-30fe-431a-a1dd-a8545a6e47da",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Select exactly one head_intent from this allowlist:\n    - devices_modem_exchange: Replace or swap modem due to issues.\n- internet_email_inquiry: Questions about internet email setup or access.\n- internet_hotspot_inquiry: Ask about Xfinity hotspot availability or use.\n- internet_sound: Internet issue affecting audio or voice quality.\n- internet_streaming: Streaming performance or connectivity troubleshooting request.\n- internet_troubleshoot: General internet troubleshooting and connectivity support, speed issues.\n- login_and_password_general: Help with account login or password reset.\n- login_and_password_networking: Network credential or Wi-Fi password assistance.\n    Output conventions for examples:\n    - head_intent\u003d\u0027value\u0027 means select that exact allowlisted head_intent value.\n    - Route customer to agent_handoff subagent means transfer to that subagent and do NOT treat \u0027agent_handoff\u0027 as a head_intent value.\n    Do not ask a clarifying question in this step.\n    Immediately call steering_handle_next_step again with:\n    - intent set to the same intent\n    - the selected exact head_intent value from this allowlist\n    - route_confidence set to a numeric value from 0 to 1 that reflects your confidence in that selection\n    If ambiguous, choose the closest head_intent and use lower confidence.\n    Confidence rubric: 0.95-0.99 explicit match; 0.75-0.94 strong inferred match; 0.55-0.74 ambiguous/partial; 0.35-0.54 weak forced closest match. Do not default to 1.0.\n\n\n\nExample - Reset password\n[user]\nI need to reset my password\n[model]\nhead_intent\u003d\u0027login_and_password_general\u0027",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 0.0,
+            "intent": "technical_internet",
+            "lob": "HSI",
+            "target_flow": "pre_lob"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-348b5a39-8570-4d6e-8fbe-651720049679",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "internet_troubleshoot",
+              "intent": "technical_internet",
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.95
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-348b5a39-8570-4d6e-8fbe-651720049679",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "\nSay nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n(1) Must clearly acknowledge the customer\u0027s request in a brief, empathetic way.\n(2) Must clearly state you will help them with it.\n(3) Must reuse the customer\u0027s exact wording when possible.\nThen immediately call steering_handle_next_step again with intent\u003d`technical_internet`, head_intent\u003d`internet_troubleshoot`, route_confidence\u003d`0.95`\nand message set to exactly that generated sentence (no changes, no reformatting).\n\n\u003cexamples\u003e\nExample 1: Billing issue\n[user]\nMy internet bill is too high\n[model]\nI understand. Let\u0027s take a look at your internet bill and see what options may be available\n\u003c/examples\u003e\n",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent": "internet_troubleshoot",
+            "route_confidence": 0.95
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-c679413c-f806-4c50-84eb-72db57a9bb93",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": "internet_troubleshoot",
+              "intent": "technical_internet",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I understand. Let\u0027s get your internet troubleshoot. "
+              },
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.95
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-c679413c-f806-4c50-84eb-72db57a9bb93",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "exit_utterance": "I understand. Let\u0027s get your internet troubleshoot. ",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "head_intent": "internet_troubleshoot",
+              "lob": "HSI",
+              "route_confidence": 0.95,
+              "target_flow": "pre_lob",
+              "transfer_type_exttype": null,
+              "transfer_type_module": null,
+              "transfer_type_subtype": null,
+              "transfer_type_type": null
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passedMainMenu": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_steering": true,
+              "head_intent": "internet_troubleshoot",
+              "lob": "HSI",
+              "passedMainMenu": true,
+              "route_confidence": 0.95,
+              "target_flow": "pre_lob"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I understand. Let\u0027s get your internet troubleshoot. "
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

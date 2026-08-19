@@ -1,0 +1,9 @@
+{
+  "name": "a1b2c3d4-2222-4aaa-bbbb-200000000002",
+  "pythonFunction": {
+    "name": "reject_pending",
+    "pythonCode": "tools/reject_pending/python_function/python_code.py",
+    "description": "Discard all pending slot values. Call when the user says the readback is wrong."
+  },
+  "displayName": "reject_pending"
+}

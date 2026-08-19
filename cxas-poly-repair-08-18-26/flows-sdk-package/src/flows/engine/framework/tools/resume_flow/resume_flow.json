@@ -1,0 +1,9 @@
+{
+  "name": "a1b2c3d4-1012-4e6f-8a1c-000000000023",
+  "pythonFunction": {
+    "name": "resume_flow",
+    "pythonCode": "tools/resume_flow/python_function/python_code.py",
+    "description": "Resume a previously paused flow. Call when the user wants to return to an earlier request that was set aside. Pass instance_id when known, otherwise slot_name + slot_value describing the paused flow (e.g. slot_name='<slot>', slot_value='<detail the user named>'). No args resumes the paused flow if exactly one exists."
+  },
+  "displayName": "resume_flow"
+}

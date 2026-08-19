@@ -1,0 +1,154 @@
+{
+  "name": "d79ecfa1-400d-48c9-8efc-8ed10e856839",
+  "displayName": "from_bau_proxy_agent",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "target_subagent": "agent_handoff"
+          }
+        }
+      }, {
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "greeting": "Please tell me how I can help you today, and I\u0027ll take it from here.",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentTransfer": {
+            "targetAgent": "agent_handoff",
+            "displayName": "agent_handoff"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "agent_handoff_greeting": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment.",
+            "agent_handoff_setup_complete": true,
+            "has_asked_agent_reason": false,
+            "has_had_incidental_utterance": false,
+            "has_had_unintelligible_utterance": false,
+            "has_had_unrelated_utterance": false
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "proxy_has_been_greeted": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent_handoff",
+            "chunks": [{
+              "text": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "agent"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-97ed08d2-f47d-4fc1-8246-55c8dfbe2f8e",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "agent"
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "exit_utterance": "I understand. I\u0027m getting you to an agent now.",
+            "has_asked_agent_reason": true,
+            "intent": "agent",
+            "lob": "HSI",
+            "target_flow": "Transfer",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "lob": "HSI",
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "null",
+              "transfer_type_module": "Technical",
+              "transfer_type_subtype": "null",
+              "transfer_type_type": "HSI"
+            },
+            "transfer_type_exttype": "null",
+            "transfer_type_module": "Technical",
+            "transfer_type_subtype": "null",
+            "transfer_type_type": "HSI"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-97ed08d2-f47d-4fc1-8246-55c8dfbe2f8e",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say exactly: I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment. Then wait for the customer\u0027s reply.",
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "from_gecx_proxy": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_proxy": true,
+              "lob": "HSI",
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "null",
+              "transfer_type_module": "Technical",
+              "transfer_type_subtype": "null",
+              "transfer_type_type": "HSI"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent_handoff",
+            "chunks": [{
+              "text": "I understand. I\u0027m getting you to an agent now."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

@@ -1,0 +1,71 @@
+Change 2 of N: emit the DAG config as a compact JSON string parsed at call time, instead
+of a pretty-printed Python literal.
+
+VERDICT: ACCEPTED. Proven at the per-call level (the mechanism) and at the turn level
+(the outcome), with behavior unchanged.
+
+SDK change: packages/flows/src/flows/emit/scaffold.py, `_starter_dag_code`.
+  pprint.pformat(cfg)  ->  _CONFIG = '<compact json>' ; return json.loads(_CONFIG)
+CES recompiles a tool's module on every invocation — proven independently by the engine's
+own module-level caches (`_RAW_CONFIGS`, `_COMPILED_CONFIGS`) coming back empty each call —
+so a large Python literal is recompiled per call, while a single string constant is one
+AST node plus a C-speed parse.
+
+The emitter now also REFUSES a config JSON would alter (a tuple round-trips to a list
+silently). One comparison per build; the failure it prevents is invisible.
+
+Emitted sizes, this app:
+  repair_dag    266,063 -> 87,643 bytes  (33%)
+  reboot_dag     28,834 -> 12,300
+  steering_dag    4,909 ->  2,255
+  all 17 dag tools        362KB -> 129KB (36%)
+Verified before deploying: all 17 configs load to values IDENTICAL to the literal ones.
+
+Arms, same tree, differing only in the SDK emitter:
+  A  b1d464dc-6043-4dad-a602-8718bf0a27e1  perf-gr-arm     pprint literal
+  B  90e6ae16-83ec-4355-8649-50a0638ad34d  perf-cfg-json   compact JSON
+Both already have the LLM guardrails removed (change 1), so this isolates the emit.
+
+THE MECHANISM, per call, pooled over 12 alternated pairs:
+                              A median    B median      delta   calls
+  tool:repair_dag                52 ms       25 ms      -28 ms   132/132
+  tool:slot_filling_engine      194 ms      171 ms      -24 ms   156/156
+repair_dag halves, which is what a 33% source size predicts. The engine also improves,
+which was not predicted and is not explained by self-time (repair_dag is its CHILD, and
+self-time excludes children); the likeliest cause is the smaller nested result, and it is
+recorded as observed-not-understood rather than claimed.
+
+THE OUTCOME, per session, 32 alternated pairs over two batches:
+                A median    B median      delta    n
+  turn            7171 ms     6708 ms     -462 ms  32/32
+  tool            4586 ms     4269 ms     -316 ms
+  callback        1315 ms     1282 ms      -34 ms
+  guardrail          0 ms        0 ms       +0 ms
+  engine_calls        13          13         +0     <- confounder, matched
+
+  turn mean     A 7586 ms   B 6851 ms    -736 ms
+  Mann-Whitney one-sided p = 0.00167
+
+This is the first change that clears the noise floor. Change 1's 255ms could not, and the
+difference is not luck: this one is ~2x larger and lands on a component invoked ~11 times
+a session rather than once.
+
+BEHAVIOR UNCHANGED:
+  flows package        4240 passed, 14 skipped (was 4236 passed / 4 failed)
+  ladder_check         88/88 scenarios, 13 split rungs pinned
+  clarify_check        38/38 with no LLM
+  cuj_drive            34/39 on the JSON arm AND 34/39 on the pprint arm AND 34/39 on the
+                       guardrails control — same five failures on all three, so they are
+                       pre-existing on this lineage and belong to neither change.
+
+FOUR SDK TESTS HAD TO BE REWRITTEN, and none of them was testing what it looked like.
+All four asserted on the TEXT of the emitted source rather than on the config:
+  test_the_rendered_dag_function_parses_and_returns_python_literals
+      asserted `"true" not in source` — the literal-era invariant this change inverts.
+      Renamed and reduced to the behavioral assertion it already carried.
+  test_select_emits_menu_slot_with_dtmf          asserted `"'9'" in dag`
+  test_sub_agent_dag_carries_flow_types...       asserted `"'flow_types'" in src`
+  test_the_emitter_repoints_every_leg...         asserted `"'tool': 'x_leg'" in dag`
+      All three were checking Python-literal QUOTING while meaning to check content. Now
+      they load the config through a new `dag_config` fixture (tests/conftest.py) and
+      assert structure, which is what they meant and is robust to the next format change.

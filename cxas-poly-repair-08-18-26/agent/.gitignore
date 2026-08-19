@@ -1,0 +1,7 @@
+# Emitted CES app dirs (build.py --out). Regenerate with `python build.py`.
+built*/
+__pycache__/
+*.pyc
+
+# drive_app.py default --outdir (live drive outputs, regenerated)
+baseline*/

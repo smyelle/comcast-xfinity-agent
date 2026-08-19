@@ -1,0 +1,54 @@
+meta:
+  example: barge_in_awareness
+  claim: "When the caller talks over a disclosure, the lines they never reached are replayed and the ones they heard are not; a following-along noise is absorbed rather than counted as a stalled turn; and an utterance that answers the pending question is still an answer."
+
+# The platform reports an interruption by prefixing the next user turn with a context
+# envelope carrying a verbatim prefix of what the caller HEARD. The engine parses that
+# envelope itself (the offline simulator never loads the callbacks package), so a barge-in
+# is drivable here by sending the envelope as the caller's text.
+
+scenarios:
+  # Cut a few words into the SECOND line. Everything after it was never started, so it
+  # comes back verbatim -- and the welcome, which the caller did hear in full, does not.
+  - name: an_interrupted_disclosure_replays_only_what_was_missed
+    polarity: positive
+    turns:
+      - say: "<context>agent speaking was interrupted. user only heard 'Thanks for
+          calling Northwind. I can open a new account for you. Before I can open'
+          in the last agent response.</context> mhmm"
+        expect:
+          - said_contains: "Sorry — as I was saying,"
+          - said_contains: "Calls are recorded for training and quality."
+          - said_contains: "Your personal data is retained for ninety days"
+          - said_contains: "You can opt out of marketing at any time"
+
+  # The line the caller was cut off mid-way through is restarted, not resumed from the
+  # middle -- `mode="parts"` never speaks half a sentence.
+  - name: the_line_that_was_cut_is_restarted_whole
+    polarity: positive
+    turns:
+      - say: "<context>agent speaking was interrupted. user only heard 'Thanks for
+          calling Northwind. I can open a new account for you. Before I can open'
+          in the last agent response.</context> mhmm"
+        expect:
+          - said_contains: "Before I can open the account I need to read you a few terms."
+
+  # Nothing was cut, so there is nothing to replay -- but the turn must still be absorbed
+  # rather than read as a caller who has stalled.
+  - name: a_backchannel_with_nothing_cut_replays_nothing
+    polarity: positive
+    turns:
+      - say: "mhmm"
+        expect:
+          - asked_slot: account_type
+
+  # THE safety case. "checking" answers the pending question, so it is an answer even
+  # though the flow has a continuer policy. A feature that is on by default has to lose
+  # this argument every time.
+  - name: an_answer_is_not_swallowed_as_a_following_along_noise
+    polarity: negative
+    turns:
+      - answer: {slot: account_type, value: "checking"}
+        expect:
+          - slot_filled: {account_type: "checking"}
+          - asked_slot: email

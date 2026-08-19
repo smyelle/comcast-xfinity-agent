@@ -1,0 +1,10 @@
+{
+  "name": "dcf0215d-0753-42b0-9263-ff59722b2a80",
+  "pythonFunction": {
+    "name": "perform_rdk_device_diagnostics",
+    "pythonCode": "tools/perform_rdk_device_diagnostics/python_function/python_code.py",
+    "description": "Retry-capable wrapper for RDK device diagnostics via OpenAPI auth-proxy.\n\nArgs:\n    device_identifier: The gateway\u0027s MAC address (e.g. \"10:56:11:8A:66:ED\").\n    problem_statement: Description of the customer\u0027s issue (e.g. \"slow\n      internet\").\n    operation_id: The MCP tool name to invoke (e.g.\n      \"get_device_triage_summary\", \"get_gateway_wifi_summary\").\n    timestamp: The current formatted date/time string.\n\nReturns:\n    dict[str, Any]: The JSON-RPC response from the upstream MCP server or an\n    error dict."
+  },
+  "executionType": "ASYNCHRONOUS",
+  "displayName": "perform_rdk_device_diagnostics"
+}

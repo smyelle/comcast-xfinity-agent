@@ -1,0 +1,5 @@
+# Emitted CXAS app dirs. Every example writes ./<name>_app when run — 20 of them
+# now — so ignore the shape rather than listing them one at a time. Only 6 were
+# listed, and running any of the other 14 before a commit sweeps a few hundred
+# generated files into the diff.
+*_app/

@@ -1,0 +1,186 @@
+{
+  "name": "582a5b42-87fa-44e2-ae14-2a69bdf7e0a8",
+  "displayName": "from_bau_proxy_cancel_services",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "target_subagent": "agent_handoff"
+          }
+        }
+      }, {
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "greeting": "Please tell me how I can help you today, and I\u0027ll take it from here.",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentTransfer": {
+            "targetAgent": "agent_handoff",
+            "displayName": "agent_handoff"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "agent_handoff_greeting": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment.",
+            "agent_handoff_setup_complete": true,
+            "has_asked_agent_reason": false,
+            "has_had_incidental_utterance": false,
+            "has_had_unintelligible_utterance": false,
+            "has_had_unrelated_utterance": false
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "proxy_has_been_greeted": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent_handoff",
+            "chunks": [{
+              "text": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "I want to cancel my services"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-67b88c7c-e15a-453e-8d6c-5d60a157e368",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "downgrade"
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-67b88c7c-e15a-453e-8d6c-5d60a157e368",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n  (1) Must clearly acknowledge the customer’s downgrade request in a brief, empathetic way.\n  (2) Must clearly state you will connect with an agent to help\n\nImmediately call agent_handoff_handle_next_step with :\n  message \u003d exactly the generated sentence (no changes, no reformatting)\n  lob \u003d {lob}   \n  intent \u003d \u0027downgrade\u0027\n  details \u003d \u0027downgrade\u0027 if the customer specified they want to downgrade service, and \u0027disconnect\u0027 if they want to cancel/disconnect service(s)",
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "intent": "downgrade"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-3de08dbc-2322-44dd-8d30-544abe4ca339",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "details": "disconnect",
+              "intent": "downgrade",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I understand, I\u0027ll connect you with someone who can help with disconnecting your services."
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-3de08dbc-2322-44dd-8d30-544abe4ca339",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "details": "disconnect",
+            "exit_utterance": "I understand, I\u0027ll connect you with someone who can help with disconnecting your services.",
+            "target_flow": "Transfer",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "null",
+              "transfer_type_module": "SalesRetention",
+              "transfer_type_subtype": "Disconnect",
+              "transfer_type_type": "Retention"
+            },
+            "transfer_type_exttype": "null",
+            "transfer_type_module": "SalesRetention",
+            "transfer_type_subtype": "Disconnect",
+            "transfer_type_type": "Retention"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "from_gecx_proxy": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_proxy": true,
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "null",
+              "transfer_type_module": "SalesRetention",
+              "transfer_type_subtype": "Disconnect",
+              "transfer_type_type": "Retention"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I understand, I\u0027ll connect you with someone who can help with disconnecting your services."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

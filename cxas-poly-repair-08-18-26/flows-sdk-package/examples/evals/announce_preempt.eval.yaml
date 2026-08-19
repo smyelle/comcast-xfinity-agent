@@ -1,0 +1,40 @@
+meta:
+  example: announce_preempt
+  claim: "A non-preempting announce folds into the turn and the flow carries on to the next question; a preempting announce is a full stop that ends the turn on the notice."
+
+scenarios:
+  # Routine drug -> ready_notice is preempt=False, so the notice rides along AND the turn
+  # carries straight on into the pickup_method question, capturing it if volunteered.
+  - name: routine_notice_rides_along_then_asks
+    polarity: positive
+    tool_fakes:
+      look_up_prescription: {refill_class: "routine", drug_name: "lisinopril", success: true}
+      queue_refill: {queue_number: "Q-118", success: true}
+    on_start:
+      - asked_slot: prescription_number
+    turns:
+      - answer: {slot: prescription_number, value: "RX2291"}
+        expect:
+          - tool_called: look_up_prescription
+          - said_contains: "ready for pickup within two hours"   # the aside landed
+          - asked_slot: pickup_method                            # ...and the turn carried on
+          - slot_filled: {refill_class: "routine"}
+      - answer: {slot: pickup_method, value: "in store"}
+        expect:
+          - tool_called: queue_refill
+          - said_contains: "in the queue as Q-118"
+          - disposition: complete
+
+  # Controlled drug -> signoff_notice is preempt=True: the turn stops dead on the notice.
+  # The model is skipped, pickup_method is never asked, and queue_refill never fires.
+  - name: controlled_notice_stops_the_turn_dead
+    polarity: negative
+    tool_fakes:
+      look_up_prescription: {refill_class: "controlled", drug_name: "oxycodone", success: true}
+    turns:
+      - answer: {slot: prescription_number, value: "RX4417"}
+        expect:
+          - tool_called: look_up_prescription
+          - said_contains: "needs a pharmacist's sign-off"
+          - next_action: preempt                # the preempt turn shape
+          - slot_status: {pickup_method: open}  # never asked - nothing left to ask

@@ -1,0 +1,89 @@
+{
+  "name": "3edea4e3-1ca7-4448-b646-5315c3a0a55e",
+  "displayName": "kb_whats_my_billing_address",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "What\u0027s my billing address?"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-f2b4fd3c-7e6c-4029-8d52-e79a690d75ab",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "action": "general_product_or_services_question",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "What\u0027s my billing address?"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-f2b4fd3c-7e6c-4029-8d52-e79a690d75ab",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "\n  Use the search_web response below to answer the customer\u0027s question.\n\nUse the snippets and instructions from the search_web response to decide the next steps and provide the answer.\n\nsearch_web response:\n{\"search_query\": \"What\u0027s my billing address? (site:xfinity.com OR site:xfinity.com/support OR site:comcast.com OR site:corporate.comcast.com) -site:reddit.com -site:verizon.com -site:t-mobile.com\", \"snippets\": [{\"url\": \"https://forums.xfinity.com/conversations/plan/bill-payment-billing-address/6400ca4e42546f76d9f3493a\", \"title\": \"\u003cb\u003eBill Payment Billing Address\u003c/b\u003e - Xfinity Community Forum\", \"text\": \"You should be able to \u003cb\u003efind your\u003c/b\u003e paymeny mailing \u003cb\u003eaddress\u003c/b\u003e for \u003cb\u003eyour\u003c/b\u003e Xfinity Mobile \u003cb\u003eBill\u003c/b\u003e by referring to \u003cb\u003eyour\u003c/b\u003e online \u003cb\u003ebill\u003c/b\u003e at https://comca.st/3mhoTuO.\"}, {\"url\": \"https://forums.xfinity.com/conversations/billing/billing-zip-code/680fceb5ed52e702b26eca9d\", \"title\": \"\u003cb\u003ebilling\u003c/b\u003e zip code - Xfinity Community Forum\", \"text\": \"If you changed \u003cb\u003eyour bill\u003c/b\u003e-to \u003cb\u003eaddress\u003c/b\u003e, \u003cb\u003ethe\u003c/b\u003e ZIP code will match \u003cb\u003ethe bill\u003c/b\u003e-to \u003cb\u003eaddress\u003c/b\u003e. If you need \u003cb\u003ethe billing\u003c/b\u003e ZIP associated with a \u003cb\u003epayment\u003c/b\u003e method, you will use \u003cb\u003ethe\u003c/b\u003e\u0026nbsp;...\"}, {\"url\": \"https://business.comcast.com/support/article/billing/manage-and-pay-your-bill-online\", \"title\": \"Manage and pay \u003cb\u003eyour bill\u003c/b\u003e online | Comcast Business Support\", \"text\": \"If \u003cb\u003ethe\u003c/b\u003e images in this section vary from \u003cb\u003ewhat\u003c/b\u003e you see in \u003cb\u003eyour\u003c/b\u003e account, please refer to \u003cb\u003ethe\u003c/b\u003e Alternate view \u003cb\u003eyour\u003c/b\u003e past bills section. You can access and download up\u0026nbsp;...\"}, {\"url\": \"https://forums.xfinity.com/conversations/billing/billing-address/6397b719ebc75516283552b9\", \"title\": \"\u003cb\u003eBilling Address\u003c/b\u003e - Xfinity Community Forum\", \"text\": \"\u003cb\u003eWhat\u003c/b\u003e is \u003cb\u003ethe billing address\u003c/b\u003e I send \u003cb\u003emy payment\u003c/b\u003e to and why do you make it such a pain [Edited: \u0026quot;Language\u0026quot;] to \u003cb\u003efind\u003c/b\u003e?\"}, {\"url\": \"https://forums.businesshelp.comcast.com/conversations/customer-service/payment-did-not-process-successfully-notification-does-not-guide-me-to-a-solution/5fe0a649c5375f08cd9a14ed\", \"title\": \"\\u200e\u0026#39;\u003cb\u003ePayment\u003c/b\u003e Did Not Process Successfully\u0026#39; notification does not guide ...\", \"text\": \"\u003cb\u003eMy\u003c/b\u003e Accounts Payable Department staff have made three recent attempts to pay our account, using \u003cb\u003ethe\u003c/b\u003e MyAccount page for Comcast Business Class.\"}, {\"url\": \"https://forums.xfinity.com/conversations/customer-service/what-is-the-mailing-address-for-paying-bills/602daea1c5375f08cdf08c21\", \"title\": \"\u003cb\u003eWhat\u003c/b\u003e is \u003cb\u003ethe\u003c/b\u003e Mailing \u003cb\u003eAddress\u003c/b\u003e for Paying Bills - Xfinity Community Forum\", \"text\": \"\u003cb\u003eThe payment address\u003c/b\u003e can be found at \u003cb\u003ethe\u003c/b\u003e bottom of \u003cb\u003eyour\u003c/b\u003e first page on \u003cb\u003ethe\u003c/b\u003e remittance slip (usually a PO Box \u003cb\u003eaddress\u003c/b\u003e).\"}, {\"url\": \"https://forums.xfinity.com/conversations/customer-service/billing-address/602db127c5375f08cd47176c\", \"title\": \"\\u200e\u003cb\u003ebilling address\u003c/b\u003e | Xfinity Community Forum\", \"text\": \"We live in Conyers, Ga 30094. I need \u003cb\u003ethe billing address\u003c/b\u003e in order to mail \u003cb\u003emy bill\u003c/b\u003e.\"}, {\"url\": \"https://forums.xfinity.com/conversations/billing/billing-address-atlanta/657ba314f961c6163a311a76\", \"title\": \"\u003cb\u003eBilling Address\u003c/b\u003e Atlanta - Xfinity Community Forum\", \"text\": \"Good Evening Comcast\\\\xfinity team I live in Atlanta, Georgia. I\u0026#39;m trying to set up Comcast Xfinity payments in \u003cb\u003emy\u003c/b\u003e BillPay account. Is \u003cb\u003ethe\u003c/b\u003e current \u003cb\u003ebilling\u003c/b\u003e\u0026nbsp;...\"}, {\"url\": \"https://forums.businesshelp.comcast.com/conversations/customer-service/pay-bill-by-mail/5fe0a56fc5375f08cd78775c\", \"title\": \"\\u200ePay \u003cb\u003ebill\u003c/b\u003e by mail | Comcast Business Support Community\", \"text\": \"\u003cb\u003eThe\u003c/b\u003e best way to \u003cb\u003efind the\u003c/b\u003e correct mailing \u003cb\u003eaddress\u003c/b\u003e for \u003cb\u003eyour payment\u003c/b\u003e is by logging into \u003cb\u003eyour\u003c/b\u003e account and accessing \u003cb\u003eyour billing\u003c/b\u003e statement. You\u0026#39;ll be able to \u003cb\u003efind\u003c/b\u003e\u0026nbsp;...\"}], \"instructions\": \"Please use the following instructions to summarize the search snippets provided and answer the user\u0027s query.\\nYou are a helpful assistant that uses Google Search to answer questions.\\nYour goal is to provide a concise, helpful and well-formatted answer based on the search results.\\n\\n**Instructions**:\\n- When answering questions about Xfinity Rewards rephrase it to to mention Xfinity Membership\\n- Answer the user\u0027s question concisely using only information from the provided search results.\\n- Be precise: All numeric values must appear exactly as they are in the sources\\n- Be concise (fit under 150 characters), but answer the customer question first and foremost.\\n- If you can, format the response using markdown lists (numbered or bulleted) to improve readability\\n- If the search results provide URLs, you can include them in the response.\\n\"}\n\nThe provided answer should be in a format that the user can easily skim, bullets, concise, clear headings and sections.\n\nAfter providing the information ask if they would like to follow up with an agent on specific scenarios if the customer is still having issues. If an agent is requested set the appropriate intent values which are required for the {@TOOL: steering_handle_next_step}.\nProvide clear navigation steps if they are provided in the response.\n\n\u003cexamples\u003e\nExample 1:\n[user]\nWhat are Xfinity Rewards?\n[model]\nXfinity rewards has been replaced by Xfinity membership, which offers special perks, discounts, and exclusive experiences. You can find available perks on the Xfinity app. Is there anything else I can help you with?\n\u003c/examples\u003e\n\nAt the end of the response, ask if the user has any other questions or needs help with anything else.\n\nIf the user states they no longer need help or have other questions, thank the user for calling and end the call.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "You can find your billing address on your Xfinity bill. Alternatively, you can also find your billing address via the Xfinity app. Do you need help with anything else?"
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

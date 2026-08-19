@@ -1,0 +1,46 @@
+app 1675b42e-6c8a-452c-ab94-7036876c5f55  session demovoice-1786626492  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 30s of SILENCE
+  --- turn 240  (t= 56.3s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 537  (t= 56.3s at read)
+     17.3s + 17.3s  < Thanks.
+     17.6s +  0.3s  < Give me just a moment while I check your connection.
+     17.6s +  0.0s  < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 619  (t= 56.3s at read)
+     35.3s + 17.7s  < Still running those checks — thanks for bearing with me.
+  --- turn 1021  (t= 56.3s at read)
+     43.1s +  7.8s  < Everything on our side looks healthy. Your account, your area, the line into your home and your gateway all check out. That usually leaves the Wi-Fi inside your home as the most likely spot. Would you like me to walk you through a few things to try?
+
+[caller] 'yes please'
+  --- turn 136  (t= 69.6s at read)
+      0.0s         < Got it.
+      0.3s +  0.3s  < Is everything having trouble connecting, or just one device?
+
+[caller] 'just one device'
+  --- turn 220  (t= 86.5s at read)
+      0.0s         < Let's start simple.
+      0.5s +  0.5s  < On the device that's struggling, forget the home network in its Wi-Fi settings, then join it again. Did that help?
+
+[caller] "that didn't work"
+  --- turn 231  (t=103.8s at read)
+      0.0s         < Next one.
+      0.3s +  0.3s  < Try moving closer to your gateway, and check nothing large or metal is sitting right against it. Did that make a difference?
+
+[caller] 'still nothing'
+  --- turn 245  (t=121.2s at read)
+      0.0s         < Try this one.
+      0.4s +  0.4s  < Turn the device's Wi-Fi off and back on again. On a phone, airplane mode for a few seconds does the same thing. Any change?
+
+[caller] 'no change'
+  --- turn 152  (t=135.5s at read)
+      0.0s         < That's everything I can try from here. Let me get you to someone who can take a closer look at your home setup.
+
+---------------------------------------------------------------------------
+Recorded 2026-08-13 against app 1675b42e (comcast-ux-local-specialists), built
+SPIKE_DEMO=1 SPIKE_LOCAL_SPECIALISTS=1, on flows with the wait-turn fixes.
+
+The whole journey, cold: complaint, account number, the sweep heard as a real wait
+(one reassurance line on a genuinely silent turn), the all-clear verdict, the offer
+accepted, the scope question, and three tips before the honest hand-off. No
+improvisation, no repeated verdict, no dead air longer than the ladder allows.

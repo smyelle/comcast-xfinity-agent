@@ -1,0 +1,10 @@
+{
+  "name": "reboot",
+  "pythonFunction": {
+    "name": "reboot",
+    "pythonCode": "tools/reboot/python_function/python_code.py",
+    "description": "Executes a gateway reboot operation or timeline check to restore connectivity.\n\nArgs:\n    device_id: The gateway\u0027s MAC address or hardware identifier.\n    restart: Set True to issue reboot command, False to only check timeline.\n    override_timeline_check: Set True to force reboot, ignoring timeline gate\n      checks.\n\nReturns:\n    dict: Execution status of the reboot or timeline check request."
+  },
+  "executionType": "SYNCHRONOUS",
+  "displayName": "reboot"
+}

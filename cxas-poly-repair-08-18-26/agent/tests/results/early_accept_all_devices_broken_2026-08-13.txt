@@ -1,0 +1,34 @@
+The whole-house early accept, BEFORE the fix -- live, over voice.
+
+app 1675b42e (comcast-ux-local-specialists), 2026-08-13. The caller answers the
+mid-sweep scoping question with "it's everything", is offered the walkthrough in the
+whole-house wording, accepts -- and hears nothing, three turns running.
+
+`wifi_offered_early` came back as '15400'. `verdict_scope_noted_all` was never
+registered in source_tools, so the emitter wrote a generic stub for it and the stub
+returns `str(abs(hash("x")) % 100000)` for the out_key instead of "true".
+`wifi_gates` opens the answer gate with `== "true"`, so it never opened,
+`wifi_walkthrough` was never collectible, no tip was ever eligible, and the walkthrough
+fell to the model. The one-device sibling returns "true" and worked throughout, which is
+why this only showed on one branch.
+
+app 1675b42e-6c8a-452c-ab94-7036876c5f55  session demovoice-1786643965  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 9s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 8s of SILENCE
+  --- turn 238  (t= 31.1s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 521  (t= 31.1s at read)
+     15.0s + 15.0s  < Thanks.
+     15.6s +  0.5s  < Give me just a moment while I check your connection.
+     15.6s +  0.0s  < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+
+[caller] "it's everything, nothing in the house works"
+  --- turn 180  (t= 48.0s at read)
+      0.0s         < Got it, that helps. While those checks finish, we could try a couple of quick things around the house. Want to give it a go?
+
+[caller] 'yes please'
+
+
+[caller] "that didn't work"
+
+[caller] 'still nothing'

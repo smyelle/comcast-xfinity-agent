@@ -1,0 +1,9 @@
+{
+  "name": "transfer_to_network_specialist",
+  "pythonFunction": {
+    "name": "transfer_to_network_specialist",
+    "pythonCode": "tools/transfer_to_network_specialist/python_function/python_code.py",
+    "description": "Transfer to network specialist."
+  },
+  "displayName": "transfer_to_network_specialist"
+}

@@ -1,0 +1,23 @@
+============================================================================
+DRIVE A - the Wi-Fi cue fix: a caller whose Wi-Fi came back
+============================================================================
+
+[0] CALLER: 'my internet is not working'
+    AGENT : Okay, let me take a look at that for you. Thanks. Give me just a moment while I check your connection. While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device? Everything on our side looks healthy. Your account, your area, the line into your home and your gateway all check out. That usually leaves the Wi-Fi inside your home as the most likely spot. Would you like me to walk you through a few things to try?
+
+[1] CALLER: "actually it's working now"
+    AGENT : That's good to hear. If anything else comes up, we're here.
+============================================================================
+DRIVE B - the outage inquiry, on the asking turn
+============================================================================
+
+[0] CALLER: 'is there an outage in my area'
+    AGENT : Thanks, let me see what's going on there. Thanks. Give me just a moment while I check your connection. While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device? Good news, there's no outage reported in your area right now. Would you like me to run a full check on your connection while I have you? Good news, there is no outage reported in your area right now, and your network and gateway signals are looking healthy. Is there anything else I can help you with today?
+
+============================================================================
+VERDICT
+============================================================================
+A  heard as RESOLVED, warm close : PASS
+A  NOT handed to a person        : PASS
+B  the answer is still given     : PASS
+B  and only AFTER the check runs : PASS

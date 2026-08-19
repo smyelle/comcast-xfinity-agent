@@ -1,0 +1,241 @@
+openapi: 3.0.3
+info:
+  title: RDK MCP Tool Call via Auth Proxy
+  version: 1.0.0
+  description: 'OpenAPI spec for invoking the RDK MCP server through the DXP Cloud Uses GECX dynamic variable \"rdk_mcp_server\" as its backing server domain, resolving all session transactions dynamically through the Apigee gateway domain specified in variable \"apigee_server\".
+    IVR Apigee auth proxy using a JSON-RPC tools/call request.
+
+    '
+servers:
+- url: '$env_var'
+paths:
+  /v1/auth-proxy:
+    post:
+      tags:
+      - MCP
+      summary: Get device triage summary
+      operationId: getDeviceTriageSummaryViaAuthProxy
+      description: 'Calls the get_device_triage_summary MCP tool through the Apigee
+        auth proxy. The original curl may send an Accept header with application/json
+        and text/event-stream, but this spec documents the JSON response shape for
+        compatibility with OpenAPI importers.
+
+        '
+      parameters:
+      - name: x-auth
+        in: header
+        required: true
+        description: Auth token identifier passed to the proxy.
+        schema:
+          type: string
+          default: MCP-SAT-XAXLR
+        example: MCP-SAT-XAXLR
+      - name: x-scope
+        in: header
+        required: true
+        description: Scope requested for the upstream MCP call.
+        schema:
+          type: string
+          default: rdkmcpserver:access
+        example: rdkmcpserver:access
+      - name: x-url
+        in: header
+        required: true
+        description: Upstream MCP endpoint URL.
+        schema:
+          type: string
+          format: uri
+          default: https://rdk-mcp-prod.codebig2.net/tool/gru/mcp
+        example: https://rdk-mcp-prod.codebig2.net/tool/gru/mcp
+      - name: x-flow-trace-id
+        in: header
+        required: true
+        description: Unique session flow trace identifier.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetDeviceTriageSummaryRequest'
+            example:
+              jsonrpc: '2.0'
+              id: 1
+              method: tools/call
+              params:
+                name: get_device_triage_summary
+                arguments:
+                  device_identifier: 10:56:11:8A:66:ED
+                  problem_statement: slow internet
+      responses:
+        '200':
+          description: Successful JSON-RPC response from the upstream MCP server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcSuccessResponse'
+              example:
+                jsonrpc: '2.0'
+                id: 1
+                result:
+                  content:
+                  - type: text
+                    text: Device triage summary returned by the MCP tool.
+                  isError: false
+        '400':
+          description: Invalid JSON-RPC request or bad input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+        '401':
+          description: Missing or invalid authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+        '403':
+          description: Caller is not authorized for the requested scope or upstream
+            URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+        '502':
+          description: Proxy or upstream MCP server failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+        '504':
+          description: Upstream MCP server timeout.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+components:
+  schemas:
+    GetDeviceTriageSummaryRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      - params
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          default: '2.0'
+          example: '2.0'
+        id:
+          $ref: '#/components/schemas/JsonRpcId'
+        method:
+          type: string
+          enum:
+          - tools/call
+          default: tools/call
+          example: tools/call
+        params:
+          $ref: '#/components/schemas/GetDeviceTriageSummaryParams'
+    GetDeviceTriageSummaryParams:
+      type: object
+      required:
+      - name
+      - arguments
+      properties:
+        name:
+          type: string
+          enum:
+          - get_device_triage_summary
+          default: get_device_triage_summary
+          example: get_device_triage_summary
+        arguments:
+          $ref: '#/components/schemas/GetDeviceTriageSummaryArguments'
+    GetDeviceTriageSummaryArguments:
+      type: object
+      required:
+      - device_identifier
+      - problem_statement
+      properties:
+        device_identifier:
+          type: string
+          description: Device identifier accepted by the MCP tool, such as a MAC address.
+          pattern: ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$
+          default: 10:56:11:8A:66:ED
+          example: 10:56:11:8A:66:ED
+        problem_statement:
+          type: string
+          description: Customer-reported issue to use for triage.
+          minLength: 1
+          default: slow internet
+          example: slow internet
+    JsonRpcId:
+      type: integer
+      default: 1
+      example: 1
+    JsonRpcSuccessResponse:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - result
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          $ref: '#/components/schemas/JsonRpcId'
+        result:
+          $ref: '#/components/schemas/McpToolCallResult'
+    McpToolCallResult:
+      type: object
+      description: MCP tool result payload returned by the upstream server.
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/McpContentItem'
+        isError:
+          type: boolean
+          example: false
+    McpContentItem:
+      type: object
+      properties:
+        type:
+          type: string
+          example: text
+        text:
+          type: string
+          example: Device triage summary returned by the MCP tool.
+    JsonRpcErrorResponse:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - error
+      properties:
+        jsonrpc:
+          type: string
+          example: '2.0'
+        id:
+          type: integer
+          example: 1
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: integer
+              example: -32602
+            message:
+              type: string
+              example: Invalid params
+            data:
+              type: string
+              example: Optional error details from the proxy or upstream MCP server.
+              description: Optional error details from the proxy or upstream MCP server.

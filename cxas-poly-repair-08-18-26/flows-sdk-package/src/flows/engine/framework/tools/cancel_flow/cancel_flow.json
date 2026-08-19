@@ -1,0 +1,9 @@
+{
+  "name": "a1b2c3d4-1012-4e6f-8a1c-000000000020",
+  "pythonFunction": {
+    "name": "cancel_flow",
+    "pythonCode": "tools/cancel_flow/python_function/python_code.py",
+    "description": "Cancel the current flow. Call when the user wants to stop, cancel, quit, exit, or abandon the current task."
+  },
+  "displayName": "cancel_flow"
+}

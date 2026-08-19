@@ -1,0 +1,30 @@
+app 3e1e6137-956b-453b-96ac-bc661c0ee35c  session demovoice-1786586762  VOICE, SEEDED context fakes (specialists still real)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 14s of SILENCE
+  --- turn 373  (t= 45.2s at read)
+      0.0s         < Thanks.
+      1.1s +  1.1s  < Give me just a moment while I check your connection.
+      1.1s +  0.0s  < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 450  (t= 45.2s at read)
+     23.8s + 22.7s  < Still running those checks — thanks for bearing with me.
+
+[caller] 'just one device'
+  --- turn 181  (t= 64.5s at read)
+      0.0s         < Got it, that helps. While those checks finish, we could try a couple of quick things on that device. Want to give it a go?
+
+[caller] 'yes please'
+  --- turn 571  (t= 98.8s at read)
+      0.0s         < [[TS]]
+happening: Service Outage
+why: Area network issue
+doing: Technicians assigned
+todo: Check status online
+[[/TS]]
+An outage in your area is affecting Internet and TV service. Our teams are working to restore service as quickly as possible.
+During an outage, we are unable to connect you with a live agent, as any troubleshooting would not bring your services back online.
+You can sign up for text alerts and check for updates using the Xfinity Status Center online.
+Can I help you with anything else right now?
+
+[caller] "that didn't work"
+  --- turn 302  (t=121.6s at read)
+      0.0s         < Since there is an active service outage in your area, troubleshooting individual devices will not restore your connection until the network issue is resolved. Our technicians are working to fix it as quickly as possible.

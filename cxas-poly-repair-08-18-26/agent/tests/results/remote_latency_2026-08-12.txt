@@ -1,0 +1,20 @@
+== recorded 30s job ==
+  run 1: start=0.16s  job=30.6s  status=done
+  run 2: start=0.14s  job=30.6s  status=done
+  run 3: start=0.13s  job=30.6s  status=done
+  run 4: start=0.14s  job=30.8s  status=done
+  run 5: start=0.12s  job=30.7s  status=done
+  start  median 0.14s  range 0.12-0.16s
+  job    median 30.6s   range 30.6-30.8s
+  the turn pays the START, not the JOB: 0.14s vs 30.6s = 216x
+
+== real specialists ==
+  run 1: start=0.11s  job=10.0s  status=done
+  run 2: start=0.13s  job=7.6s  status=done
+  run 3: start=0.13s  job=7.6s  status=done
+  run 4: start=0.12s  job=7.6s  status=done
+  run 5: start=0.12s  job=7.6s  status=done
+  start  median 0.12s  range 0.11-0.13s
+  job    median 7.6s   range 7.6-10.0s
+  the turn pays the START, not the JOB: 0.12s vs 7.6s = 62x
+

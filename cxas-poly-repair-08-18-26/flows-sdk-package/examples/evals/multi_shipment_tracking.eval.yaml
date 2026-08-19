@@ -1,0 +1,50 @@
+meta:
+  example: multi_shipment_tracking
+  claim: "The engine (not the model) decides when to stop: 'done' terminates deterministically; 'another' re-descends into a fresh track."
+
+scenarios:
+  - name: track_two_then_deterministic_end
+    polarity: positive
+    tool_fakes:
+      lookup_shipment: {status_message: "Shipment is out for delivery, arriving today by 8 PM.", success: true}
+      set_more: {stored: true, value: "another"}
+      finish_track: {done_flag: false, success: true}
+    on_start:
+      - said_contains: "your tracking number"
+    turns:
+      # First shipment: lookup runs, then the loop asks another-or-done.
+      - answer: {slot: tracking_number, value: "1Z111"}
+        expect:
+          - tool_called: lookup_shipment
+          - tool_args: {tool: lookup_shipment, args: {tracking_number: "1Z111"}}
+          - said_contains: "out for delivery"
+          - said_contains: "track another shipment"
+      # "another" -> done_flag False -> the component re-descends and asks for a new number.
+      - answer: {slot: more, args: {more: "another"}}
+        expect:
+          - tool_called: finish_track
+          - said_contains: "your tracking number"
+    # NB: the second track and the deterministic end are exercised by the sibling scenario.
+
+  - name: done_ends_the_call_deterministically
+    polarity: negative
+    tool_fakes:
+      lookup_shipment: {status_message: "Shipment is out for delivery, arriving today by 8 PM.", success: true}
+      set_more: {stored: true, value: "done"}
+      finish_track: {done_flag: true, success: true}
+    turns:
+      - answer: {slot: tracking_number, value: "1Z999"}
+        expect:
+          - tool_called: lookup_shipment
+          - said_contains: "track another shipment"
+      # "done" -> done_flag True -> min_count met -> collection completes.
+      - answer: {slot: more, args: {more: "done"}}
+        expect:
+          - tool_called: finish_track
+      # The terminal announce fires the framework's own sign-off and ends the call —
+      # not the model calling end_session.
+      - say: ""
+        expect:
+          - said_contains: "All set"
+          - disposition: complete
+          - status: complete

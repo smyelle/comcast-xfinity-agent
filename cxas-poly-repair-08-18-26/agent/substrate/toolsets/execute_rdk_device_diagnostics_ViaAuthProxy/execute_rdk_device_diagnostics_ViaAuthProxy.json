@@ -1,0 +1,15 @@
+{
+  "name": "8a4657e7-9f57-4ef9-9acd-80dc8f59e526",
+  "displayName": "execute_rdk_device_diagnostics_ViaAuthProxy",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/execute_rdk_device_diagnostics_ViaAuthProxy/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Get the Device Triage Summary from RDK through APIGEE Auth proxy"
+}

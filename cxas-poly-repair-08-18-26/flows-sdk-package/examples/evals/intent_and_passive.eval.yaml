@@ -1,0 +1,46 @@
+meta:
+  example: intent_and_passive
+  claim: "An asked intent_slot is cue-filled from the caller's answer and routes the terminal tool by value; the passive slot is never asked; an unusable answer re-asks the intent."
+
+scenarios:
+  - name: billing_answer_routes_to_ticket
+    polarity: positive
+    tool_fakes:
+      create_ticket: {success: true, ticket_id: "TK-100"}
+    on_start:
+      - asked_slot: help_topic
+      - said_contains: "billing question or a technical issue"
+    turns:
+      # The asked intent slot is filled deterministically by the cue matcher from the
+      # answer, and its value routes create_ticket.
+      - say: "there's a wrong charge on my bill"
+        expect:
+          - tool_called: create_ticket
+          - tool_args: {tool: create_ticket, args: {help_topic: "billing"}}
+          - said_contains: "I've opened ticket TK-100"
+          - disposition: complete
+
+  - name: technical_answer_routes_to_the_other_value
+    polarity: positive
+    tool_fakes:
+      create_ticket: {success: true, ticket_id: "TK-200"}
+    turns:
+      - say: "my internet is not working"
+        expect:
+          - tool_args: {tool: create_ticket, args: {help_topic: "technical"}}
+          - said_contains: "I've opened ticket TK-200"
+          - disposition: complete
+
+  - name: unusable_answer_reasks_intent_and_fires_nothing
+    polarity: negative
+    tool_fakes:
+      create_ticket: {success: true, ticket_id: "TK-999"}
+    turns:
+      # An answer that matches no cue leaves the intent open, re-asks it, and never
+      # routes a ticket. (The passive caller_sentiment slot is never asked in either
+      # direction -- it has no `ask` rung at all.)
+      - say: "uhh hello"
+        expect:
+          - asked_slot: help_topic
+          - no_tools_called: true
+          - slot_status: {help_topic: open}

@@ -1,0 +1,148 @@
+{
+  "name": "1d1b685f-bde7-400c-b52f-eaa4e6047b9d",
+  "displayName": "unrelated_utterance_banana",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": false,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "banana"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-18b13019-577f-45bf-9019-5a930b0bc577",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "unrelated"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "has_had_unrelated_utterance": true,
+            "head_intent_selection_count": 0.0,
+            "intent": "unrelated"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-18b13019-577f-45bf-9019-5a930b0bc577",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say: I can\u0027t help with that. Do you have any Xfinity-related questions?",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "I can\u0027t help with that. Do you have any Xfinity-related questions?"
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "banana"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-0f0f3b38-8d81-4c56-8971-7da472e3098c",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "unrelated"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "end_call": true,
+            "exit_utterance": "Okay. Thanks for calling Xfinity!",
+            "transfer_to_dfcx_params": {
+              "end_call": true,
+              "from_gecx_steering": true
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-0f0f3b38-8d81-4c56-8971-7da472e3098c",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passedMainMenu": true,
+            "transfer_to_dfcx_params": {
+              "end_call": true,
+              "from_gecx_steering": true,
+              "passedMainMenu": true
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Okay. Thanks for calling Xfinity!"
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

@@ -1,0 +1,237 @@
+openapi: 3.0.3
+info:
+  title: Auth Proxy A2A JSON-RPC
+  version: 1.0.0
+  description: OpenAPI spec for sending an A2A JSON-RPC message through the
+    Apigee auth proxy.
+servers:
+- url: '$env_var'
+  description: DXP Cloud IVR Apigee dev
+paths:
+  /v1/auth-proxy:
+    post:
+      summary: Send A2A message
+      operationId: sendA2AMessageViaAuthProxy
+      description: >
+        Sends a JSON-RPC message/send request to the upstream A2A agent
+        through the auth proxy. The cable_modem_mac query parameter is passed
+        for proxy routing. The actual message content is in the request body.
+      parameters:
+      - name: cable_modem_mac
+        in: query
+        required: true
+        description: Modem MAC address passed to the proxy for routing.
+        schema:
+          type: string
+        example: "xx:xx:xx:xx:xx:xx"
+      - name: x-auth
+        in: header
+        required: true
+        description: Auth token identifier passed to the proxy.
+        schema:
+          type: string
+        example: XME-SAT-XAXLR
+      - name: x-scope
+        in: header
+        required: true
+        description: Space-delimited scopes requested for the upstream call.
+        schema:
+          type: string
+        example: "xme:access xme:ai-agent:access"
+      - name: x-url
+        in: header
+        required: true
+        description: Upstream A2A JSON-RPC endpoint URL.
+        schema:
+          type: string
+          format: uri
+        example: https://xme-prod.codebig2.net/agent/a2a/jsonrpc
+      - name: contextId
+        in: header
+        required: true
+        description: Context identifier derived from xa_session_id state variable.
+        schema:
+          type: string
+      - name: x-flow-trace-id
+        in: header
+        required: false
+        schema:
+          type: string
+        x-ces-session-context: $context.session_id
+        description: Unique session flow trace identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/A2AMessageRequest'
+            example:
+              id: "1"
+              jsonrpc: "2.0"
+              method: message/send
+              params:
+                message:
+                  kind: message
+                  messageId: msg-1
+                  role: user
+                  parts:
+                  - kind: text
+                    text: "A customer is contacting support regarding a potential issue with their internet service. Investigate the following devices and identify the root cause, if any, and the appropriate dispatch decision.\n Devices in the customer's home: 10:36:aa:5b:b9:14 .\n\n Respond ONLY with valid JSON — no extra fields.\n Use EXACTLY this structure:\n {\n Analysis: <high-level summary: scope, impairment pattern, and root cause only — no recommendation>,\n Severity: <Critical | High | Medium | Low>,\n Recommendation: {\n Technician Type: <Network Tech | Install and Repair Tech | No Technician Required>,\n Remediation: <brief action to resolve the issue>\n }\n}\n\n"
+      responses:
+        "200":
+          description: Successful JSON-RPC response from the upstream A2A agent.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - jsonrpc
+                - id
+                - result
+                properties:
+                  jsonrpc:
+                    type: string
+                    example: "2.0"
+                  id:
+                    type: string
+                    example: "1"
+                  result:
+                    type: object
+                    additionalProperties: true
+                additionalProperties: true
+        "400":
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+        "401":
+          description: Missing or invalid authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+        "403":
+          description: Caller is not authorized for the requested scope or
+            upstream URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+        "502":
+          description: Proxy or upstream failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+        "504":
+          description: Upstream timeout.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcErrorResponse'
+components:
+  schemas:
+    A2AMessageRequest:
+      type: object
+      required:
+      - id
+      - jsonrpc
+      - method
+      - params
+      properties:
+        id:
+          type: string
+          example: "1"
+        jsonrpc:
+          type: string
+          enum:
+          - "2.0"
+          example: "2.0"
+        method:
+          type: string
+          enum:
+          - message/send
+          example: message/send
+        params:
+          $ref: '#/components/schemas/A2AMessageParams'
+    A2AMessageParams:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          $ref: '#/components/schemas/A2AMessage'
+    A2AMessage:
+      type: object
+      required:
+      - kind
+      - messageId
+      - role
+      - parts
+      properties:
+        kind:
+          type: string
+          enum:
+          - message
+          example: message
+        messageId:
+          type: string
+          example: msg-1
+        role:
+          type: string
+          enum:
+          - user
+          - agent
+          example: user
+        parts:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/A2AMessagePart'
+    A2AMessagePart:
+      type: object
+      required:
+      - kind
+      - text
+      properties:
+        kind:
+          type: string
+          enum:
+          - text
+          example: text
+        text:
+          type: string
+          description: The prompt text to send to the upstream A2A agent. Must contain the actual device MAC address(es).
+          example: "A customer is contacting support regarding a potential issue with their internet service. Investigate the following devices and identify the root cause, if any, and the appropriate dispatch decision.\n Devices in the customer's home: 10:36:aa:5b:b9:14 .\n\n Respond ONLY with valid JSON — no extra fields.\n Use EXACTLY this structure:\n {\n Analysis: <high-level summary: scope, impairment pattern, and root cause only — no recommendation>,\n Severity: <Critical | High | Medium | Low>,\n Recommendation: {\n Technician Type: <Network Tech | Install and Repair Tech | No Technician Required>,\n Remediation: <brief action to resolve the issue>\n }\n}\n\n"
+      additionalProperties: false
+    JsonRpcErrorResponse:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - error
+      properties:
+        jsonrpc:
+          type: string
+          example: "2.0"
+        id:
+          type: string
+          nullable: true
+          example: "1"
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: integer
+              example: -32600
+            message:
+              type: string
+              example: Invalid Request
+            data:
+              description: Optional error details from the proxy or upstream agent.
+          additionalProperties: true
+      additionalProperties: true

@@ -1,0 +1,34 @@
+meta:
+  example: telephony_handoff
+  claim: "Both the escalate rail and a task's failure ladder give up the call with a real hand-off (transfer disposition), not a bare apology."
+
+scenarios:
+  - name: escalate_rail_hands_off
+    polarity: positive
+    turns:
+      # A caller who simply ASKS for a person reaches the escalate rail. It speaks its
+      # line AND ends the call as a transfer — the payload the platform routes on, not a
+      # bare end_session that would strand the caller.
+      - answer: {slot: escalate, args: {reason: "just get me a person"}}
+        expect:
+          - said_contains: "get you to someone who can help"
+          - disposition: escalate
+          - disposition: transfer
+          - status: zombie
+
+  - name: lookup_failure_ladder_hands_off_instead_of_apologizing
+    polarity: negative
+    tool_fakes:
+      # The order system is down: every attempt fails.
+      lookup_order: {success: false}
+    on_start:
+      - asked_slot: order_number
+    turns:
+      # The lookup retries within its ladder, then ON_EXHAUST hands off — it does NOT
+      # apologize and carry on with a broken backend.
+      - answer: {slot: order_number, value: "48812"}
+        expect:
+          - tool_called: lookup_order
+          - said_contains: "put you through to an agent"
+          - disposition: transfer
+          - status: complete

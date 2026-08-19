@@ -1,0 +1,9 @@
+{
+  "name": "a1b2c3d4-1012-4e6f-8a1c-000000000025",
+  "pythonFunction": {
+    "name": "classify_turn_intent",
+    "pythonCode": "tools/classify_turn_intent/python_function/python_code.py",
+    "description": "Intent-first Pass A: classify the user's latest message into exactly one intent. intent = 'continue' (answering/confirming the current request — the default), 'switch:<flow>' (replace current with a different service), 'new_request:<flow>' (an additional/separate request), 'resume:<flow>' (go back to a paused request), 'correct:<slot>' (change an already-given detail), 'cancel', or 'escalate' (reach a human). Output ONLY this tool call, no text. The system maps it to the real action."
+  },
+  "displayName": "classify_turn_intent"
+}

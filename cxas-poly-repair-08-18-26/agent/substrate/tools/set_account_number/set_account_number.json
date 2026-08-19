@@ -1,0 +1,9 @@
+{
+  "name": "set_account_number",
+  "pythonFunction": {
+    "name": "set_account_number",
+    "pythonCode": "tools/set_account_number/python_function/python_code.py",
+    "description": "Set the Xfinity account number or phone number.\n\nArgs:\n    account_number: The account number or phone number.\n\nReturns:\n    {\"stored\": True, \"value\": account_number} on success;\n    {\"error\": True, \"error_code\": \"invalid_format\"} on failure."
+  },
+  "displayName": "set_account_number"
+}

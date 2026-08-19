@@ -1,0 +1,36 @@
+meta:
+  example: named_cujs
+  claim: "Each journey is reached ONLY by seeding upstream event state before the first turn; the matching parcel_state selects its announce and ends the call."
+
+scenarios:
+  - name: on_time_journey_via_seeded_state
+    polarity: positive
+    # The everything-worked path: the parcel is out for delivery. Both slots are
+    # event-sourced, so seeding event_data is the only way in — no turn asks for them.
+    seed: {tracking_id: "AC-40219", parcel_state: "out_for_delivery"}
+    on_start:
+      - said_contains: "on the van and arrives today"
+      - said_contains: "AC-40219"
+      - disposition: complete
+
+  - name: delayed_journey_selects_its_own_line
+    polarity: positive
+    # A different seed reaches a different journey by NAME (parcel_delayed): the delayed
+    # announce, and NOT the on-time one — the condition picks exactly one branch.
+    seed: {tracking_id: "AC-40219", parcel_state: "delayed"}
+    on_start:
+      - said_contains: "held up in transit"
+      - said_contains: "Thursday"
+      - disposition: complete
+
+  - name: unknown_state_reaches_no_journey
+    polarity: negative
+    # The annoying-to-test property, asserted: a parcel_state no branch matches leaves the
+    # caller with nothing to say and the flow open — these paths cannot be reached by
+    # talking, only by the right seed.
+    seed: {tracking_id: "AC-40219", parcel_state: "in_transit"}
+    turns:
+      - say: "where's my parcel?"
+        expect:
+          - said_equals: ""
+          - status: in_progress

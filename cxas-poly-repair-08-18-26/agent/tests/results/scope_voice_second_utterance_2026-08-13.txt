@@ -1,0 +1,62 @@
+A SECOND caller utterance during the diagnostics wait never reaches the engine.
+Driven 2026-08-13 against app 1675b42e (comcast-ux-local-specialists), voice, cold.
+
+WHAT WAS DRIVEN
+  tests/scope_voice_probe.py — one continuous audio buffer: the complaint, the account
+  number, N seconds of silence, an optional hesitation ("uh"), then the spoken answer to
+  the scoping question. Scored on the engine's own `filled["wifi_scope_early"]`, not on
+  the transcript.
+
+THE RESULT, BY SHAPE OF THE CALLER'S TURN
+
+  caller speaks ONCE during the wait          captured 5 of 5
+    --answer-at 12 (x3), 15 (x1), 17 with --hesitate "" (x1)
+
+  caller speaks TWICE — a hesitation, then the answer   captured 0 of 8
+    --answer-at 17 (x6), 19 (x1), and 17 with --hesitate-gap 3 / 6 (x2)
+
+  The gap between the two utterances does not matter: 0.8s, 3s and 6s all lose it.
+
+WHY IT IS NOT THE REASSURANCE LINE
+  The first suspicion was the `while_waiting` ladder speaking over the caller, which is
+  what the live call showed ("Uh" at 45.4s, the line at 46.1s, the answer at 46.3s, and
+  a barge-in recorded on the platform's VAD span). The framework fix for that landed and
+  was driven: the line is gone from these runs and the answer is STILL lost, 0 of 4.
+  It is worth having on its own merits — talking at a caller who is answering you is
+  wrong however it ends — but it is not the cause.
+
+WHY IT IS NOT THE DRIVER
+  CONTROL, same continuous buffer, no wait running: complaint, "uh", 3s, the account
+  number. The agent re-asked after "uh" and then took the account number normally —
+  "Thanks." and the sweep started. A second utterance in one buffer is fine; a second
+  utterance DURING A WAIT is not.
+
+WHERE IT IS LOST
+  Not in the engine, and not in the model. Pulled the conversation for a failing run
+  (scopevoice-1786625370-1) and read the engine's own inputs per invocation:
+
+    t3 #12  last='fire'  scanned='fire'  n_user_turns=3      <- the hesitation, ASR'd
+    t4 #13  last='fire'  scanned='fire'  n_user_turns=3      <- the ANSWER's turn
+    t5 #14  last='fire'  scanned='fire'  n_user_turns=3
+    t6 #15  last='fire'  scanned='fire'  n_user_turns=3
+
+  The conversation record carries t4 as `user: "Everything seems to be having trouble."`
+  The agent was INVOKED for it. `llm_request.contents` never received it —
+  `n_user_turns` and `scanned_user_text` are frozen from the hesitation onward, for the
+  rest of the call. Nothing downstream of the request can recover a turn that is not in
+  it: not the cue matcher, not the model, not a setter.
+
+  Identical in shape to the original live call this was found on
+  (simulator-031307e8, app 1675b42e): "Uh" at t4, the real answer at t5, and every later
+  invocation reading 'Uh'.
+
+WHAT WAS TRIED AND REJECTED
+  Letting the model take the wait turn instead of holding — the one lever the engine has
+  left. Built, pushed and driven: the model answered the hesitation with an emoji and
+  then "Hmm, I'm having trouble with that", the platform's crash envelope, and the
+  answer was lost anyway. Reverted. The silent hold is right; the loss is upstream of it.
+
+WHAT THE CALLER GETS TODAY
+  The graceful path, which is why this was survivable enough to ship around: the early
+  capture misses, `AskWifiScope` asks the same question again after the verdict, and the
+  walkthrough runs from there. One repeated question, no wrong advice.

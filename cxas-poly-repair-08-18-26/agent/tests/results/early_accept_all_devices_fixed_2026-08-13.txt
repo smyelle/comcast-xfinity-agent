@@ -1,0 +1,22 @@
+The whole-house early accept, AFTER the fix -- live, over voice.
+
+app 1675b42e (comcast-ux-local-specialists), 2026-08-13. Same journey, same words.
+`wifi_offered_early` is 'true', the answer gate opens, the acceptance is captured, and
+the authored whole-house tips arrive in order.
+
+0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+     15.1s + 15.1s  < Thanks.
+     15.4s +  0.3s  < Give me just a moment while I check your connection.
+     15.4s +  0.0s  < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+   STATE: {'account_status': 'clear', 'outage_status': 'none', 'AskScopeEarly': True}
+[caller] "it's everything, nothing in the house works"
+      0.0s         < Got it, that helps. While those checks finish, we could try a couple of quick things around the house. Want to give it a go?
+   STATE: {'wifi_scope_early': 'ALL_DEVICES', 'wifi_offered_early': 'true', 'account_status': 'clear', 'outage_status': 'none', 'AskScopeEarly': True}
+[caller] 'yes please'
+      0.0s         < Right then.
+      0.3s +  0.3s  < Since it's everything, let's look at the gateway itself. Is it out in the open and upright, rather than in a cabinet, behind the TV or down on the floor? Moving it somewhere clear can make a real difference. Did that change anything?
+   STATE: {'wifi_scope_early': 'ALL_DEVICES', 'wifi_scope': 'ALL_DEVICES', 'wifi_scope_asked': 'true', 'wifi_scope_allowed': 'true', 'wifi_offered_early': 'true', 'wifi_answer_allowed': 'true', 'wifi_walkthrough': 'ACCEPT', 'wifi_tip_given': 'true', 'account_status': 'clear', 'outage_status': 'none', 'AskScopeEarly': True}
+[caller] "that didn't work"
+      0.0s         < Here's another.
+      0.3s +  0.3s  < Try one device right next to the gateway and see if it behaves any differently there. That tells us whether it's the coverage around the house or the connection itself. How does it look up close?
+   STATE: {'wifi_scope_early': 'ALL_DEVICES', 'wifi_scope': 'ALL_DEVICES', 'wifi_scope_asked': 'true', 'wifi_scope_allowed': 'true', 'wifi_offered_early': 'true', 'wifi_answer_allowed': 'true', 'wifi_walkthrough': 'ACCEPT', 'wifi_tip_given': 'true', 'account_status': 'clear', 'outage_status': 'none', 'AskScopeEarly': True}

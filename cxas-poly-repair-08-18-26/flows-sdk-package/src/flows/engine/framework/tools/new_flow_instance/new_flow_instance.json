@@ -1,0 +1,9 @@
+{
+  "name": "a1b2c3d4-1012-4e6f-8a1c-000000000022",
+  "pythonFunction": {
+    "name": "new_flow_instance",
+    "pythonCode": "tools/new_flow_instance/python_function/python_code.py",
+    "description": "Start a SEPARATE, additional instance of the SAME flow type the user is already working on — NOT a correction to the current request and NOT a switch to a different flow. The current request is saved and can be resumed later."
+  },
+  "displayName": "new_flow_instance"
+}

@@ -1,0 +1,46 @@
+meta:
+  example: contain_once
+  claim: "The first requests for a human are deflected up an escalating ladder; only once the counter reaches 2 (and an offer is on the account) does the hand-off fire. With no offer the ladder clamps and never transfers."
+
+scenarios:
+  # offer_available=yes, so the condition (escalate_declined >= 2 AND offer == yes) can be
+  # met. First two asks are contained up the ladder; the third hands off.
+  - name: deflect_twice_then_honour
+    polarity: positive
+    seed: {offer_available: "yes"}
+    on_start:
+      - said_contains: "What's wrong with the bill?"
+    turns:
+      - answer: {slot: escalate, args: {reason: "just get me a person"}}
+        expect:
+          - said_contains: "let me see what's driving that"    # rung 1: ASK
+          - slot_filled: {escalate_declined: 1}
+          - status: in_progress                                # not handed off yet
+      - answer: {slot: escalate, args: {reason: "no, a person"}}
+        expect:
+          - said_contains: "ten dollars a month off"           # rung 2: OFFER (not the same line)
+          - slot_filled: {escalate_declined: 2}
+          - status: in_progress
+      - answer: {slot: escalate, args: {reason: "a person, please"}}
+        expect:
+          - said_contains: "get you to someone who can help"   # the disposition runs
+          - disposition: escalate
+
+  # No offer on the account: the eligibility leg is false regardless of the counter, so the
+  # ladder clamps on its last rung and the caller is NEVER handed off - the deflection is
+  # contained, not a two-strike gate that eventually gives in.
+  - name: no_offer_clamps_and_never_transfers
+    polarity: negative
+    turns:
+      - answer: {slot: escalate, args: {reason: "person"}}
+        expect:
+          - said_contains: "let me see what's driving that"    # rung 1
+          - status: in_progress
+      - answer: {slot: escalate, args: {reason: "person"}}
+        expect:
+          - said_contains: "ten dollars a month off"           # rung 2 (clamp line)
+          - slot_filled: {escalate_declined: 2}
+      - answer: {slot: escalate, args: {reason: "person"}}
+        expect:
+          - said_contains: "ten dollars a month off"           # clamps here, does NOT hand off
+          - status: in_progress

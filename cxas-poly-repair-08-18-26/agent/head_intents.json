@@ -1,0 +1,201 @@
+{
+  "source": "gecx-ivr-golden-dev get_agent_instructions_for_selecting_head_intent",
+  "categories": {
+    "payments": {
+      "target_flow": "Payments",
+      "lob": null,
+      "head_intents": {
+        "payments_cancel_payment": "Cancel scheduled or automatic payment.",
+        "payments_make_payment": "Make immediate payment by card or bank.",
+        "payments_manage_autopay": "Set up or manage autopay settings.",
+        "payments_method_update": "Update saved card/bank payment method."
+      },
+      "disambiguation_question": null
+    },
+    "billing": {
+      "target_flow": "Billing",
+      "lob": null,
+      "head_intents": {
+        "account_update_info": "Update account-holder details or account information.",
+        "billing_corporate_address": "Request the corporate mailing address.",
+        "billing_amount_final": "Ask about final bill after disconnect/closure.",
+        "billing_amount_future": "Check upcoming bill amount or due date.",
+        "billing_complaint_fraud": "Report billing fraud, scams, or identity theft.",
+        "billing_credits_info": "Ask about bill credits or missing credits.",
+        "billing_discuss": "Get general bill explanations, learn about promotions, understand bill charges",
+        "billing_lower_bill_request": "Explicitly request action to lower bill, negotiate rate, or ask agent to apply discounts or credits.",
+        "billing_manage_ecobill": "Enroll, unenroll, or check paperless billing.",
+        "billing_refund_inquiry": "Request refund or check refund status.",
+        "billing_service_gurantee": "Ask about money-back or service guarantee.",
+        "billing_toohigh": "Complain that current bill amount is too high.",
+        "payments_balance_due": "Check outstanding balance or amount due.",
+        "payments_troubleshoot_issues": "Resolve payment failures, duplicates, overpayments, or reversals."
+      },
+      "disambiguation_question": "Sure. Do you want to understand a charge, check your bill amount or due date, or something else?"
+    },
+    "technical_internet": {
+      "target_flow": "pre_lob",
+      "lob": "HSI",
+      "head_intents": {
+        "devices_modem_exchange": "Replace or swap modem due to issues.",
+        "internet_email_inquiry": "Questions about internet email setup or access.",
+        "internet_hotspot_inquiry": "Ask about Xfinity hotspot availability or use.",
+        "internet_sound": "Internet issue affecting audio or voice quality.",
+        "internet_streaming": "Streaming performance or connectivity troubleshooting request.",
+        "internet_troubleshoot": "General internet troubleshooting and connectivity support, speed issues.",
+        "login_and_password_general": "Help with account login or password reset.",
+        "login_and_password_networking": "Network credential or Wi-Fi password assistance."
+      },
+      "disambiguation_question": null
+    },
+    "technical_television": {
+      "target_flow": "pre_lob",
+      "lob": "VID",
+      "head_intents": {
+        "account_order_remote": "Request a replacement TV remote control.",
+        "tv_channel_guide": "Find channels or access TV guide listings.",
+        "tv_miscellaneous": "Miscellaneous TV issues like TiVo or caller ID.",
+        "tv_on_demand_general": "On Demand rentals, purchases, and access help.",
+        "tv_program_remote": "Pair, activate, reset, or reprogram remote.",
+        "tv_remote_general": "Remote not working or remote troubleshooting help.",
+        "tv_settings": "Change TV settings like language or captions.",
+        "tv_troubleshoot": "General TV signal, box, picture troubleshooting.",
+        "tv_troubleshoot_channels": "Missing channels, lineup problems, StreamSaver channel issues.",
+        "tv_troubleshoot_dvr": "DVR playback, recording, or DVR hardware issues."
+      },
+      "disambiguation_question": null
+    },
+    "technical_phone": {
+      "target_flow": "pre_lob",
+      "lob": null,
+      "head_intents": {
+        "voice_blocking": "Block or unblock unwanted, spam, or robocalls.",
+        "voice_callforward": "Set up, disable, or troubleshoot call forwarding.",
+        "voice_troubleshoot": "Troubleshoot phone service, fax lines, and reactivation.",
+        "voice_troubleshoot_static_clicking_distortion": "Fix static, humming, echo, clicking, or distorted calls.",
+        "voice_voicemail_troubleshoot": "Resolve voicemail setup, access, playback, and ring timing."
+      },
+      "disambiguation_question": null
+    },
+    "xfinity_mobile": {
+      "target_flow": "NL_Xfinity_Mobile",
+      "lob": "XM",
+      "head_intents": {
+        "mobile_general": "Add mobile lines, devices, or upgrade mobile plans."
+      },
+      "disambiguation_question": null
+    },
+    "technical_xfinity_home": {
+      "target_flow": "pre_lob",
+      "lob": "XH",
+      "head_intents": {
+        "home_security_certificate": "Request or verify home security monitoring certificate.",
+        "home_security_troubleshoot": "Troubleshoot Xfinity Home security system issues."
+      },
+      "disambiguation_question": null
+    },
+    "sales": {
+      "target_flow": "Sales",
+      "lob": null,
+      "head_intents": {
+        "account_transfer_service": "Move or transfer service",
+        "internet_essentials_application_status": "Check Internet Essentials application status.",
+        "account_add_new_customer": "Start new customer service or new account setup.",
+        "account_contract_renew": "Renew contract or term agreement.",
+        "account_renew": "Renew current services or package.",
+        "internet_essentials_general": "General questions about Internet Essentials eligibility or program details.",
+        "plan_add": "Add services, channels, or packages (NOT sports packages).",
+        "plan_downgrade": "Downgrade package, services, or channel lineup.",
+        "plan_upgrade": "Upgrade package, services, or channel lineup (NOT sports packages).",
+        "plan_sports_channel_management": "Add, remove, or manage sports packages and sports channels."
+      },
+      "disambiguation_question": null
+    },
+    "appointments": {
+      "target_flow": "Appointments",
+      "lob": null,
+      "head_intents": {
+        "appointment_cancel_service": "Cancel an existing technician/service appointment.",
+        "appointment_change_schedule": "Reschedule or change existing appointment date/time.",
+        "appointment_general": "General appointment status or technician visit questions.",
+        "appointment_schedule_appointment": "Schedule a new install/service appointment.",
+        "appointment_store": "Schedule or manage in-store appointment visit."
+      },
+      "disambiguation_question": null
+    },
+    "activations": {
+      "target_flow": "Activations",
+      "lob": null,
+      "head_intents": {
+        "devices_activation": "Activate equipment/service"
+      },
+      "disambiguation_question": null
+    },
+    "service_center": {
+      "target_flow": "ServiceCenterLocator",
+      "lob": null,
+      "head_intents": {
+        "account_equipment_return": "Return equipment to a service center.",
+        "customer_support_locate_service_center": "Find a store or service center location."
+      },
+      "disambiguation_question": null
+    },
+    "accessibility": {
+      "target_flow": "Accessibility",
+      "lob": null,
+      "head_intents": {
+        "accessibility_general": "Accessibility help for captions, narration, TTY, ADA tools."
+      },
+      "disambiguation_question": null
+    },
+    "equipment_swap": {
+      "target_flow": "Equipment_Swap",
+      "lob": null,
+      "head_intents": {
+        "plan_manage_equipment": "Exchange, replace, or upgrade Comcast equipment/devices."
+      },
+      "disambiguation_question": null
+    },
+    "phone_security": {
+      "target_flow": "Phone_Security",
+      "lob": null,
+      "head_intents": {
+        "miscellaneous_inquire_sim_swap_fraud": "Report SIM swap, port-out, or phone-number hijacking fraud.",
+        "miscellaneous_inquire_safe_connections_act": "Get Safe Connections Act help for line separation."
+      },
+      "disambiguation_question": null
+    },
+    "transfers": {
+      "target_flow": "Triage",
+      "lob": null,
+      "head_intents": {
+        "miscellaneous_customer_referral_program": "Asking about referral credits, customer referral program, referral codes/offers.",
+        "miscellaneous_inquire_privacy_concerns": "Privacy rights, opting out of data collection, concerns about data usage.",
+        "miscellaneous_track_order_status": "Questions about in-progress orders, where is an order.",
+        "account_add_user": "Add a user to an account."
+      },
+      "disambiguation_question": null
+    },
+    "disambiguation_main_menu": {
+      "target_flow": "DisambigMenu",
+      "lob": null,
+      "head_intents": {
+        "plan_manage_temporary_disconnect": "Place services on hold and later reactivate. This is ONLY for temporary service suspension, not permanent cancellation.",
+        "account_handle_bereavement": "Handle account changes after customer death or loss.",
+        "miscellaneous_inquire_broadband_nutrition_labels": "Ask about broadband nutrition labels or internet plan transparency details.",
+        "internet_manage_wifi_xfi_pod": "Get help with xFi Pods or managing WiFi mesh coverage.",
+        "internet_ip": "Change, troubleshoot, or request static/dynamic IP addresses.",
+        "voice_international_phone_coverage": "Add or remove Unlimited Pass international calling.",
+        "account_order_gen": "Place new order or check order status.",
+        "tv_troubleshoot_netflix": "Resolve Netflix app, login, or playback issues.",
+        "vague_peacock": "Questions about Peacock, including account, app, or streaming support.",
+        "vague_xumo": "Questions about Xumo, including account, app, or streaming support.",
+        "business_general": "Comcast Business account, service, and support inquiries.",
+        "account_update_address": "Update service, billing, or mailing address.",
+        "california_lifeline": "Questions about California Lifeline eligibility, enrollment, or benefits.",
+        "account_check_ticket_status": "Check status of open service ticket/request."
+      },
+      "disambiguation_question": null
+    }
+  }
+}

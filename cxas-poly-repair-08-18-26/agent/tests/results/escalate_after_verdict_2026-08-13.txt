@@ -1,0 +1,19 @@
+Escalation after the verdict is unchanged -- live, over voice.
+
+app 590a468f (cxas-comcast-staging), 2026-08-13. Same seed plus `network_status`, so the
+sweep resolves in-turn and the all-clear lands before the caller asks. The request is
+honoured immediately, on the authored line.
+
+app 590a468f-af4a-45f9-a760-24676fdd52e4  session demovoice-1786643621  VOICE, seeded variables ['cable_modem_mac', 'gateway_status', 'network_status'], no tool fakes
+
+[caller] "my internet is not working" … 9s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 12s of SILENCE
+  --- turn 245  (t= 38.0s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 722  (t= 38.0s at read)
+     15.2s + 15.2s  < Thanks.
+     15.7s +  0.4s  < Give me just a moment while I check your connection.
+     17.4s +  1.7s  < Everything on our side looks healthy. Your account, your area, the line into your home and your gateway all check out. That usually leaves the Wi-Fi inside your home as the most likely spot. Would you like me to walk you through a few things to try?
+
+[caller] 'can I speak to a real person please'
+  --- turn 153  (t= 55.1s at read)
+      0.0s         < I completely understand, let me get you connected to a live agent who can help you directly.

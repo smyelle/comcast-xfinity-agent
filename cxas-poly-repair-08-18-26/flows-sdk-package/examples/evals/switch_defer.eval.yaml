@@ -1,0 +1,52 @@
+meta:
+  example: switch_defer
+  claim: "switchable='defer' parks a journey when the caller steps aside and restores it on return - filled slots survive, so the caller is not re-asked for a value they already gave."
+
+scenarios:
+  # The caller steps aside into billing, then returns to activation. The parked journey is
+  # restored: last_four is still filled (9413) and the agent resumes on the note question,
+  # NOT back at "Last four digits".
+  - name: step_aside_then_return_restores_the_journey
+    polarity: positive
+    tool_fakes:
+      look_up_balance: {success: true, balance: "forty dollars", due: "the fifteenth"}
+    on_start:
+      - asked_slot: journey
+    turns:
+      - say: "activate my phone"
+        expect:
+          - slot_filled: {journey: "activation"}
+          - asked_slot: last_four
+      - answer: {slot: last_four, value: "9413"}
+        expect:
+          - asked_slot: note                       # moved on to the note question
+          - slot_filled: {last_four: "9413"}
+      - say: "hold on, what's my balance"
+        expect:
+          - slot_filled: {journey: "billing"}      # switched aside
+          - tool_called: look_up_balance
+          - said_contains: "Your balance is forty dollars"
+      - say: "okay, back to the activation"
+        expect:
+          - slot_filled: {journey: "activation"}   # switched back
+          - slot_filled: {last_four: "9413"}       # ...with the answer restored
+          - asked_slot: note                       # resumes where they were
+          - slot_status: {last_four: filled}
+
+  # The point of the feature, stated as the edge it prevents: on return, last_four must NOT
+  # be re-asked. A byte-identical control with switchable=True would ask it a second time;
+  # defer restores it instead, so the resume turn speaks the note ask, not the last_four ask.
+  - name: return_does_not_reask_the_filled_slot
+    polarity: negative
+    tool_fakes:
+      look_up_balance: {success: true, balance: "forty dollars", due: "the fifteenth"}
+    turns:
+      - say: "activate my phone"
+      - answer: {slot: last_four, value: "9413"}
+      - say: "what's my balance"
+        expect:
+          - slot_filled: {journey: "billing"}
+      - say: "back to the activation"
+        expect:
+          - said_contains: "Anything else about it?"    # the note ask, i.e. NOT re-asking last_four
+          - slot_status: {last_four: filled}

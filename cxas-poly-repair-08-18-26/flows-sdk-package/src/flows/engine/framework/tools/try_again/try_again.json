@@ -1,0 +1,9 @@
+{
+  "name": "a1b2c3d4-1012-4e6f-8a1c-000000000026",
+  "pythonFunction": {
+    "name": "try_again",
+    "pythonCode": "tools/try_again/python_function/python_code.py",
+    "description": "Internal no-op. The framework calls this to force another model pass during intent classification; it is never shown to the model."
+  },
+  "displayName": "try_again"
+}

@@ -1,0 +1,58 @@
+{
+  "url": "https://comcast-specialist-proxy-555355609568.us-central1.run.app",
+  "revision": "comcast-specialist-proxy-00007-8n9",
+  "service_account": "comcast-spec-proxy@ces-deployment-dev.iam.gserviceaccount.com",
+  "poll_seconds": 1.0,
+  "runs": [
+    {
+      "ok": true,
+      "job": "c711e4e925ea4229bffbe576f9e26523",
+      "start_seconds": 0.21,
+      "total_seconds": 9.4,
+      "status": "done",
+      "net_seconds": "3.85",
+      "gw_seconds": "8.32",
+      "degraded": false
+    },
+    {
+      "ok": true,
+      "job": "53d0c9426af943e1b3ec638598486fcc",
+      "start_seconds": 0.15,
+      "total_seconds": 7.1,
+      "status": "done",
+      "net_seconds": "2.97",
+      "gw_seconds": "6.70",
+      "degraded": false
+    },
+    {
+      "ok": true,
+      "job": "e55017b2f5f0446bb2052201937bc1d6",
+      "start_seconds": 0.15,
+      "total_seconds": 8.3,
+      "status": "done",
+      "net_seconds": "2.63",
+      "gw_seconds": "7.82",
+      "degraded": false
+    },
+    {
+      "ok": true,
+      "job": "fb048b95320a4815b39b798dd083b461",
+      "start_seconds": 0.16,
+      "total_seconds": 8.3,
+      "status": "done",
+      "net_seconds": "2.74",
+      "gw_seconds": "7.60",
+      "degraded": false
+    },
+    {
+      "ok": true,
+      "job": "83a5678839034c48b3ddce44bb713fff",
+      "start_seconds": 0.14,
+      "total_seconds": 7.0,
+      "status": "done",
+      "net_seconds": "2.75",
+      "gw_seconds": "6.69",
+      "degraded": false
+    }
+  ]
+}

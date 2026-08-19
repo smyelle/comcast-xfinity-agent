@@ -1,0 +1,261 @@
+{
+  "source": "held-out head-intent paraphrases",
+  "scenarios": [
+    {
+      "id": "hh_billing_toohigh_0",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "my statement looks really inflated this cycle"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "expected_head_intent": "billing_toohigh",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_billing_toohigh_1",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "this charge is outrageous this month"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "expected_head_intent": "billing_toohigh",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_billing_discuss_2",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "walk me through these line items please"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "expected_head_intent": "billing_discuss",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_billing_refund_inquiry_3",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I want my money back for that erroneous charge"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "expected_head_intent": "billing_refund_inquiry",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_payments_balance_due_4",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "am I behind on anything on the account"
+      ],
+      "expected_flow": "billing",
+      "acceptable_flows": [],
+      "expected_head_intent": "payments_balance_due",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_payments_make_payment_5",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "I'd like to settle my account today"
+      ],
+      "expected_flow": "payments",
+      "acceptable_flows": [],
+      "expected_head_intent": "payments_make_payment",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_payments_make_payment_6",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "let me square up what's on the account"
+      ],
+      "expected_flow": "payments",
+      "acceptable_flows": [],
+      "expected_head_intent": "payments_make_payment",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_payments_manage_autopay_7",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "stop the automatic withdrawals from my bank"
+      ],
+      "expected_flow": "payments",
+      "acceptable_flows": [],
+      "expected_head_intent": "payments_manage_autopay",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_tv_troubleshoot_channels_8",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "a bunch of my stations vanished"
+      ],
+      "expected_flow": "technical_television",
+      "acceptable_flows": [],
+      "expected_head_intent": "tv_troubleshoot_channels",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_tv_troubleshoot_dvr_9",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "my recordings won't play back"
+      ],
+      "expected_flow": "technical_television",
+      "acceptable_flows": [],
+      "expected_head_intent": "tv_troubleshoot_dvr",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_voice_troubleshoot_10",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "my home phone has no dial tone at all"
+      ],
+      "expected_flow": "technical_phone",
+      "acceptable_flows": [],
+      "expected_head_intent": "voice_troubleshoot",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_plan_upgrade_11",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "bump me to a bigger package"
+      ],
+      "expected_flow": "sales",
+      "acceptable_flows": [],
+      "expected_head_intent": "plan_upgrade",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_plan_upgrade_12",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "step up to a quicker connection"
+      ],
+      "expected_flow": "sales",
+      "acceptable_flows": [],
+      "expected_head_intent": "plan_upgrade",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_account_transfer_service_13",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "we're changing houses soon and need service there"
+      ],
+      "expected_flow": "sales",
+      "acceptable_flows": [],
+      "expected_head_intent": "account_transfer_service",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_appointment_change_schedule_14",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "can we move my technician visit to Friday"
+      ],
+      "expected_flow": "appointments",
+      "acceptable_flows": [],
+      "expected_head_intent": "appointment_change_schedule",
+      "tag": "heldout"
+    },
+    {
+      "id": "hh_plan_manage_temporary_disconnect_15",
+      "kind": "heldout",
+      "seeded_variables": {
+        "accountNumber": "1234567890",
+        "account_id": "1234567890",
+        "mock_config_string": "account_status=active;gateway_status=online;network_status=healthy;outage_status=none"
+      },
+      "user_utterances": [
+        "shut it down while I'm traveling for a few months"
+      ],
+      "expected_flow": "disambiguation_main_menu",
+      "acceptable_flows": [],
+      "expected_head_intent": "plan_manage_temporary_disconnect",
+      "tag": "heldout"
+    }
+  ]
+}

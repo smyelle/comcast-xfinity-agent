@@ -1,0 +1,9 @@
+{
+  "name": "bdf95cfe-c1ac-489f-8a21-945667fb23c1",
+  "pythonFunction": {
+    "name": "slot_intake",
+    "pythonCode": "tools/slot_intake/python_function/python_code.py",
+    "description": "Internal slot-filling intake (applies tool results to state). Do not call directly."
+  },
+  "displayName": "slot_intake"
+}

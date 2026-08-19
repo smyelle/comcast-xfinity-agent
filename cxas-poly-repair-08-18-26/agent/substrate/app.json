@@ -1,0 +1,422 @@
+{
+  "name": "d4ec582c-034b-4126-83e6-057bf1b77a35",
+  "displayName": "xa-repair-voice-deterministic",
+  "description": "Comcast Xfinity Internet Repair application with AOS Cloud Run integration",
+  "rootAgent": "repair_orchestration_agent",
+  "audioProcessingConfig": {
+    "synthesizeSpeechConfigs": {
+      "en-US": {
+      }
+    }
+  },
+  "loggingSettings": {
+    "redactionConfig": {
+      "enableRedaction": true,
+      "inspectTemplate": "$env_var",
+      "deidentifyTemplate": "$env_var"
+    },
+    "audioRecordingConfig": {
+    },
+    "bigqueryExportSettings": {
+      "enabled": true,
+      "project": "$env_var"
+    },
+    "cloudLoggingSettings": {
+      "enableCloudLogging": true
+    },
+    "conversationLoggingSettings": {
+      "retentionWindow": "31536000s"
+    },
+    "evaluationAudioRecordingConfig": {
+      "gcsBucket": "gs://gecx_call_recordings_evals"
+    },
+    "metricAnalysisSettings": {
+      "llmMetricsOptedOut": true
+    }
+  },
+  "guardrails": ["Safety Guardrail 1778685469753", "Prompt Guardrail 1778685471211"],
+  "modelSettings": {
+    "model": "gemini-3.1-flash-live",
+    "temperature": 0.0
+  },
+  "variableDeclarations": [{
+    "name": "CONNECT_A2A_CLIENT_ID",
+    "description": "Variable for CONNECT_A2A_CLIENT_ID",
+    "schema": {
+      "type": "STRING",
+      "default": "xme_agent_prod"
+    }
+  }, {
+    "name": "CONNECT_A2A_Prompt",
+    "description": "Variable for CONNECT_A2A_Prompt",
+    "schema": {
+      "type": "STRING",
+      "default": "\"A customer is contacting support regarding a potential issue with their internet service. Investigate the following devices and identify the root cause, if any, and the appropriate dispatch decision.\\n\"\n   \"Devices in the customer\u0027s home: {mac_addresses}\\n\\n\"\n   \"Respond ONLY with valid JSON — no extra fields.\\n\"\n    \"Use EXACTLY this structure:\\n\"\n    \"{{\\n\"\n    \"Analysis\": \"\u003chigh-level summary: scope, impairment pattern, and root cause only — no recommendation\u003e\",\\n\u0027\n    \"Severity\": \"\u003cCritical | High | Medium | Low\u003e\",\\n\u0027\n    \"Recommendation\": {{\\n\u0027\n    \"Technician Type\": \"\u003cNetwork Tech | Install and Repair Tech | No Technician Required\u003e\",\\n\u0027\n    \"Remediation\": \"\u003cbrief action to resolve the issue\u003e\"\\n\u0027\n    }}\\n\u0027\n    \"}}\\n\\n\""
+    }
+  }, {
+    "name": "CONNECT_A2A_TOKEN_URL",
+    "description": "Variable for CONNECT_A2A_TOKEN_URL",
+    "schema": {
+      "type": "STRING",
+      "default": "https://sat-prod.codebig2.net/v2/ws/token.oauth2"
+    }
+  }, {
+    "name": "Content-Type",
+    "description": "Variable for Content-Type",
+    "schema": {
+      "type": "STRING",
+      "default": "application/json"
+    }
+  }, {
+    "name": "RDK_CLIENTID",
+    "description": "Variable for RDK_CLIENTID",
+    "schema": {
+      "type": "STRING",
+      "default": "xa-its-client"
+    }
+  }, {
+    "name": "RDK_CURRENT_DATE_FORMATTED",
+    "description": "Variable for RDK_CURRENT_DATE_FORMATTED",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "RDK_MCP_CLIENT_SECRET",
+    "description": "Variable for RDK_MCP_CLIENT_SECRET",
+    "schema": {
+      "type": "STRING",
+      "default": "84f91b2fe78e40a2ce05ff66ad3b55e0"
+    }
+  }, {
+    "name": "RDK_MCP_X_AUTH",
+    "description": "RDK_MCP_X_AUTH",
+    "schema": {
+      "type": "STRING",
+      "default": "MCP-SAT-XAXLR"
+    }
+  }, {
+    "name": "RDK_OAUTH_SCOPE",
+    "description": "RDK_OAUTH_SCOPE",
+    "schema": {
+      "type": "STRING",
+      "default": "rdkmcpserver:access"
+    }
+  }, {
+    "name": "RDK_TOKEN",
+    "description": "Variable for RDK_TOKEN",
+    "schema": {
+      "type": "STRING",
+      "default": "Bearer eyJraWQiOiIzOTNhMGIyMi03MzNmLTQxZTUtYTM1Mi03NGU2ZjU1MDRhNjkiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ4YS1pdHMtY2xpZW50IiwibmJmIjoxNzc5MTExMTQxLCJjYXBhYmlsaXRpZXMiOlsicmRrOmEyYSJdLCJpc3MiOiJzYXRzLXByb2R1Y3Rpb24iLCJhbGxvd2VkUmVzb3VyY2VzIjp7ImFsbG93ZWRQYXJ0bmVycyI6WyJjb21jYXN0Il19LCJleHAiOjE3NzkxMTgzNDQsImlhdCI6MTc3OTExMTE0MSwidmVyc2lvbiI6IjIuMCIsImp0aSI6IjAxOWUzYjQ5LWFjNjUtNzNjYy1iY2QwLWYzZTVlNzJkMzQ2ZSJ9.gRKuIYHOfmNXfdy19fDUaxnZM2sC6uvdPlgxAwiZ3OEzHHSOVFDP1HDRagAojTzDWt5wPwH5kW0kCh3FFKA6hrJjE_zwPRgT2yvvxIa4dz9xf7n9u57mePboKiGSOL3gUquGxyyifpkmsuGor0B6yvy8oPjoi0DyFoXGJ0B_gb4P0tSCBdztt0vNkKqbUQUeET27xFTADR4O41Rexijp4ju3i9BClSYPFb7D8m01rPege7J16XiZC25cYUVk01TSQS6QfrtC6zGzopc4CIHJo2ZEVxU_lle7H4SZe2cgRnAjvQRKdasdZ4Tv930XXMR8C_ceDnAPSXfFYrrD-FDsHg"
+    }
+  }, {
+    "name": "RDK_X_URL",
+    "description": "RDK_X_URL",
+    "schema": {
+      "type": "STRING",
+      "default": "https://rdk-mcp-prod.codebig2.net/tool/gru/mcp"
+    }
+  }, {
+    "name": "WIFI_MCP_ENDPOINT",
+    "description": "Variable for WIFI_MCP_ENDPOINT",
+    "schema": {
+      "type": "STRING",
+      "default": "https://rdk-mcp-prod.codebig2.net/tool/wifiagent/mcp"
+    }
+  }, {
+    "name": "accountNumber",
+    "description": "Customer account identifier from telephony platform",
+    "schema": {
+      "type": "STRING",
+      "default": ""
+    }
+  }, {
+    "name": "account_id",
+    "description": "Account id is same as accountNumber. It is customers billing account number. it will be cleaned up later",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "account_status",
+    "description": "Observable session state capturing account status and flags",
+    "schema": {
+      "type": "STRING",
+      "default": ""
+    }
+  }, {
+    "name": "agent_id",
+    "description": "The unique active specialist or orchestrator agent identifier for backend dispatch diagnostics.",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "apigee_server",
+    "description": "Dynamic Apigee auth-proxy gateway routing server domain",
+    "schema": {
+      "type": "STRING",
+      "default": "dxp-cloud-ivr-apigee-dev.comcast.com"
+    }
+  }, {
+    "name": "billpay_role",
+    "description": "Variable for billpay_role",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "cable_modem_mac",
+    "description": "Variable for cable_modem_mac",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "channel",
+    "description": "The communication channel (e.g., xfinity, AIQSDK, voice) matching the session type.",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "client_wifi_args",
+    "description": "JSON arguments for client wifi analysis tool",
+    "schema": {
+      "type": "OBJECT"
+    }
+  }, {
+    "name": "client_wifi_query",
+    "description": "Flat query string for client wifi agent",
+    "schema": {
+      "type": "STRING",
+      "default": ""
+    }
+  }, {
+    "name": "connect_agent_results",
+    "description": "Variable for connect_agent_results",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "convoy_api_server",
+    "description": "Variable for convoy_api_server",
+    "schema": {
+      "type": "STRING",
+      "default": "https://ce-convoy-uat.codebig2.net"
+    }
+  }, {
+    "name": "convoy_recommendations",
+    "description": "Variable for convoy_recommendations",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "convoy_session_id",
+    "description": "Convoy session Id that will be used for EDE integrations and Context Hub calls. ",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "convoy_tracking_id",
+    "description": "Apigee dynamic routing session tracking identifier for apikey logging.",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "current_datetime",
+    "description": "The current date and time for scheduling context",
+    "schema": {
+      "type": "STRING",
+      "default": ""
+    }
+  }, {
+    "name": "custGuid",
+    "description": "The unique customer Global Unique Identifier (GUID) matching Comcast\u0027s billing record.",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "cust_guid",
+    "description": "The unique customer Global Unique Identifier (GUID) matching Comcast\u0027s billing record (snake_case).",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "customer_id",
+    "description": "Customer identifier from telephony platform",
+    "schema": {
+      "type": "STRING",
+      "default": ""
+    }
+  }, {
+    "name": "customer_role",
+    "description": "Variable for customer_role",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "ede_outage_server",
+    "description": "Variable for ede_outage_server",
+    "schema": {
+      "type": "STRING",
+      "default": "https://edegw-uat.codebig2.net"
+    }
+  }, {
+    "name": "first_name",
+    "description": "Variable for first_name",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "gateway_status",
+    "description": "Observable session state capturing gateway telemetry and health metrics",
+    "schema": {
+      "type": "STRING",
+      "default": ""
+    }
+  }, {
+    "name": "get_device_triage_summary",
+    "description": "Variable for get_device_triage_summary",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "get_gateway_wifi_summary",
+    "description": "Variable for get_gateway_wifi_summary",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "get_rdk_client_wifi_analysis",
+    "description": "Variable for get_rdk_client_wifi_analysis",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "mock_config_string",
+    "description": "configures the mock apis",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "network_analysis_args",
+    "description": "JSON arguments for network analysis tool",
+    "schema": {
+      "type": "OBJECT"
+    }
+  }, {
+    "name": "network_status",
+    "description": "Observable session state capturing network health and recommendations",
+    "schema": {
+      "type": "STRING",
+      "default": ""
+    }
+  }, {
+    "name": "network_tool_args",
+    "description": "Tool arguments to call the network test tool",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "outage_status",
+    "description": "Observable session state capturing active outage information",
+    "schema": {
+      "type": "STRING",
+      "default": ""
+    }
+  }, {
+    "name": "platform",
+    "description": "The customer interface platform type (e.g., web, mobile, IVR) used for tracing.",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "post_user_notification_server",
+    "description": "Variable for post_user_notification_server",
+    "schema": {
+      "type": "STRING",
+      "default": "https://aiq-public-api-gateway-dev.ame1-b4.cf.comcast.net"
+    }
+  }, {
+    "name": "rdk_mcp_server",
+    "description": "Variable for rdk_mcp_server",
+    "schema": {
+      "type": "STRING",
+      "default": "https://rdk-mcp-prod.codebig2.net"
+    }
+  }, {
+    "name": "triage_args",
+    "description": "JSON arguments for device triage tool",
+    "schema": {
+      "type": "OBJECT"
+    }
+  }, {
+    "name": "wifi_status",
+    "description": "Observable session state capturing Wi-Fi troubleshooting outcomes",
+    "schema": {
+      "type": "STRING",
+      "default": ""
+    }
+  }, {
+    "name": "wifi_summary_args",
+    "description": "JSON arguments for wifi summary tool",
+    "schema": {
+      "type": "OBJECT"
+    }
+  }, {
+    "name": "xa_session_id",
+    "description": "XA Session Id required for calling customer context hub and ede recommendations.",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "xflow-traceid",
+    "description": "Variable for xflow-traceid",
+    "schema": {
+      "type": "STRING",
+      "default": "rajeevtest"
+    }
+  }, {
+    "name": "xme_server",
+    "description": "Variable for xme_server",
+    "schema": {
+      "type": "STRING",
+      "default": "https://xme-prod.codebig2.net"
+    }
+  }, {
+    "name": "zip_code",
+    "description": "Variable for zip_code",
+    "schema": {
+      "type": "STRING"
+    }
+  }, {
+    "name": "technician_fee",
+    "description": "Technician service fee variable to avoid hardcoded pricing in instructions.",
+    "schema": {
+      "type": "STRING",
+      "default": "$100"
+    }
+  }],
+  "languageSettings": {
+    "defaultLanguageCode": "en-US"
+  },
+  "defaultChannelProfile": {
+  },
+  "evaluationMetricsThresholds": {
+    "goldenEvaluationMetricsThresholds": {
+      "turnLevelMetricsThresholds": {
+        "semanticSimilaritySuccessThreshold": 3,
+        "overallToolInvocationCorrectnessThreshold": 1.0
+      },
+      "toolMatchingSettings": {
+        "extraToolCallBehavior": "ALLOW"
+      }
+    },
+    "goldenHallucinationMetricBehavior": "DISABLED"
+  },
+  "timeZoneSettings": {
+    "timeZone": "America/New_York"
+  },
+  "toolExecutionMode": "PARALLEL",
+  "evaluationSettings": {
+    "goldenEvaluationToolCallBehaviour": "FAKE",
+    "scenarioEvaluationToolCallBehaviour": "FAKE"
+  },
+  "errorHandlingSettings": {
+  }
+}

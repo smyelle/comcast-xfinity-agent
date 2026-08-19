@@ -1,0 +1,74 @@
+Change 3 of N: strip comments from the emitted bodies the model never reads.
+
+VERDICT: REJECTED and reverted. No measurable improvement, and the measurement corrected
+the model of the problem that motivated it.
+
+WHAT WAS BUILT (all now reverted)
+  flows/emit/minify.py            tokenize-based comment stripper, self-verifying by
+                                  ast.dump equality, degrading to a no-op on any doubt
+  blessed_source._ENGINE_INTERNAL_TOOLS
+                                  allowlist: slot_filling_engine, slot_intake,
+                                  settle_guard — plus the 4 callbacks, always
+  manifest regenerated, version bumped to 2026.08.14.2+emit-minify-internal
+
+SCOPE, after a correction. The first attempt stripped every emitted .py, which was wrong:
+a tool offered to the MODEL carries its docstring into the tool schema and
+`docstring_args` parses arg descriptions out of it, so prose in a model-facing tool is
+product, not overhead. Rescoped to bodies the model provably cannot see, taken from the
+runtime hide list in the emitted before_model callback rather than from assumption:
+
+    hide = ["slot_filling_engine", "slot_intake", "transfer_to_agent", "settle_guard"]
+           + [f"{cid}_dag" for every config] + ["evaluate_conditions"]
+
+Verified on the built app: 7 bodies shrank, all engine-internal tools or callbacks; the
+other 155, including classify_turn_intent / cancel_flow / transfer_to_human, byte-identical.
+
+  slot_filling_engine        534,805 -> 340,098  (64%)
+  before_model_callbacks_01   84,111 ->  47,126  (56%)
+  slot_intake                 62,777 ->  40,580  (65%)
+  after_model_callbacks_01    34,487 ->  23,676  (69%)
+  before_agent_callbacks_01   14,964 ->   7,737  (52%)
+  after_tool_callbacks_01      4,537 ->   3,109  (69%)
+  total emitted             1,211 KB -> 938 KB   (saves 267 KB)
+
+THE MEASUREMENT, 20 alternated pairs
+  A  90e6ae16-83ec-4355-8649-50a0638ad34d   change 2 only
+  B  3cacc8c6-a34b-4564-83d6-166ab9dd1039   change 2 + minified internals
+
+                A median    B median      delta    n
+  turn            9196 ms     9681 ms     +484 ms  20/20
+  callback        2572 ms     2853 ms     +280 ms
+  tool            6026 ms     6221 ms     +195 ms
+  engine_calls        13          13         +0
+
+  per call: slot_filling_engine  248 -> 239 ms  (-9 ms, -3.6%)   n=260/260
+            callback:BeforeModel  60 ->  66 ms  (+6 ms, WORSE)   n=520/520
+
+  Mann-Whitney one-sided p = 0.667. No evidence B is faster.
+
+WHY IT FAILED, WHICH IS THE USEFUL PART. A 36% smaller engine body bought 3.6% less time.
+So per-call cost does NOT track source BYTES — it tracks SYNTACTIC COMPLEXITY. Comments
+are discarded by the tokenizer almost for free and produce zero AST nodes; a nested dict
+literal costs thousands of nodes to build and emit bytecode for.
+
+That retires the "~14ms + 0.44ms per KB" fit from the original diagnosis. The fit was real
+but coincidental: across the tools sampled (939B verdict, 59KB slot_intake, 266KB
+repair_dag, 528KB engine) size happened to correlate with node count. Change 2 worked
+because it removed 180,000 AST nodes, not because it removed 180KB — the 266KB literal
+became one string constant. Change 3 removed bytes without removing nodes, and bought
+nothing.
+
+CONSEQUENCE FOR THE REMAINING WORK. Stop proposing size reductions. The lever is either
+FEWER invocations (change 4: pass the config through input_data so the dag tool is not
+re-invoked; change 5: batch independent task dispatches into one preempt) or less work
+per invocation. "Tree-shake the 528KB engine", previously ranked as ~1200ms, should be
+expected to behave like this change and is dropped unless it also removes node count.
+
+ALSO NOTE the platform was materially busier during this batch than during change 2's
+(turn medians ~9.2s against ~6.7s; engine 248ms/call against 171ms). Arms were alternated,
+so the comparison holds, but absolute numbers are NOT comparable across result files.
+
+WHAT WAS GIVEN UP BY REVERTING: nothing measurable. What was avoided: a narrowed manifest
+guarantee (comment-only edits to the bundle would have stopped counting as drift), an
+allowlist needing to stay in step with the runtime hide list forever, and a new module.
+Real complexity for an unmeasurable gain.

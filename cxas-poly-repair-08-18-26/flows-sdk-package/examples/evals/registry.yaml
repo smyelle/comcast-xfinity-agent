@@ -1,0 +1,94 @@
+# Coverage manifest for the example regression evals.
+#
+# Every example under examples/ that defines a deployable `app` MUST appear here. The
+# coverage gate (tests/test_example_eval_coverage.py) fails the release if:
+#   - a discovered example is missing from this registry (a NEW example with no eval), or
+#   - an `offline`/`both` example has no examples/evals/<name>.eval.yaml with >=1 positive
+#     AND >=1 negative scenario, or
+#   - a `live`/`both` example has no evals_live/<name>.live.yaml spec.
+#
+# tier:
+#   offline  - deterministic; fully gradable through the LLM-free engine_sim. Gates every PR.
+#   live     - behaviour is model-decided / clock-real / networked; only a deployed run can
+#              prove it. Covered by evals_live/ and run pre-release. Offline eval NOT required.
+#   both     - has a deterministic core (offline) AND a model/runtime aspect (live).
+#
+# When you add an example: add its entry here in the SAME PR, or CI blocks the release.
+
+examples:
+  # ---- offline: deterministic slot / control / task behaviour ----
+  announce_ladder:         {tier: offline, why: "which rung wins is decided by the cascade recomputing against a shared latch, so it is deterministic; the two arms differ only in whether that latch is written"}
+  announce_preempt:        {tier: offline, why: "preempt announce ordering is deterministic"}
+  variable_map_routed:     {tier: live, why: "the behaviour under test is what a ROUTER does with an arriving variable, and the offline sim cannot route — routing needs the model, so a walk stalls on the host with nothing said. Which configs the emitted table reaches is covered by unit tests instead (tests/test_variable_map.py); the caller-facing half is the live A/B"}
+  since_slot_gate:         {tier: both, why: "which turn a gate opens on is deterministic and gradable offline; that the caller's acceptance is actually CAPTURED rather than answered for them is a property of the live cue path, and the control arm's failure is a well-formed turn rather than an error"}
+  ask_ladder:              {tier: offline, why: "re-ask ladder is turn-counted, not model-decided"}
+  barge_in_awareness:      {tier: both, why: "which lines the caller missed, and the continuer match, are deterministic and gradable offline; whether the PLATFORM reports an interruption at all — and how much of the line it says was heard — only a voice call can show"}
+  async_stale_consumer:    {tier: offline, why: "async intake ordering is deterministic via task_result"}
+  async_tool:              {tier: offline, why: "async backend completion injected as task_result"}
+  contain_once:            {tier: offline, why: "deflect-first / honour-second is a deterministic counter"}
+  content_offer:           {tier: offline, why: "post-work announce channels are deterministic"}
+  control_blocks:          {tier: offline, why: "cancel / escalate / no_input dispositions are deterministic"}
+  declined_reasons:        {tier: offline, why: "which refusal reason matches is decided by the engine against filled state, with no model in it"}
+  escalate_chain:          {tier: offline, why: "pre-transfer task run then handoff is deterministic"}
+  # filler_say retiered to live (below): the filler line is random per session and delivered
+  # by the model/runtime path, never surfaced in the offline transcript.
+  # gate_primitives retiered to live (below): the gate lives behind a router_flow hop the
+  # offline harness cannot drive (model-classified set_active_flow).
+  intent_and_passive:      {tier: offline, why: "intent + passive slots fill via setters, no LLM"}
+  multi_fill:              {tier: offline, why: "multi-slot fill via one setter call is deterministic"}
+  multi_shipment_tracking: {tier: offline, why: "deterministic collection loop with a terminal end"}
+  named_cujs:              {tier: offline, why: "journey reached by seeded name, not model routing"}
+  polymorphic:             {tier: offline, why: "same slot flow; delivery channel does not change logic"}
+  repeated_collection:     {tier: offline, why: "list-valued collection + readback is deterministic"}
+  repeated_slots:          {tier: offline, why: "repeated scalar collection is deterministic"}
+  slot_value_policy:       {tier: offline, why: "value-policy priority ladder is deterministic"}
+  switch_defer:            {tier: offline, why: "switchable=defer step-aside/return is deterministic"}
+  task_fire_cap:           {tier: offline, why: "the engine counts each fire and the cap flips the branch, with no model in the decision"}
+  telephony_handoff:       {tier: offline, why: "handoff payload is emitted deterministically"}
+  track_shipment:          {tier: offline, why: "collect -> tool -> readback -> re-enter, all deterministic"}
+  # validation_and_sensitive retiered to live (below): identity slots fill via a shared
+  # setter_group the offline harness has no turn kind to drive, and validation_rules are not
+  # enforced by the offline setters.
+  # variable_maps retiered to live (below): ingress is a generated before_agent callback that
+  # engine_sim never runs, so no seed path pre-fills offline.
+  # verdict_ladder retiered to live (below): the triage flow sits behind a router_flow hop the
+  # offline harness cannot drive.
+
+  # ---- live: model-decided routing / improvised wording / real clock / concurrency / network ----
+  a2a_remote_agents:       {tier: live, why: "Agent2Agent calls cross the network"}
+  agent_tool:              {tier: live, why: "async agent-as-tool needs a real remote agent"}
+  batch_fan_out:           {tier: live, why: "true concurrency is faked in-order offline"}
+  bella_notte_multiagent:  {tier: live, why: "multi-agent steering is model-classified"}
+  automatic_fillers:       {tier: live, why: "hoisted filler is model/runtime-delivered and not surfaced offline; the build-time hoist is covered by test_automatic_fillers"}
+  connected_journey:       {tier: live, why: "journey entry is model-routed"}
+  filler_say:              {tier: live, why: "filler line is random per session + delivered by the model path, not surfaced offline"}
+  gate_primitives:         {tier: live, why: "clarification gate sits behind a router_flow hop (model-classified) the offline harness can't drive"}
+  grounded_search:         {tier: live, why: "grounding calls Google Search"}
+  guarded_orders:          {tier: live, why: "guardrail enforcement is a runtime/model concern"}
+  host_route_cues:         {tier: live, why: "HostRouter route choice is model-classified"}
+  improvise_await:         {tier: live, why: "which holding lines vary is model wording"}
+  improvise_control:       {tier: live, why: "improvised vs pinned copy is model wording"}
+  improvise_recovery:      {tier: live, why: "recovery layer is in the model's own words"}
+  language_switching:      {tier: live, why: "in-conversation language switch is model-driven"}
+  long_leg_fan_out:        {tier: live, why: "a 50s leg + async speech needs a real clock"}
+  manufactured_turn:       {tier: live, why: "the turns under test are ones the PLATFORM authors -- an inactivity tick and an async completion push -- and CES rejects a hand-written <context> marker as malicious input, so neither can be produced from the offline harness or the text channel"}
+  mcp_toolsets:            {tier: live, why: "the point is a real MCP server round-trip"}
+  openapi_toolsets:        {tier: live, why: "the point is a real REST round-trip"}
+  parallel_fan_out:        {tier: live, why: "true concurrency is faked in-order offline"}
+  progressive_fan_out:     {tier: live, why: "speak-as-it-lands ordering needs real concurrency"}
+  relatch_walkthrough:     {tier: live, why: "the claim is PACING -- how many steps land on one caller turn -- so it needs a real caller taking real turns; offline every turn is the harness's own and the difference cannot be heard"}
+  remote_tool:             {tier: live, why: "work outliving the call runs on a real backend"}
+  router_flow_isolation:   {tier: live, why: "router pick is model-classified"}
+  silent_home_base:        {tier: live, why: "router pick is model-classified"}
+  silent_delivery_turn:    {tier: live, why: "the turn under test is one the PLATFORM manufactures when nobody speaks (an inactivity tick, an async completion delivered onto silence); the offline harness drains a tool fake on the turn that fired it, so that turn cannot exist"}
+  steering:                {tier: live, why: "steering is a model-classified intent router"}
+  steering_multi_agent:    {tier: live, why: "multi-agent steering is model-classified"}
+  steering_multilevel:     {tier: live, why: "hierarchical steering is model-classified"}
+  stopwatch:               {tier: live, why: "timer fires on a real deadline (real clock)"}
+  timeout_failure_ladder:  {tier: live, why: "slow-vs-broken distinction needs a real clock"}
+  tool_timeout:            {tier: live, why: "a 90s backend + timeout needs a real clock"}
+  tool_timeouts:           {tier: live, why: "SDK-undeclared tool timeouts need a real clock"}
+  async_timeout:           {tier: live, why: "an async backend that never answers needs a real clock"}
+  validation_and_sensitive: {tier: live, why: "identity slots fill via a shared setter_group + validation_rules not enforced offline"}
+  variable_maps:           {tier: live, why: "variable-map ingress is a before_agent callback engine_sim never runs"}
+  verdict_ladder:          {tier: live, why: "triage flow sits behind a router_flow hop the offline harness can't drive"}

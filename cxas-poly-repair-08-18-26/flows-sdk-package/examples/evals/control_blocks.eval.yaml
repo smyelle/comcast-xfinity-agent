@@ -1,0 +1,32 @@
+meta:
+  example: control_blocks
+  claim: "cancel / escalate / no_input control blocks each reach their correct disposition."
+
+scenarios:
+  - name: escalate_hands_off_to_a_human
+    polarity: positive
+    turns:
+      - answer: {slot: escalate, args: {reason: "I need a human"}}
+        expect:
+          - said_contains: "connect you with a scheduler"
+          - disposition: escalate
+
+  - name: cancel_stops_the_flow
+    polarity: positive
+    turns:
+      - answer: {slot: cancel, args: {reason: "changed my mind"}}
+        expect:
+          - said_contains: "I've cancelled that"
+
+  - name: silence_ladder_climbs_then_exhausts
+    polarity: negative
+    turns:
+      - silence: true
+        expect:
+          - said_contains: "Are you still there?"          # reprompt rung 1
+      - silence: true
+        expect:
+          - said_contains: "still didn't hear anything"    # reprompt rung 2
+      - silence: true
+        expect:
+          - said_contains: "let you go for now"            # on_exhaust terminal line

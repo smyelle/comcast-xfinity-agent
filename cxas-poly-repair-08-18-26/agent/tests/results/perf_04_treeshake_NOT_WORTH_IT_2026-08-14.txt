@@ -1,0 +1,62 @@
+Change 4/5 candidate: tree-shake the engine so an app emits only the code it can reach.
+
+VERDICT: NOT ATTEMPTED. Measured ceiling is ~0.45 s/session against ~66 permanent feature
+annotations and a real risk of pruning a live-only path. Rejected on the numbers, before
+writing any of it.
+
+The probe (perf_probe_node_count) established the engine is compile-dominated at
+42 ms + 3.96 us per AST node, which made tree-shaking look like the biggest remaining
+prize (~734-1223 ms/session at 30-50% node removal). Those percentages were the earlier
+estimate. They are wrong, in the direction that matters.
+
+STEP 1 — pure static reachability buys NOTHING, so there is no annotation-free version.
+Call graph from the `slot_filling_engine` entry, treating any bare name or string constant
+as a possible reference (conservative: covers handler tables and getattr-by-name):
+
+    reachable 192/193 functions; unreachable: ['_is_tight'] = 14 nodes = 0.0%
+
+Nothing is statically dead. Whatever is dead is CONDITIONALLY dead — reachable in
+principle, unreachable for a given app's config — so any pruning must be driven by the
+app's declared features, which means a feature annotation per prunable region.
+
+STEP 2 — the shape is wrong for pruning. Node counts are dominated by the core pipeline,
+which no app can do without:
+
+    _run_slot_filling         5100 (10.7%)
+    _handle_post_executor     2900 ( 6.1%)
+    _slot_filling_engine_impl 2800 ( 5.9%)
+    top 10 fns = 34% of nodes, top 100 = 84%   (a long tail, not a few subsystems)
+
+STEP 3 — the ceiling, measured by coverage rather than guessed. `coverage` over the
+engine while running this app's two offline suites (ladder_check 88/88 + clarify_check
+38/38), counting a function cold only if none of its BODY lines ran (the `def` line is
+marked executed merely by importing the module — an artifact that first reported 0 cold
+functions and would have killed this analysis early):
+
+    56% of engine STATEMENTS never execute
+    but only 66/193 function BODIES are entirely cold = 8,661 nodes = 18.2% of the module
+
+The gap between 56% and 18.2% is the point: most cold code is untaken BRANCHES inside
+functions that do run. Branch-level pruning is neither safe nor generalizable.
+
+    if all 66 were gated:  -34 ms/call,  -0.45 s/session (13 calls)
+
+And 18.2% is an UPPER bound that will not be reached. The suites are offline, so they
+under-exercise the engine, and some of the 66 are certainly live-only rather than unused:
+`_build_classifier_suffix` and `_intent_taxonomy` are cold here only because ladder_check
+never drives a routing turn, yet this app's router is intent-first and uses both on every
+call. Pruning those would break production while every offline check stayed green.
+
+The cold set is otherwise coherent and does look like features — `_component_fire_action`
+(components / over-each), `_frame_push`/`_frame_return`/`_frame_abandon` (descent),
+`_park_journey`/`_unpark_journey`/`_abandon_journey`, `_async_idle_line`. A config-driven
+gate over those is buildable. It is just not worth 0.45 s minus whatever is live-only.
+
+WHAT TO DO INSTEAD. The engine costs ~230 ms per invocation and is invoked 13 times a
+session. Removing whole invocations is worth ~230 ms each and is ONE change in
+`_preempt_parts` (which emits a single `function_call` Part, so CES must execute each task
+and return before the engine sees the next), against 66 annotations for less.
+
+METHOD NOTE, reusable: `coverage run` + a body-lines-only cold test is a cheap way to size
+a tree-shake before building one. Do not prune ON it — the offline/live gap above is
+exactly the trap — but it bounds the prize in minutes.

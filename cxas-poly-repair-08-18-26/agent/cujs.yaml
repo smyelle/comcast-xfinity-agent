@@ -1,0 +1,101 @@
+# Named CUJ presets for the Comcast internet-repair agent.
+#
+#   flows cujs                                 # what's available
+#   flows chat --cuj gateway_reboot --app <ID> # drive one
+#
+# Consolidated from what used to be three drifting copies (try_agent.PRESETS,
+# cuj_diff's dicts, cuj_drive's tuples). Every bundle needs an account plus a
+# mock_config_string: the account picks the customer, the config string tells the
+# faked backends what to report. Without BOTH, the agent reaches for real Comcast
+# systems and dead-ends on "I couldn't get all the info I need".
+#
+# The verdict ladder is ordered and every rung is terminal, so a bundle reaches its
+# rung only by clearing the ones above it: account status -> outage -> convoy
+# impairment -> hardware swap -> network -> no-telemetry -> reboot -> all clear.
+
+version: 1
+
+# `account` is the only identifier worth authoring; the agent reads both spellings.
+variable_aliases:
+  account: [accountNumber, account_id]
+
+# Serialized to "k=v&k=v" so a CUJ can override one status without restating the rest.
+querystring_variables: [mock_config_string]
+
+# Everything healthy. A CUJ states only what makes it different.
+defaults:
+  variables:
+    mock_config_string:
+      outage_status: none
+      convoy_status: clear
+      network_status: clear
+      gateway_status: clear
+      context_status: clear
+
+cujs:
+  all_clear:
+    description: All-clear verdict. Try "my Netflix won't load" for the clarification gate.
+    aliases: [clear]
+    variables:
+      account: "8069100230359946"          # MVP_TC_16
+
+  gateway_reboot:
+    description: Gateway software fault -> reboot offered. Answer yes/no to branch. (MVP_TC_17)
+    variables:
+      account: "8069100230361003"
+      mock_config_string: {gateway_status: reboot}
+
+  convoy_predictive_reboot:
+    description: Predictive-offline Convoy signal -> reboot offered. A different rung to gateway_reboot. (MVP_TC_13)
+    aliases: [reboot]                      # what try_agent.py called it
+    variables:
+      account: "8069100230359928"
+      mock_config_string: {convoy_status: predictive_offline}
+
+  gateway_swap:
+    description: Hardware fault -> replace the gateway, a reboot won't help. (MVP_TC_19)
+    aliases: [swap]
+    variables:
+      account: "8069100230361005"
+      mock_config_string: {gateway_status: swap}
+
+  network_impaired:
+    description: Line problem -> technician dispatch. (MVP_TC_14/15)
+    aliases: [network]
+    variables:
+      account: "8069100230359944"
+      mock_config_string: {network_status: impaired}
+
+  area_outage:
+    description: Area-outage advisory, and no offer of a live agent.
+    aliases: [outage]
+    # This account also resolves with NO modem MAC, so it is a poor generic filler —
+    # it takes the missing-hardware rung when the outage isn't what you're testing.
+    variables:
+      account: "8344200010126021"
+      mock_config_string: {outage_status: active}
+
+  account_suspended:
+    description: Billing hand-off, which outranks every diagnostic. (MVP_TC_02)
+    aliases: [suspended]
+    variables:
+      account: "8069100020078787"
+      mock_config_string: {context_status: suspended}
+
+  convoy_technician:
+    description: Predictive impairment -> appointment specialist. (MVP_TC_18)
+    aliases: [technician]
+    variables:
+      account: "8069100230361006"
+      mock_config_string: {convoy_status: technician}
+
+  no_account:
+    description: Opens with no account at all, so the agent has to ask for one.
+    # awaiting_account_info looks inert — the agent writes it to state and no source
+    # in either repo reads it back. It is not. Drive this bundle without it and the
+    # agent ends the session without a word instead of asking for the account; drive
+    # it with it and you get the ask. Confirmed live against the original agent, so
+    # it stays, and app.py declares it to keep `--cuj no_account` buildable.
+    variables:
+      account: ""
+      awaiting_account_info: "true"

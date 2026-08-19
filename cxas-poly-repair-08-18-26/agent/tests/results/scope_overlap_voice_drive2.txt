@@ -1,0 +1,64 @@
+app 3e1e6137-956b-453b-96ac-bc661c0ee35c  session demovoice-1786541815  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 40s of SILENCE
+  --- turn 227  (t= 66.2s at read)
+      < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 522  (t= 66.2s at read)
+      < Thanks.
+      < Give me just a moment while I check your connection.
+      < While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 607  (t= 66.2s at read)
+      < Still running those checks — thanks for bearing with me.
+
+[caller] 'just one device'
+  --- turn 383  (t= 90.1s at read)
+      < Since it is just one device having trouble, the issue is likely with that specific device rather than your Xfinity connection. I recommend checking the Wi-Fi settings on that device or restarting it. Would you like to try a few things with me?
+
+[caller] 'yes please'
+  --- turn 129  (t=103.1s at read)
+      < Got it.
+      < Is everything having trouble connecting, or just one device?
+
+[caller] "that didn't work"
+  --- turn 401  (t=129.1s at read)
+      < Right then.
+      < Since it's everything, let's look at the gateway itself. Is it out in the open and upright, rather than in a cabinet, behind the TV or down on the floor? Moving it somewhere clear can make a real difference. Did that change anything?
+
+--------------------------------------------------------------------------------
+2026-08-12. SPIKE_DEMO=1 build (fixtures baked into tool BODIES, so the account clears
+the gate with no session fakes and the OpenAPI specialists still go out to Cloud Run).
+App 3e1e6137, branch flows-sdk/wifi-scope-overlap.
+
+  SPIKE_DEMO=1 python build.py --out ./built_demo
+  python tests/demo_voice.py --hold 40 --say "just one device" --say "yes please" \
+    --say "that didn't work"
+
+WORKS: turn 522 asks the scope question during the wait, and turn 607 is the reassurance
+line on a later tick. Both halves of the intended shape, over real audio.
+
+THREE DEFECTS, none of which the 76/76 offline suite can see:
+
+1. THE ANSWER IS NOT CAPTURED. "just one device" produced no fill. Suspected cause is
+   `wifi_scope_early`'s own condition: it requires `diagnostics_complete` UNFILLED, and
+   the caller answered at t=90s against a job that finishes in ~8s. The capture window
+   closes before the answer arrives, which is a straightforward design error -- the window
+   should close when the answer is CONSUMED, not when the sweep completes.
+
+2. THE MODEL FILLS THE ANSWER TURN, and it fills it with in-home advice: "the issue is
+   likely with that specific device rather than your Xfinity connection. I recommend
+   checking the Wi-Fi settings on that device or restarting it." No verdict existed yet.
+   This is the AdviseAppSpecific class the whole design is meant to prevent, arriving by
+   a route the design did not consider: not a rung speaking too early, but NO rung being
+   eligible and the model taking the free turn. Asking a question during the wait creates
+   an answer turn that nothing owns.
+
+3. THE CALLER ENDS UP ON THE WRONG BRANCH. They said "just one device" twice and were
+   given the whole-house gateway-placement tip. Consistent with 1 (no capture) plus
+   `on_exhaust_fill="ALL_DEVICES"` firing later.
+
+Also note no all-clear verdict appears anywhere in the transcript, yet `AskWifiScope`
+fires -- and that rung requires `wifi_offered`, which only HandleAllClear sets. Something
+is off in the ordering that this transcript alone cannot explain; diagnosing it needs the
+engine log (tests/demo_drive.py prints it, but that driver needs fastapi installed).
+
+CONCLUSION: the question lands, the rest of the chain does not. Do not ship.

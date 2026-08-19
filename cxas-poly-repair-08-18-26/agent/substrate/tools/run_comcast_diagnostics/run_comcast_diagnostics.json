@@ -1,0 +1,9 @@
+{
+  "name": "run_comcast_diagnostics",
+  "pythonFunction": {
+    "name": "run_comcast_diagnostics",
+    "pythonCode": "tools/run_comcast_diagnostics/python_function/python_code.py",
+    "description": "Run outage, convoy, network and gateway diagnostics in parallel."
+  },
+  "displayName": "run_comcast_diagnostics"
+}

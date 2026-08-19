@@ -1,0 +1,195 @@
+{
+  "name": "400e74b1-ea49-46c9-bf11-2fa95503b6e2",
+  "displayName": "spanish_rage_then_agent",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "language": "\"es-us\""
+          }
+        }
+      }, {
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "es",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Por favor, dime cómo puedo ayudarte hoy y yo me encargaré de allí."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "¿Me estás jodiendo?"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-077684da-fc6b-4e3c-8000-276a9e7436e4",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "rage"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "has_had_rage_utterance": true,
+            "head_intent_selection_count": 0.0,
+            "intent": "rage"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-077684da-fc6b-4e3c-8000-276a9e7436e4",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say exactly: No capté eso.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "No capté eso."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "¿Puedo hablar con una puta persona?"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-420f11b8-4639-4fc4-9d82-87b1b8f13380",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "agent"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "intent": "agent"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-420f11b8-4639-4fc4-9d82-87b1b8f13380",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Determine whether the customer already gave a reason for asking for an agent.\nThen immediately call steering_handle_next_step again with intent\u003d\u0027agent\u0027 and specified_reason set to:\n- true if they gave a reason\n- false if they did not give a reason",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-73d918a3-1136-4a86-8b35-4525c9d6cf6f",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "agent",
+              "specified_reason": false
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-73d918a3-1136-4a86-8b35-4525c9d6cf6f",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Route customer to agent_handoff subagent",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentTransfer": {
+            "targetAgent": "agent_handoff",
+            "displayName": "agent_handoff"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "entry_intent": "agent",
+            "has_asked_agent_reason": false,
+            "has_had_incidental_utterance": false,
+            "has_had_unintelligible_utterance": false,
+            "has_had_unrelated_utterance": false,
+            "proxy_setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "_debug_intent_was_agent": true,
+            "has_asked_agent_reason": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent_handoff",
+            "chunks": [{
+              "text": "Ahora le voy a comunicar con un agente; solo dígame qué necesita. Cuantos más detalles proporcione, más rápido podré ponerle en contacto con la persona adecuada a la primera. Puede decir cualquier cosa, como mi internet no funciona, tengo una duda sobre la factura o necesito realizar un pago."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

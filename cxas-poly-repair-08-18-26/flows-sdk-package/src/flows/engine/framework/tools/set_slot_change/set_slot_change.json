@@ -1,0 +1,9 @@
+{
+  "name": "set-slot-change-0001",
+  "pythonFunction": {
+    "name": "set_slot_change",
+    "pythonCode": "tools/set_slot_change/python_function/python_code.py",
+    "description": "Flag which value(s) the user wants to set — either correcting a value already given OR adding a brand-new detail volunteered out of order (works for slots not yet provided too). Pass ONLY the slot name(s) involved, never the values. The system will then ask you for the new value(s)."
+  },
+  "displayName": "set_slot_change"
+}

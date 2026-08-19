@@ -1,0 +1,15 @@
+{
+  "name": "transfer_potato_to_agent_v2",
+  "displayName": "transfer_potato_to_agent_v2",
+  "openApiToolset": {
+    "openApiSchema": "toolsets/transfer_potato_to_agent_v2/open_api_toolset/open_api_schema.yaml",
+    "apiAuthentication": {
+      "apiKeyConfig": {
+        "keyName": "$env_var",
+        "apiKeySecretVersion": "$env_var",
+        "requestLocation": "HEADER"
+      }
+    }
+  },
+  "description": "Signals steering orchestrator to transfer conversation to a specialized agent (appointment, billing, human, etc). After calling, do NOT send further messages."
+}

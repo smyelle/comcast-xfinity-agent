@@ -1,0 +1,9 @@
+{
+  "name": "a1b2c3d4-1012-4e6f-8a1c-000000000021",
+  "pythonFunction": {
+    "name": "transfer_to_human",
+    "pythonCode": "tools/transfer_to_human/python_function/python_code.py",
+    "description": "Hand the conversation to a human / live agent. Call when the user asks to speak to a real person, a human, an agent, a representative, or an operator."
+  },
+  "displayName": "transfer_to_human"
+}

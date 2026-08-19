@@ -1,0 +1,186 @@
+{
+  "name": "61bf41e2-3634-4720-bd81-c428f6d168fb",
+  "displayName": "cancellation",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": false,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "cancellation"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-08618ba6-06b0-42f2-9ee3-e003a7d14742",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "sales"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-08618ba6-06b0-42f2-9ee3-e003a7d14742",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "For requests to disconnect or cancel services, ignore the following instructions and route to agent_handoff\n\n    Say nothing.\n\n    Select exactly one head_intent from this allowlist. You must select a value even if it is not a perfect match.\n    - account_transfer_service: Move or transfer service\n- internet_essentials_application_status: Check Internet Essentials application status.\n- account_add_new_customer: Start new customer service or new account setup.\n- account_contract_renew: Renew contract or term agreement.\n- account_renew: Renew current services or package.\n- internet_essentials_general: General questions about Internet Essentials eligibility or program details.\n- plan_add: Add services, channels, or packages (NOT sports packages).\n- plan_downgrade: Downgrade package, services, or channel lineup.\n- plan_upgrade: Upgrade package, services, or channel lineup (NOT sports packages).\n- plan_sports_channel_management: Add or remove sports packages or channels.\n    Immediately call steering_handle_next_step again with:\n    - intent set to sales\n    - the selected exact head_intent value from this allowlist\n    - route_confidence set to a numeric value from 0 to 1 that reflects your confidence in that selection\n    If ambiguous, choose the closest head_intent and use lower confidence.\n    Confidence rubric: 0.95-0.99 explicit match; 0.75-0.94 strong inferred match; 0.55-0.74 ambiguous/partial; 0.35-0.54 weak forced closest match. Do not default to 1.0.\n\n\n\nExample - Relocate cable box\n[user]\nNeed to relocate my cable box\n[model]\naccount_transfer_device\n\nExample - Cancel services\n[user]\nI want to cancel services\n[model]\nagent_handoff\n\nExample - Cancel Xfinity mobile\n[user]\nno longer want Xfinity mobile\n[model]\nagent_handoff",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 0.0,
+            "intent": "sales",
+            "target_flow": "Sales"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentTransfer": {
+            "targetAgent": "agent_handoff",
+            "displayName": "agent_handoff"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "entry_intent": "sales",
+            "has_asked_agent_reason": false,
+            "has_had_incidental_utterance": false,
+            "has_had_unintelligible_utterance": false,
+            "has_had_unrelated_utterance": false,
+            "proxy_setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-93fc0f39-a2ac-47ad-b14b-400ca72244dc",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "downgrade"
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-93fc0f39-a2ac-47ad-b14b-400ca72244dc",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n  if customer stated downgrade\n    (1) Must clearly acknowledge the customer’s downgrade request in a brief, empathetic way.\n    (2) Must clearly state you will help downgrade their service.\n    (3) Must reuse the customer’s exact wording for the service or action when possible.\n\n    immediately call agent_handoff_handle_next_step with :\n      intent \u003d \u0027downgrade\u0027\n      details \u003d \u0027downgrade\u0027\n      message \u003d exactly the generated sentence (no changes, no reformatting)\n  else\n    (1) Must clearly acknowledge the customer’s disconnect or cancel request in a brief, empathetic way.\n    (2) Must clearly state you will help disconnect or cancel their service.\n    (3) Must reuse the customer’s exact wording for the service or action when possible.\n\n    immediately call agent_handoff_handle_next_step with :\n      intent \u003d \u0027downgrade\u0027\n      details \u003d \u0027disconnect\u0027\n      message \u003d exactly the generated sentence (no changes, no reformatting)",
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "intent": "downgrade"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-a14e1d2e-330d-43e7-a3c6-4edf65799ed2",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "details": "disconnect",
+              "intent": "downgrade",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I can help with that. I\u0027ll connect you with someone who can help with your cancellation."
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-a14e1d2e-330d-43e7-a3c6-4edf65799ed2",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "details": "disconnect",
+            "exit_utterance": "I can help with that. I\u0027ll connect you with someone who can help with your cancellation.",
+            "target_flow": "Transfer",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_proxy": true,
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "",
+              "transfer_type_module": "SalesRetention",
+              "transfer_type_subtype": "Disconnect",
+              "transfer_type_type": "Retention"
+            },
+            "transfer_type_exttype": "",
+            "transfer_type_module": "SalesRetention",
+            "transfer_type_subtype": "Disconnect",
+            "transfer_type_type": "Retention"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I can help with that. I\u0027ll connect you with someone who can help with your cancellation."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

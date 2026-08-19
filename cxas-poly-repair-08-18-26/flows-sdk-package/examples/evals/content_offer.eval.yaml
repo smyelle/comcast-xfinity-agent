@@ -1,0 +1,38 @@
+meta:
+  example: content_offer
+  claim: "A verbatim notice folds in before the payment confirmation on the same turn; the model-rendered autopay offer is deferred to a turn of its own via after=email_receipt, never onto the preempting payment turn."
+
+scenarios:
+  # The full post-payment sequence. On the payment turn the verbatim posting notice is
+  # emitted FIRST, then the task's then_say confirmation, then the email_receipt question.
+  # The offer only arrives on the NEXT turn, after the caller answers.
+  - name: notice_folds_in_then_offer_on_next_turn
+    polarity: positive
+    tool_fakes:
+      take_payment: {confirmation_number: "PM-40318", success: true}
+    on_start:
+      - said_contains: "How much would you like to pay"
+    turns:
+      - answer: {slot: payment_amount, value: "50 dollars"}
+        expect:
+          - tool_called: take_payment
+          - said_contains: "Payments made after 8 PM Eastern"     # verbatim notice landed
+          - said_contains: "Your confirmation number is PM-40318"  # ...ahead of the confirmation
+          - asked_slot: email_receipt                              # turn boundary the offer waits for
+      - answer: {slot: email_receipt, value: "yes please"}
+        expect:
+          - said_contains: "offer to set up autopay"   # the offer lands on its own turn
+          - no_tools_called: true                       # a pure model turn, no backend
+
+  # The edge the after= wiring exists to prevent: the autopay pitch must NOT ride the
+  # preempting payment turn (where it would be read out verbatim as instructions).
+  - name: offer_does_not_ride_the_payment_turn
+    polarity: negative
+    tool_fakes:
+      take_payment: {confirmation_number: "PM-40318", success: true}
+    turns:
+      - answer: {slot: payment_amount, value: "50 dollars"}
+        expect:
+          - tool_called: take_payment
+          - said_contains: "that's paid"
+          - slot_status: {autopay_offer: open}    # offer not yet emitted

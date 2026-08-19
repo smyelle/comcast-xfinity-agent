@@ -1,0 +1,28 @@
+app 3e1e6137-956b-453b-96ac-bc661c0ee35c  session demovoice-1786554439  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 20s of SILENCE
+  --- turn 245  (t= 45.9s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 544  (t= 45.9s at read)
+     17.1s + 17.1s  < Thanks.
+     17.4s +  0.3s  < Give me just a moment while I check your connection. While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 627  (t= 45.9s at read)
+     33.6s + 16.2s  < Still running those checks — thanks for bearing with me.
+
+[caller] 'just one device'
+  --- turn 93  (t= 58.5s at read)
+      0.0s         < Got it, that helps. Let me just finish these checks.
+
+[caller] ... 14s of silence ...
+  --- turn 371  (t= 82.1s at read)
+      0.0s         < Everything on our side looks healthy. Your account, your area, the line into your home and your gateway all check out. That usually leaves the Wi-Fi inside your home as the most likely spot. Would you like me to walk you through a few things to try?
+
+[caller] 'yes please'
+  --- turn 218  (t= 97.7s at read)
+      0.0s         < Let's start simple.
+      0.4s +  0.4s  < On the device that's struggling, forget the home network in its Wi-Fi settings, then join it again. Did that help?
+
+[caller] "that didn't work"
+  --- turn 209  (t=113.7s at read)
+      0.0s         < Next one.
+      0.3s +  0.3s  < Try moving closer to your gateway, and check nothing large or metal is sitting right against it. Did that make a difference?

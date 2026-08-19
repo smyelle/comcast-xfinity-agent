@@ -1,0 +1,74 @@
+meta:
+  example: slot_value_policy
+  claim: "A diagnostic ladder arbitrates over a COMPLETE picture: defaults/reject keep holes from winning a lower rung; a clear sweep picks all-clear, a failed sweep resolves every check to error so the dispatch rung wins."
+
+scenarios:
+  - name: clear_sweep_takes_all_clear_then_offers_scan
+    polarity: positive
+    tool_fakes:
+      run_line_sweep: {success: true, line_status: "clear", signal_status: "clear", router_status: "clear", router_serial: "RS-1", fault_note: "", ticket_ref: "TK-1"}
+      note_all_clear: {success: true, verdict_given: "true"}
+      note_line_fault: {success: true, verdict_given: "true"}
+      note_signal_loss: {success: true, verdict_given: "true"}
+      note_router_swap: {success: true, verdict_given: "true"}
+      note_inconclusive: {success: true, verdict_given: "true"}
+      offer_deep_scan: {success: true}
+      run_deep_scan: {success: true}
+    on_start:
+      - said_contains: "What's the service reference on your bill?"
+    turns:
+      # The service id triggers the sweep; a clear picture (with wifi_status defaulting to
+      # "skipped", not winning the all-clear rung wrongly) lands on note_all_clear, then
+      # the verdict offers a deeper scan.
+      - answer: {slot: service_id, value: "SVC-1"}
+        expect:
+          - tool_called: run_line_sweep
+          - tool_called: note_all_clear
+          - tool_called: offer_deep_scan
+          - said_contains: "deeper scan"
+      # `since(scan_offered)` lets the follow-up run the scan on the next turn.
+      - say: "yes please"
+        expect:
+          - tool_called: run_deep_scan
+          - said_contains: "Running the deeper scan now"
+
+  - name: failed_router_status_takes_router_swap_rung
+    polarity: positive
+    tool_fakes:
+      run_line_sweep: {success: true, line_status: "clear", signal_status: "clear", router_status: "failed", router_serial: "RS-99", fault_note: "", ticket_ref: "TK-9"}
+      note_all_clear: {success: true, verdict_given: "true"}
+      note_line_fault: {success: true, verdict_given: "true"}
+      note_signal_loss: {success: true, verdict_given: "true"}
+      note_router_swap: {success: true, verdict_given: "true"}
+      note_inconclusive: {success: true, verdict_given: "true"}
+      offer_deep_scan: {success: true}
+      run_deep_scan: {success: true}
+    turns:
+      # A failed router status makes the RouterSwap rung win over AllClear.
+      - answer: {slot: service_id, value: "SVC-1"}
+        expect:
+          - tool_called: note_router_swap
+          - tool_called: offer_deep_scan
+
+  - name: failed_sweep_resolves_to_error_and_dispatch_rung_wins
+    polarity: negative
+    tool_fakes:
+      run_line_sweep: {success: false}
+      note_all_clear: {success: true, verdict_given: "true"}
+      note_line_fault: {success: true, verdict_given: "true"}
+      note_signal_loss: {success: true, verdict_given: "true"}
+      note_router_swap: {success: true, verdict_given: "true"}
+      note_inconclusive: {success: true, verdict_given: "true"}
+      offer_deep_scan: {success: true}
+      run_deep_scan: {success: true}
+    turns:
+      # The sweep fails outright; on_failure.fill resolves every check to "error", so the
+      # picture is COMPLETE (no holes for a lower rung to win on).
+      - answer: {slot: service_id, value: "SVC-1"}
+        expect:
+          - tool_called: run_line_sweep
+      # On the next turn the ladder arbitrates: line_status in [skipped, error] takes the
+      # NothingConclusive dispatch rung -- NOT the all-clear rung.
+      - say: "hello?"
+        expect:
+          - tool_called: note_inconclusive

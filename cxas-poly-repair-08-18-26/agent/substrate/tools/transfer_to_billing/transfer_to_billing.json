@@ -1,0 +1,9 @@
+{
+  "name": "transfer_to_billing",
+  "pythonFunction": {
+    "name": "transfer_to_billing",
+    "pythonCode": "tools/transfer_to_billing/python_function/python_code.py",
+    "description": "Transfer to billing specialist."
+  },
+  "displayName": "transfer_to_billing"
+}

@@ -1,0 +1,60 @@
+Change 1 of N: remove the three LLM-judged guardrails, keep the deterministic filters.
+
+VERDICT: accepted on the component measurement, NOT on the end-to-end one. The 255ms is
+provably gone; the turn total cannot be shown to move, because the framework's own
+run-to-run variance is more than twice the entire guardrail budget.
+
+Instrument: tests/latency_attribution.py, which reads CES `Span.duration` off the live
+response and attributes SELF time (a span's duration less its children's) so the
+components partition the turn instead of double-counting the nesting.
+
+Arms, built from one tree, differing only in guardrails.py (verified: the only other diff
+between the two build outputs is the per-build UUID in each resource's `name`):
+  A control  27cb56b2-49b8-4188-bff6-8274797de143  perf-gr-control  7 guardrails
+  B arm      b1d464dc-6043-4dad-a602-8718bf0a27e1  perf-gr-arm      4 guardrails
+
+Drive: cuj all_clear, 3 turns, alternated A/B, 20 pairs over two batches.
+  "my internet is not working" / "is everything really fine?"
+  / "what does that actually mean for my speeds?"
+
+                A median    B median      delta    n
+  turn            6908 ms     6818 ms      -91 ms  20/20
+  llm              820 ms      811 ms       -9 ms
+  guardrail        255 ms        0 ms     -255 ms   <- the change, 20/20, no overlap
+  callback        1245 ms     1248 ms       +3 ms
+  tool            4500 ms     4520 ms      +20 ms
+  engine_calls        13          13          +0    <- confounder, matched
+
+  turn mean     A 7015 ms   B 6796 ms    -219 ms
+  turn stdev    A  655 ms   B  491 ms
+  Mann-Whitney one-sided p = 0.162
+
+WHY THE TURN TOTAL PROVES NOTHING HERE. Pooled sd is 573ms, so at n=20 per arm this design
+has 80% power to detect ~359ms. The saving is 255ms. It is below the floor by construction,
+and the two batches disagreed on sign (-514ms then +79ms) — which is exactly what noise at
+this scale looks like, and is the reason a single batch would have been reported as a win.
+
+WHAT IS NEVERTHELESS PROVEN. The guardrail component is a direct measurement, not an
+inference from a total: 255ms of serialized LLM judging on every prose turn, gone in 20 of
+20 runs with no overlap between arms. Per rule, from the earlier single-drive breakdown:
+Competitor Mention 336ms, Prompt Guardrail 335ms, Unprompted Credit 238ms; the three
+deterministic matchers were 0-1ms and remain.
+
+THE REAL FINDING. Framework variance (sd 573ms) exceeds the entire guardrail budget. No
+guardrail change could have been proven end-to-end against that background, and nothing
+else will be either until the framework's per-turn cost comes down. That is the argument
+for doing the SDK work next rather than more guardrail work.
+
+The confounder worth keeping: engine re-entries per drive are chosen by the MODEL (one per
+dispatched task) and each is worth ~250ms, so an arm that happens to dispatch one more task
+looks 250ms slower for reasons unrelated to the change. Medians matched at 13 here. Any
+future comparison must report this alongside the timings.
+
+COVERAGE GIVEN UP, recorded so it is not rediscovered as a surprise:
+  - tier-2 competitor brands (Spectrum, Optimum, Boost, Dish, Cox and the rest that are
+    also ordinary repair words) are now unmatched
+  - unprompted credit offers are unmatched
+  - injection screening is gone; replaced by a direct assertion in guard_check.py that
+    internal names never reach the caller
+None is expressible as a matcher without false positives, and a false positive is the worse
+failure on an agent graded on exact first-turn text.

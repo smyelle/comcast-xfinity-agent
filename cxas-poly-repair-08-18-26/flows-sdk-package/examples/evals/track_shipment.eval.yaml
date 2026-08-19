@@ -1,0 +1,27 @@
+meta:
+  example: track_shipment
+  claim: "Collect a tracking number, run the lookup tool, read the status back, and end."
+
+scenarios:
+  - name: happy_path
+    polarity: positive
+    tool_fakes:
+      lookup_shipment: {status_message: "out for delivery, arriving today by 8 PM", success: true}
+    on_start:
+      - asked_slot: tracking_number
+    turns:
+      - answer: {slot: tracking_number, value: "1Z999"}
+        expect:
+          - tool_called: lookup_shipment
+          - tool_args: {tool: lookup_shipment, args: {tracking_number: "1Z999"}}
+          - said_contains: "out for delivery"
+          - disposition: complete
+
+  - name: unanswered_number_is_reasked
+    polarity: negative
+    turns:
+      - say: "hi, are you a robot?"          # a turn the flow cannot use to fill the slot
+        expect:
+          - asked_slot: tracking_number
+          - no_tools_called: true
+          - slot_status: {tracking_number: open}

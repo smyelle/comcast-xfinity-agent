@@ -1,0 +1,165 @@
+{
+  "name": "3b313c8f-5bec-421b-bb9f-38d58e45f586",
+  "displayName": "unintelligible",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": false,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "kjngkjdnfg"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-bdc504f2-1070-4233-9320-4d880817e753",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "unintelligible"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "has_had_unintelligible_utterance": true,
+            "head_intent_selection_count": 0.0,
+            "intent": "unintelligible"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-bdc504f2-1070-4233-9320-4d880817e753",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say exactly: I didn\u0027t catch that. You can say technical support, billing questions, or mobile service.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "I didn\u0027t catch that. You can say technical support, billing questions, or mobile service."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "kjnkjjkn"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-24d2df38-d902-4848-906c-72d0ff304ce6",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "unintelligible"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "exit_utterance": "I\u0027m having trouble understanding, so I\u0027m connecting you to someone who can help.",
+            "lob": "HSI",
+            "target_flow": "Transfer",
+            "transfer_to_dfcx_params": {
+              "end_call": true,
+              "from_gecx_steering": true,
+              "lob": "HSI",
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "",
+              "transfer_type_module": "Technical",
+              "transfer_type_subtype": "",
+              "transfer_type_type": "HSI"
+            },
+            "transfer_type_exttype": "",
+            "transfer_type_module": "Technical",
+            "transfer_type_subtype": "",
+            "transfer_type_type": "HSI"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-24d2df38-d902-4848-906c-72d0ff304ce6",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passedMainMenu": true,
+            "transfer_to_dfcx_params": {
+              "end_call": true,
+              "from_gecx_steering": true,
+              "lob": "HSI",
+              "passedMainMenu": true,
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "",
+              "transfer_type_module": "Technical",
+              "transfer_type_subtype": "",
+              "transfer_type_type": "HSI"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "I\u0027m having trouble understanding, so I\u0027m connecting you to someone who can help."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

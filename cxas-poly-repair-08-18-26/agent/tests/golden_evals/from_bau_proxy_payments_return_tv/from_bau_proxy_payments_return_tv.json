@@ -1,0 +1,364 @@
+{
+  "name": "fc9713b1-bb9f-4b67-a68f-13c46946dfdd",
+  "displayName": "from_bau_proxy_payments_return_tv",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "variables": {
+            "target_subagent": "agent_handoff"
+          }
+        }
+      }, {
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "greeting": "Please tell me how I can help you today, and I\u0027ll take it from here.",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentTransfer": {
+            "targetAgent": "agent_handoff",
+            "displayName": "agent_handoff"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "agent_handoff_greeting": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment.",
+            "agent_handoff_setup_complete": true,
+            "has_asked_agent_reason": false,
+            "has_had_incidental_utterance": false,
+            "has_had_unintelligible_utterance": false,
+            "has_had_unrelated_utterance": false
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "proxy_has_been_greeted": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent_handoff",
+            "chunks": [{
+              "text": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "can I make a payment?"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-80013f74-7868-4e84-8ff1-ac64e3ebf2dd",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "payments"
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-80013f74-7868-4e84-8ff1-ac64e3ebf2dd",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n  (1) Must clearly acknowledge the payment request in a brief, empathetic way.\n  (2) Must say agents can\u0027t take payments over the phone\n  (2) Must clearly state you will help them make a payment here.\n\n  Then immediately call agent_handoff_handle_next_step with:\n    message set to exactly the generated sentence (no changes, no reformatting)\n    intent \u003d \u0027payments\u0027\n    details \u003d \u0027payments\u0027",
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "intent": "payments"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-7dca01aa-a2b0-49e4-9113-d75d3b7d6ecc",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "details": "payments",
+              "intent": "payments",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I understand, and although our agents can\u0027t take payments over the phone, I can definitely help you make a payment right now."
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-7dca01aa-a2b0-49e4-9113-d75d3b7d6ecc",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "details": "payments",
+            "exit_utterance": "I understand, and although our agents can\u0027t take payments over the phone, I can definitely help you make a payment right now.",
+            "target_flow": "Payments",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "target_flow": "Payments",
+              "transfer_type_exttype": null,
+              "transfer_type_module": null,
+              "transfer_type_subtype": null,
+              "transfer_type_type": null
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "from_gecx_proxy": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_proxy": true,
+              "target_flow": "Payments"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I understand, and although our agents can\u0027t take payments over the phone, I can definitely help you make a payment right now."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "from_gecx_proxy": false,
+            "head_intent": "",
+            "intent": ""
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent_handoff",
+            "chunks": [{
+              "text": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "service issues"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-072e94a2-ab70-492e-b34c-505a088f2cef",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "service"
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-072e94a2-ab70-492e-b34c-505a088f2cef",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Ask the customer which of their services they are having issues with. Only offer the services they have: internet, television, home phone, Xfinity mobile, or Xfinity home.",
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "has_attempted_service_disambiguation": true,
+            "intent": "service"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Are you having service issues with your internet, television, home phone, Xfinity mobile, or Xfinity home?"
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "my tv"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-c6c80e2b-be12-41ef-9ca4-58958aca2779",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "service",
+              "lob": "television"
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-c6c80e2b-be12-41ef-9ca4-58958aca2779",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable:\n  (1) Must clearly acknowledge the customer’s lob request in a brief, empathetic way.\n  (2) Must clearly state you will connect with an agent to help\n\nThen immediately call agent_handoff_handle_next_step with:\n  message \u003d exactly the generated sentence (no changes, no reformatting)\n  intent \u003d \u0027service\u0027\n  lob \u003d {lob}",
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "lob": "television"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-62376289-7a3d-40da-88c9-587643ab4db0",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "service",
+              "lob": "television",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I\u0027m sorry to hear you\u0027re having TV issues, let me connect you with an agent who can help."
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-62376289-7a3d-40da-88c9-587643ab4db0",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "exit_utterance": "I\u0027m sorry to hear you\u0027re having TV issues, let me connect you with an agent who can help.",
+            "lob": "VID",
+            "target_flow": "Transfer",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "lob": "VID",
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "null",
+              "transfer_type_module": "Technical",
+              "transfer_type_subtype": "null",
+              "transfer_type_type": "VID"
+            },
+            "transfer_type_exttype": "null",
+            "transfer_type_module": "Technical",
+            "transfer_type_subtype": "null",
+            "transfer_type_type": "VID"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "from_gecx_proxy": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_proxy": true,
+              "lob": "VID",
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "null",
+              "transfer_type_module": "Technical",
+              "transfer_type_subtype": "null",
+              "transfer_type_type": "VID"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I\u0027m sorry to hear you\u0027re having TV issues, let me connect you with an agent who can help."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

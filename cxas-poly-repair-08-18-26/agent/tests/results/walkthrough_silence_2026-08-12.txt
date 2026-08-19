@@ -1,0 +1,45 @@
+app 3e1e6137-956b-453b-96ac-bc661c0ee35c  session demovoice-1786555756  VOICE, cold (no seeded variables, no tool fakes)
+
+[caller] "my internet is not working" … 11s … "my account number is 8 0 6 9 1 0 0 2 3 0 3 5 9 9 4 6" … then 20s of SILENCE
+  --- turn 228  (t= 45.1s at read)
+      0.0s         < To get started, could you please tell me your Xfinity account number or the phone number associated with your account?
+  --- turn 533  (t= 45.1s at read)
+     16.7s + 16.7s  < Thanks.
+     17.0s +  0.3s  < Give me just a moment while I check your connection. While those checks run, one thing that helps either way. Is everything having trouble connecting, or just one device?
+  --- turn 621  (t= 45.1s at read)
+     35.4s + 18.4s  < Still running those checks — thanks for bearing with me.
+
+[caller] 'just one device'
+  --- turn 100  (t= 57.7s at read)
+      0.0s         < Got it, that helps. Let me just finish these checks.
+
+[caller] ... 14s of silence ...
+  --- turn 409  (t= 85.8s at read)
+      0.0s         < Everything on our side looks healthy. Your account, your area, the line into your home and your gateway all check out. That usually leaves the Wi-Fi inside your home as the most likely spot. Would you like me to walk you through a few things to try?
+
+[caller] 'yes please'
+  --- turn 231  (t=102.1s at read)
+      0.0s         < Let's start simple.
+      0.3s +  0.3s  < On the device that's struggling, forget the home network in its Wi-Fi settings, then join it again. Did that help?
+
+[caller] "that didn't work"
+  --- turn 214  (t=118.3s at read)
+      0.0s         < Next one.
+      0.4s +  0.4s  < Try moving closer to your gateway, and check nothing large or metal is sitting right against it. Did that make a difference?
+
+[caller] 'no change'
+  --- turn 256  (t=136.3s at read)
+      0.0s         < Try this one.
+      0.8s +  0.8s  < Turn the device's Wi-Fi off and back on again. On a phone, airplane mode for a few seconds does the same thing. Any change?
+
+[caller] ... 35s of silence ...
+  --- turn 99  (t=176.8s at read)
+      0.0s         < Did turning the Wi-Fi off and back on make any difference?
+  --- turn 237  (t=176.8s at read)
+     12.1s + 12.1s  < Are you still there? Let me know if turning the Wi-Fi off and back on helped at all.
+  --- turn 456  (t=176.8s at read)
+     25.7s + 13.6s  < Since I haven't heard back, I'll go ahead and close this call. If you still need help, please reach back out to us. Thank you for choosing Xfinity!
+
+[caller] 'still nothing'
+  --- turn 155  (t=191.9s at read)
+      0.0s         < That's everything I can try from here. Let me get you to someone who can take a closer look at your home setup.

@@ -1,0 +1,423 @@
+{
+  "name": "caba3844-1473-459c-b675-eae2da66d30d",
+  "displayName": "billing_disambig_something_else",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "greeting": "Please tell me how I can help you today, and I\u0027ll take it from here.",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "billing"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-48b78728-a0eb-4701-ac58-908f43825bc4",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "billing"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-48b78728-a0eb-4701-ac58-908f43825bc4",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing.\n\n    Select exactly one head_intent from this allowlist. You must select a value even if it is not a perfect match.\n    - account_update_info: Update account-holder details or account information.\n- billing_corporate_address: Request the corporate mailing address.\n- billing_amount_final: Ask about final bill after disconnect/closure.\n- billing_amount_future: Check upcoming bill amount or due date.\n- billing_complaint_fraud: Report billing fraud, scams, or identity theft.\n- billing_credits_info: Ask about bill credits or missing credits.\n- billing_discuss: Get general bill explanations, learn about promotions, understand [redacted] charges\n- billing_lower_bill_request: Explicitly request action to lower bill, negotiate rate, or ask agent to apply discounts or credits.\n- billing_manage_ecobill: Enroll, unenroll, or check paperless billing.\n- billing_refund_inquiry: Request refund or check refund status.\n- billing_service_gurantee: Ask about money-back or service guarantee.\n- billing_toohigh: Complain that current bill amount is too high.\n- payments_balance_due: Check outstanding balance or amount due.\n- payments_troubleshoot_issues: Resolve payment failures, duplicates, overpayments, or reversals.\n    Immediately call steering_handle_next_step again with:\n    - intent set to billing\n    - the selected exact head_intent value from this allowlist\n    - route_confidence set to a numeric value from 0 to 1 that reflects your confidence in that selection\n    If ambiguous, choose the closest head_intent and use lower confidence.\n    Confidence rubric: 0.95-0.99 explicit match; 0.75-0.94 strong inferred match; 0.55-0.74 ambiguous/partial; 0.35-0.54 weak forced closest match. Do not default to 1.0.\n    Output format requirement: return only one function call to steering_handle_next_step.\n\n\n\nExample - Question about the bill\n[user]\nI have a question about the bill\n[model]\nbilling_discuss\n\nExample - Question about my bill\n[user]\nQuestion about my bill\n[model]\nbilling_discuss\n\nExample - Discuss my current bill\n[user]\nI want to discuss my current bill\n[model]\nbilling_discuss",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 0.0,
+            "intent": "billing",
+            "target_flow": "Billing"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-e0abe3b8-6a0e-4c1e-a1a8-1de1bccd80c1",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "billing_discuss"
+              },
+              "intent": "billing",
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.75
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-e0abe3b8-6a0e-4c1e-a1a8-1de1bccd80c1",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing. \n\n      Create a single, natural-sounding sentence and store it in the message variable.\n      Use - account_update_info: Update account-holder details or account information.\n- billing_corporate_address: Request the corporate mailing address.\n- billing_amount_final: Ask about final bill after disconnect/closure.\n- billing_amount_future: Check upcoming bill amount or due date.\n- billing_complaint_fraud: Report billing fraud, scams, or identity theft.\n- billing_credits_info: Ask about bill credits or missing credits.\n- billing_discuss: Get general bill explanations, learn about promotions, understand [redacted] charges\n- billing_lower_bill_request: Explicitly request action to lower bill, negotiate rate, or ask agent to apply discounts or credits.\n- billing_manage_ecobill: Enroll, unenroll, or check paperless billing.\n- billing_refund_inquiry: Request refund or check refund status.\n- billing_service_gurantee: Ask about money-back or service guarantee.\n- billing_toohigh: Complain that current bill amount is too high.\n- payments_balance_due: Check outstanding balance or amount due.\n- payments_troubleshoot_issues: Resolve payment failures, duplicates, overpayments, or reversals. and this phrasing template:\n      \"Sure. Do you want to [thing A], [thing B], [thing C], or something else?\"\n      Fill [thing A], [thing B], and [thing C] with up to three likely options from the allowlist.\n      Prefer options that have not already been offered in this conversation.\n      If fewer than three reasonable unseen options remain, include only the remaining ones.\n      If the customer replies with \"something else\" (or equivalent), stay within this same intent,\n      select the closest head_intent from this allowlist, and use low route_confidence (0.35-0.54).\n      Do not switch intents to disambiguation_main_menu for this reply.\n      This is options round 1 of up to 2.\n\n      Immediately call steering_handle_next_step with:\n      intent\u003dbilling\n      message \u003d exactly the generated sentence (no changes, no reformatting)\n\n      \u003cexamples\u003e\n      Example 1:\n      [user]\n      billing\n      [model]\n      Sure. Do you want to understand a charge, check your bill amount or due date, or something else?\n      [user]\n      something else\n      [model]\n      steering_handle_next_step(intent\u003d\"billing\", head_intent\u003d\"billing_discuss\", route_confidence\u003d0.4)\n      \u003c/examples\u003e\n\n      \u003cexamples\u003e\nExample 1:\nSure. Do you want to understand a charge, check your bill amount or due date, or something else?\n\u003c/examples\u003e",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent": "billing_discuss",
+            "head_intent_selection_count": 1.0,
+            "route_confidence": 0.75
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-b72829b6-6b30-4d37-9787-81a42199bea0",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "billing",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "Sure. Do you want to understand a charge, check your bill amount or due date, or something else?"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-b72829b6-6b30-4d37-9787-81a42199bea0",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say exactly: Sure. Do you want to understand a charge, check your bill amount or due date, or something else? Then wait for the customer\u0027s reply. Do not call steering_handle_next_step again until after the customer answers.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Sure. Do you want to understand a charge, check your bill amount or due date, or something else?"
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "something else"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-04aabf1f-c1f5-414d-aa03-cb788d32fac9",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "head_intent": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "billing_discuss"
+              },
+              "intent": "billing",
+              "route_confidence": {
+                "$matchType": "ignore",
+                "$matchValue": 0.0,
+                "$originalValue": 0.4
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-04aabf1f-c1f5-414d-aa03-cb788d32fac9",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say nothing.\n\nCreate a single, natural-sounding sentence and store it in the message variable.\nThis is the second and final disambiguation question for intent\u003dbilling.\nThe sentence must do both of the following:\n(1) Ask the customer to tell you more about what they are calling about.\n(2) Tell the customer you will use that information to guide them to the best next step.\nKeep it concise, empathetic, and specific to the customer\u0027s billing or service context.\nDo not list option choices in this round.\nIf the customer reply is still vague or non-specific after this prompt (for example: \"something else\", \"not sure\", or \"other\"),immediately call steering_handle_next_step(intent\u003dbilling)\n\nImmediately call steering_handle_next_step with:\nintent\u003dbilling\nmessage \u003d exactly the generated sentence (no changes, no reformatting)\n\n\u003cexamples\u003e\nExample 1:\nTell me what you need help with on your bill, and I’ll find the best next step.\n\u003c/examples\u003e",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 2.0,
+            "route_confidence": 0.4
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-7bdf22a5-20c4-4a2a-83c3-a94158c70451",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "billing",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "Tell me what you need help with on your bill, and I\u0027ll find the best next step."
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-7bdf22a5-20c4-4a2a-83c3-a94158c70451",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Say exactly: Tell me what you need help with on your bill, and I\u0027ll find the best next step. Then wait for the customer\u0027s reply. Do not call steering_handle_next_step again until after the customer answers.",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Tell me what you need help with on your bill, and I\u0027ll find the best next step."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "not sure"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-abf10f7c-84d8-48b7-b4b9-53f0b3453ff9",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "intent": "billing"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-abf10f7c-84d8-48b7-b4b9-53f0b3453ff9",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Route customer to agent_handoff subagent",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "head_intent_selection_count": 3.0
+          }
+        }
+      }, {
+        "expectation": {
+          "agentTransfer": {
+            "targetAgent": "agent_handoff",
+            "displayName": "agent_handoff"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "agent_handoff_greeting": "I\u0027m going to connect you to an agent now—just tell me what you need. The more details you share, the faster I can get you to the right person the first time. Say anything, like my internet isn’t working, I have a billing question, or I need to make a payment.",
+            "agent_handoff_setup_complete": true,
+            "entry_intent": "billing",
+            "has_asked_agent_reason": false,
+            "has_had_incidental_utterance": false,
+            "has_had_unintelligible_utterance": false,
+            "has_had_unrelated_utterance": false
+          }
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-36a6ba89-e346-4d67-a63f-be7e55a115a1",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "intent": "billing"
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-36a6ba89-e346-4d67-a63f-be7e55a115a1",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Ask the customer: Is your billing question about Xfinity Mobile? \nIf the customer says yes, then generate a single-sentence response that \n  (1) empathetically acknowledges their billing question, and \n  (2) tells the customer you are going to get them to an agent to help with their billing question. \nThen immediately call agent_handoff_handle_next_step again with intent\u003d\u0027billing\u0027, details\u003d\u0027xm_billing\u0027, and message set to exactly that generated text.",
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "intent": "billing"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "Is your billing question about Xfinity Mobile?"
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "yes"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-9ce207a4-f96f-43ab-b33a-b1017e12050b",
+            "tool": "agent_handoff_handle_next_step",
+            "args": {
+              "details": "xm_billing",
+              "intent": "billing",
+              "message": {
+                "$matchType": "semantic",
+                "$matchValue": "",
+                "$originalValue": "I understand, I\u0027m connecting you to an agent now who can help with your Xfinity Mobile billing question."
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-9ce207a4-f96f-43ab-b33a-b1017e12050b",
+            "tool": "agent_handoff_handle_next_step",
+            "response": {
+              "result": {
+                "status": "success"
+              }
+            },
+            "displayName": "agent_handoff_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "details": "xm_billing",
+            "exit_utterance": "I understand, I\u0027m connecting you to an agent now who can help with your Xfinity Mobile billing question.",
+            "target_flow": "Transfer",
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "null",
+              "transfer_type_module": "Billing",
+              "transfer_type_subtype": "null",
+              "transfer_type_type": "XfinityMobile"
+            },
+            "transfer_type_exttype": "null",
+            "transfer_type_module": "Billing",
+            "transfer_type_subtype": "null",
+            "transfer_type_type": "XfinityMobile"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "from_gecx_proxy": true,
+            "transfer_to_dfcx_params": {
+              "end_call": false,
+              "from_gecx_proxy": true,
+              "target_flow": "Transfer",
+              "transfer_type_exttype": "null",
+              "transfer_type_module": "Billing",
+              "transfer_type_subtype": "null",
+              "transfer_type_type": "XfinityMobile"
+            }
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "agent",
+            "chunks": [{
+              "text": "I understand, I\u0027m connecting you to an agent now who can help with your Xfinity Mobile billing question."
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

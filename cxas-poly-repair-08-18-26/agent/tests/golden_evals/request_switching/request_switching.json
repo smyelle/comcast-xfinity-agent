@@ -1,0 +1,93 @@
+{
+  "name": "959b13ea-08ce-40fa-b14b-ae659bb9cc35",
+  "displayName": "request_switching",
+  "golden": {
+    "turns": [{
+      "steps": [{
+        "userInput": {
+          "event": {
+            "event": "welcome"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "DFCX_ID": "projects/dxp-cloud-ivr-prod-751497/locations/us/agents/680ec6e9-b5b5-44d9-a3ec-5c186ad3438b",
+            "agent_language": "en",
+            "has_only_one_lob": false,
+            "is_cdv_active": true,
+            "is_hsi_active": true,
+            "is_vid_active": true,
+            "is_xh_active": true,
+            "is_xm_customer": true,
+            "setup_complete": true
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "passed_main_menu": true
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Please tell me how I can help you today, and I\u0027ll take it from here."
+            }]
+          }
+        }
+      }]
+    }, {
+      "steps": [{
+        "userInput": {
+          "text": "I have a billing question Actually it\u0027s about my internet"
+        }
+      }, {
+        "expectation": {
+          "toolCall": {
+            "id": "adk-977e41c5-4ea0-445b-93b4-ea83fb3d87d8",
+            "tool": "steering_handle_next_step",
+            "args": {
+              "action": "disambiguate_intent",
+              "intent": "technical_internet"
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "updatedVariables": {
+            "has_asked_disambiguation": true,
+            "head_intent_selection_count": 0.0,
+            "intent": "technical_internet"
+          }
+        }
+      }, {
+        "expectation": {
+          "toolResponse": {
+            "id": "adk-977e41c5-4ea0-445b-93b4-ea83fb3d87d8",
+            "tool": "steering_handle_next_step",
+            "response": {
+              "result": {
+                "agent_next_action": "Ask the customer: Do you need help with your internet service?\n            \n            \u003cexamples\u003e\n            Example 1 - Billing and Payments\n            [user]\n            Yes and I want billing and payments\n            [model]\n            Do you need help with payments?\n\n            Example 2 - billing and internet\n            [user]\n            yeah billing and also my internet is out\n            [model]\n            Do you need help with your internet service?\n            \u003c/examples\u003e\n            ",
+                "status": "success"
+              }
+            },
+            "displayName": "steering_handle_next_step"
+          }
+        }
+      }, {
+        "expectation": {
+          "agentResponse": {
+            "role": "steering",
+            "chunks": [{
+              "text": "Do you need help with your internet service?"
+            }]
+          }
+        }
+      }]
+    }]
+  }
+}

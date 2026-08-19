@@ -1,0 +1,156 @@
+{
+  "app": {
+    "loggingSettings": {
+      "redactionConfig": {
+        "inspectTemplate": "projects/ces-deployment-dev/locations/us/inspectTemplates/Inspect-Template-1",
+        "deidentifyTemplate": "projects/ces-deployment-dev/locations/us/deidentifyTemplates/Deidentify-Template-1"
+      },
+      "bigqueryExportSettings": {
+        "project": "ces-deployment-dev"
+      }
+    }
+  },
+  "toolsets": {
+    "CONNECT_DIRECT_CALL": {
+      "openApiToolset": {
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "Duck_Duck_Search": {
+      "openApiToolset": {
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "connect_agent_rest_call": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "context_hub_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "convoy_recs_account": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "convoy_recs_session": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "device_status_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "ede_outage_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "execute_rdk_device_diagnostics_ViaAuthProxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "execute_rdk_gateway_wifisummary_ViaAuthProxy": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "gateway_restart_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "run_rdk_client_wifi_analysis": {
+      "mcpToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        }
+      }
+    },
+    "transfer_potato_to_agent_v2": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    },
+    "xa_customer_notification_api": {
+      "openApiToolset": {
+        "apiAuthentication": {
+          "apiKeyConfig": {
+            "keyName": "apikey",
+            "apiKeySecretVersion": "projects/ces-deployment-dev/secrets/comcast_api_key_dev/versions/latest"
+          }
+        },
+        "url": "https://$context.variables.apigee_server/v1/auth-proxy"
+      }
+    }
+  }
+}
